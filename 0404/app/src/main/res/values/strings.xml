@@ -1,0 +1,27 @@
+<resources>
+    <string name="app_name">揪起來_整合</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_main3">Main3Activity</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string-array name="dtype">
+
+    </string-array>
+    <string name="sppro">請選擇</string>
+
+    <string-array name="address_list">
+        <item>--選擇居住區域--</item>
+        <item>北部</item>
+        <item>中部</item>
+        <item>南部</item>
+        <item>東部</item>
+        <item>離島</item>
+    </string-array>
+    <string name="spn_ad_list_prompt">請選擇居住地</string>
+</resources>
