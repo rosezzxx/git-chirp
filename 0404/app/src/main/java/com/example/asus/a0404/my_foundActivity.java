@@ -44,6 +44,7 @@ public class my_foundActivity extends Fragment {
     String[] array_name =new String[data_name.size()];
     ArrayList<String> data_id = new ArrayList<String>();  //活動id
     String[] array_id =new String[data_id.size()];
+    List<Map<String, Object>> items = new ArrayList<Map<String, Object>>();
 
     public my_foundActivity() {
         // Required empty public constructor
@@ -81,6 +82,13 @@ public class my_foundActivity extends Fragment {
         String query = "select * from doing " +
                 "where account_id='"+userid+"' ";
 
+
+        data_id.clear();
+        data_name.clear();
+        items.clear();
+        array_id=new String[data_id.size()];
+        array_name=new String[data_name.size()];
+
         try {
             connect = CONN(un, passwords, db, ip);
             stmt = connect.prepareStatement(query);
@@ -99,7 +107,7 @@ public class my_foundActivity extends Fragment {
 
             SimpleAdapter adapter;
 
-            List<Map<String, Object>> items = new ArrayList<Map<String, Object>>();
+
             for(int i=0;i<array_id.length;i++){
                 Map item=new HashMap();
                 item.put("name",array_name[i]);

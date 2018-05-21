@@ -79,6 +79,11 @@ public class Fragment_view extends Fragment {
         type_id=((MainActivity)getActivity()).get_type_id();
         Toast.makeText(getContext(),"活動="+type_id, Toast.LENGTH_SHORT).show();
 
+        data_id.clear();
+        data_name.clear();
+        items.clear();
+        array_id=new String[data_id.size()];
+        array_name=new String[data_name.size()];
 
 
         String query = "select * from doing where type_id like '"+type_id+"' ";

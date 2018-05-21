@@ -57,11 +57,6 @@ public class MainActivity extends AppCompatActivity
     PreparedStatement stmt;
     ResultSet rs;
 
-   //----------全部活動-----------
-//    ArrayList<String> data_name = new ArrayList<String>();
-//    String[] array_name =new String[data_name.size()];
-//    ArrayList<String> data_id = new ArrayList<String>();  //活動id
-//    String[] array_id =new String[data_id.size()];
 
     //-----------全部類別----------
     ArrayList<String> type_data_name = new ArrayList<String>();
@@ -92,31 +87,6 @@ public class MainActivity extends AppCompatActivity
         un = "chirp2018";
         passwords = "chirp+123";
         db = "107-chirp";
-
-        //--------活動列表-----------
-//        ListView listview = (ListView) findViewById(R.id.listview);
-//        String query = "select * from doing";
-//        try {
-//            connect = CONN(un, passwords, db, ip);
-//            stmt = connect.prepareStatement(query);
-//            rs = stmt.executeQuery();
-//
-//            while (rs.next()) {
-//                String id =rs.getString("doing_id");
-//                String name =rs.getString("doing_name");
-//                data_id.add(id);
-//                data_name.add(name);
-//            }
-//
-//            array_name=data_name.toArray(array_name);
-//            array_id=data_id.toArray(array_id);
-//            ArrayAdapter NoCoreAdapter = new ArrayAdapter(this,android.R.layout.simple_list_item_1, array_name);
-//            //listview.setAdapter(NoCoreAdapter);
-//            //listview.setOnItemClickListener(onClickListView);
-//
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
 
 
         //登出
@@ -187,9 +157,10 @@ public class MainActivity extends AppCompatActivity
         t1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent();
-                intent.setClass(MainActivity.this ,Main2Activity.class);
-                startActivity(intent);
+                type_id="%";
+                tabview();
+                onBackPressed();
+
             }
         });
 
@@ -261,6 +232,12 @@ public class MainActivity extends AppCompatActivity
         mTabs.addOnTabSelectedListener(this);
 
 
+        tabview();
+
+
+    }
+
+    public void tabview(){
         mViewPager.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager()) {
             @Override
             public Fragment getItem(int position) {
@@ -284,9 +261,9 @@ public class MainActivity extends AppCompatActivity
                 return 5;
             }
         });
-
-
     }
+
+
     //傳type_id給fragment
     public String get_type_id()
     {
@@ -325,24 +302,6 @@ public class MainActivity extends AppCompatActivity
 
 
 
-
-
-//----------全部活動------------
-//    private AdapterView.OnItemClickListener onClickListView = new AdapterView.OnItemClickListener(){
-//        @Override
-//        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//            // Toast 快顯功能 第三個參數 Toast.LENGTH_SHORT 2秒  LENGTH_LONG 5秒
-//            Toast.makeText(MainActivity.this,"id="+array_id[position], Toast.LENGTH_SHORT).show();
-//
-//            Intent intent = new Intent();
-//            intent.setClass(MainActivity.this ,Main2Activity.class);
-//            Bundle bundle=new Bundle();
-//            bundle.putString("doing_id",array_id[position].toString());
-//            intent.putExtras(bundle);
-//            startActivity(intent);
-//        }
-//    };
-
     //--------------全部分類-------------
     private AdapterView.OnItemClickListener onClickListView1 = new AdapterView.OnItemClickListener(){
         @Override
@@ -352,29 +311,7 @@ public class MainActivity extends AppCompatActivity
             Toast.makeText(MainActivity.this,"分類="+type_array_id[position], Toast.LENGTH_SHORT).show();
 
             type_id=type_array_id[position];
-            mViewPager.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager()) {
-                @Override
-                public Fragment getItem(int position) {
-                    switch (position) {
-                        case 0:
-                            return fragment1;
-                        case 1:
-                            return fragment2;
-                        case 2:
-                            return fragment3;
-                        case 3:
-                            return fragment4;
-                        case 4:
-                            return fragment5;
-                    }
-                    return null;
-                }
-
-                @Override
-                public int getCount() {
-                    return 5;
-                }
-            });
+            tabview();
 
 
             onBackPressed();

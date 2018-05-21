@@ -70,7 +70,10 @@ public class Main2Activity extends AppCompatActivity {
                 textview1.setText(rs.getString("doing_name"));
                 textview2.setText(rs.getString("doing_content"));
                 textview1_1.setText("發起人："+rs.getString("username"));
-                textview1_2.setText("人數上限："+rs.getString("totalpeople")+"人");
+                String peo=rs.getString("totalpeople");
+                String pee=peo.substring(peo.indexOf('-')+1);
+                //Toast.makeText(Main2Activity.this, pee, Toast.LENGTH_SHORT).show();
+                textview1_2.setText("人數上限："+pee+"人");
                 textview1_3.setText("活動時間："+(rs.getString("doing_start")).substring(0,16)+"~"+(rs.getString("doing_end")).substring(0,16));
                 textview1_4.setText("活動地址："+rs.getString("doing_place"));
 
