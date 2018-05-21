@@ -3,6 +3,8 @@ package com.example.asus.a0404;
 
 import android.app.FragmentManager;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.design.widget.TabLayout;
@@ -10,7 +12,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Base64;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -24,6 +28,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.content.Intent;
@@ -34,6 +39,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -82,13 +88,6 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-
-        SharedPreferences sharedPreferences = getSharedPreferences("User" , MODE_PRIVATE); //建立SharedPreferences
-        //sharedPreferences.edit().putString("Name", "").apply(); //存使用者id進sharedPreferences
-
-
-
-
         ip = "140.131.114.241";
         un = "chirp2018";
         passwords = "chirp+123";
@@ -118,6 +117,23 @@ public class MainActivity extends AppCompatActivity
 //        } catch (SQLException e) {
 //            e.printStackTrace();
 //        }
+
+
+        //登出
+        Button logout = (Button)findViewById(R.id.logout);
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+
+                intent.setClass(MainActivity.this,welcome.class);
+                startActivity(intent);
+                SharedPreferences sharedPreferences = getSharedPreferences("User" , MODE_PRIVATE); //建立SharedPreferences
+                sharedPreferences.edit().putString("Name", "").apply(); //存使用者id進sharedPreferences
+            }
+        });
+
+
 
 
 
@@ -205,6 +221,34 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
+        //大頭照
+        ImageView img = (ImageView) findViewById(R.id.imageView);
+
+        SharedPreferences sharedPreferences = getSharedPreferences("User" , MODE_PRIVATE); //建立SharedPreferences
+        String userid = sharedPreferences.getString("Name" , "0"); //抓SharedPreferences內Name值
+
+        String msg;
+        String image="";
+        try {
+            connect = CONN(un, passwords, db, ip);
+            String commands = "SELECT  img FROM account WHERE (account_id = '"+userid+"')";
+            Statement stmt = connect.createStatement();
+            rs = stmt.executeQuery(commands);
+            if (rs.next()) {
+                image = rs.getString("img");
+
+                String base64String = image;
+                byte[] decodedString = Base64.decode(base64String, Base64.DEFAULT);
+                Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+                img.setImageBitmap(decodedByte);
+            }
+            else {
+            }
+
+        } catch (SQLException ex) {
+            msg = ex.getMessage().toString();
+            Log.d("hitesh", msg);
+        }
 
 
 
@@ -404,5 +448,16 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+
+    //返回鍵
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if(keyCode == KeyEvent.KEYCODE_BACK){
+            moveTaskToBack(true);
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 }

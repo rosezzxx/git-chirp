@@ -5,17 +5,21 @@
     tools:context="com.example.asus.a0404.Fragment_friend">
 
     <!-- TODO: Update blank fragment layout -->
+
     <TextView
-        android:id="@+id/fragment2"
+        android:id="@+id/fragment1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="fragment1"
+        android:textSize="40dp" />
+
+    <ListView
+        android:id="@+id/listview_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@id/fragment1"
+        android:layout_above="@+id/tabs"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginLeft="18dp"
-        android:layout_marginStart="18dp"
-        android:layout_marginTop="153dp"
-        android:text="fragment2"
-        android:textSize="40dp" />
+        android:layout_alignParentStart="true"/>
 
 </RelativeLayout>

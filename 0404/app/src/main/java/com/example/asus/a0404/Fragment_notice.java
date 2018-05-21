@@ -6,6 +6,8 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 
 /**
@@ -23,7 +25,24 @@ public class Fragment_notice extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_notice, container, false);
+        View view = inflater.inflate(R.layout.fragment_notice,container,false);
+        initListView(view);
+        return  view;
     }
 
+
+    private void initListView(View view) {
+        String[] itemname ={
+                "通知1",
+                "通知2",
+                "通知3",
+                "通知4",
+                "通知5",
+                "通知6"
+        };
+    ListView listview = (ListView)view.findViewById(R.id.listview_view);
+
+        listview.setAdapter(new ArrayAdapter<String>(getActivity(), R.layout.notice_layout, R.id.Itemname,itemname));
+
+    }
 }

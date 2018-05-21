@@ -18,10 +18,22 @@
 
         <ImageView
             android:id="@+id/imageView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:gravity="fill_vertical"
             app:srcCompat="@mipmap/ic_launcher_round" />
+
+        <Button
+            android:id="@+id/logout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@android:color/transparent"
+            android:gravity="center_vertical"
+            android:padding="10dp"
+            android:text="登出帳號"
+            android:textColor="#DDDDDD"
+            android:textSize="18sp" />
 
     </LinearLayout>
    　
@@ -49,7 +61,7 @@
                     android:text="我的訂閱"
                     android:textColor="#FFFFFF"
                     android:textIsSelectable="false"
-                    android:textSize="24sp"
+                    android:textSize="22sp"
                     android:textStyle="bold" />
 
 
@@ -59,10 +71,10 @@
                     android:layout_height="wrap_content"
                     android:background="@android:color/transparent"
                     android:gravity="center_vertical"
-                    android:layout_margin="10dp"
+                    android:padding="10dp"
                     android:text="旅遊"
                     android:textColor="#DDDDDD"
-                    android:textSize="22sp" />
+                    android:textSize="18sp" />
 
 
                 <TextView
@@ -71,17 +83,19 @@
                     android:layout_height="wrap_content"
                     android:text="全部分類"
                     android:textColor="#FFFFFF"
-                    android:textSize="24sp"
+                    android:textSize="22sp"
                     android:textStyle="bold" />
 
                 <ListView
                     android:id="@+id/listview1"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
                     android:gravity="left"
                     android:textColor="#DDDDDD"
                     android:textSize="18sp" />
+
+
             </LinearLayout>
 
         </LinearLayout>

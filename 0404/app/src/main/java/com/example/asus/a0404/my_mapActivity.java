@@ -3,10 +3,12 @@ package com.example.asus.a0404;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;import android.annotation.SuppressLint;
+import android.view.ViewGroup;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -49,6 +51,7 @@ public class my_mapActivity extends Fragment {
     ResultSet rs;
     String daytotal;
     int sum;
+
     @SuppressLint("NewApi")
     private Connection CONN(String _user, String _pass, String _DB, String _server) {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()
@@ -73,22 +76,21 @@ public class my_mapActivity extends Fragment {
         return conn;
     }
     //資料庫連線結束
-
-
     public my_mapActivity() {
         // Required empty public constructor
     }
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+
+
 
         View view = inflater.inflate(R.layout.fragment_my_map,container,false);
         initListView(view);
-        return  view;
 
+        return  view;
 
     }
 
@@ -99,25 +101,25 @@ public class my_mapActivity extends Fragment {
 
     private void initListView(View view) {
 
-
-//        final ActionBar actionBar = getSupportActionBar();
-//        actionBar.setDisplayHomeAsUpEnabled(false);
-//        Date dt=new Date();
-//        actionBar.setTitle(dateFormatForMonth.format(dt));
+        //final ActionBar actionBar = this.getActivity().getSupportActionBar();
+       //actionBar.setDisplayHomeAsUpEnabled(false);
+        Date dt=new Date();
+       //actionBar.setTitle(dateFormatForMonth.format(dt));
 
         compactCalendar =  (CompactCalendarView)view.findViewById(R.id.compactcalendar_view);
         compactCalendar.setUseThreeLetterAbbreviation(true);
 
-
-
-
+        final TextView month = (TextView)view.findViewById(R.id.month);
+        month.setText(dateFormatForMonth.format(dt));
+        SharedPreferences preferences = this.getActivity().getSharedPreferences("User", Context.MODE_PRIVATE);
+        String userid = preferences.getString("Name" , "0"); //抓SharedPreferences內Name值
         //資料庫部分
         ip = "140.131.114.241";
         un = "chirp2018";
         passwords = "chirp+123";
         db = "107-chirp";
         connect = CONN(un, passwords, db, ip);
-        String query = "SELECT doing_start,doing_end,DATEDIFF(DAY,doing_start,doing_end) as daytotal FROM doing  join doing_detail on doing_detail.doing_id =  doing.doing_id where doing_detail.account_id = 'rosezzxx'";
+        String query = "SELECT doing_start,doing_end,DATEDIFF(DAY,doing_start,doing_end) as daytotal FROM doing left  join doing_detail on doing_detail.doing_id =  doing.doing_id where doing.account_id = '"+userid+"' or  doing_detail.account_id = '"+userid+"'";
 
         try {
 
@@ -135,11 +137,6 @@ public class my_mapActivity extends Fragment {
                 DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
                 Date date = null;
 
-
-                if (sum == 0){
-                    Event ev1 = new Event(Color.RED,end.getTime(),"test");
-                    compactCalendar.addEvent(ev1);
-                }else{
                     for(int i=0;i<=sum;i++){
                         Calendar calendar = Calendar.getInstance();
                         calendar.setTime(end);
@@ -148,7 +145,6 @@ public class my_mapActivity extends Fragment {
                         datevalue.add(date);
                     }
                 }
-            }
             HashSet<Date> set = new HashSet<Date>(datevalue);
             ArrayList<Date> removeDuplicateDate = new ArrayList<Date>(set);
             int size = removeDuplicateDate.size();
@@ -163,7 +159,7 @@ public class my_mapActivity extends Fragment {
         }
 
 
-        //資料庫部分
+        //日期點選
         compactCalendar.setListener(new CompactCalendarView.CompactCalendarViewListener() {
             @Override
             public void onDayClick(Date date) {
@@ -183,6 +179,7 @@ public class my_mapActivity extends Fragment {
 
             @Override
             public void onMonthScroll(Date firstDayOfNewMonth) {
+                month.setText(dateFormatForMonth.format(firstDayOfNewMonth));
                 //actionBar.setTitle(dateFormatForMonth.format(firstDayOfNewMonth));
             }
         });

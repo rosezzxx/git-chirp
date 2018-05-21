@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.widget.Button;
 import android.view.View;
 import android.widget.TextView;
@@ -46,7 +47,7 @@ public class welcome extends AppCompatActivity {
         String userid = sharedPreferences.getString("Name" , "0"); //抓SharedPreferences內Name值
 
         if (userid.length() > 0){
-            Toast.makeText(welcome.this, userid, Toast.LENGTH_SHORT).show();
+            //Toast.makeText(welcome.this, userid, Toast.LENGTH_SHORT).show();
             Intent intent = new Intent();
             intent.setClass(welcome.this,MainActivity.class);
             startActivity(intent);
@@ -72,10 +73,21 @@ public class welcome extends AppCompatActivity {
                 Intent intent = new Intent();
                 intent.setClass(welcome.this,sign.class);
                 startActivity(intent);
-            }
-        });
+    }
+});
 
 
+
+
+    }
+    //返回鍵
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if(keyCode == KeyEvent.KEYCODE_BACK){
+            moveTaskToBack(true);
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
 }

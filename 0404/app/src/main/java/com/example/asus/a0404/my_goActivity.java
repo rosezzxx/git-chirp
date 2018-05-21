@@ -1,7 +1,9 @@
 package com.example.asus.a0404;
 
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.v4.app.Fragment;
@@ -68,11 +70,12 @@ public class my_goActivity extends Fragment {
         ListView listview = (ListView)view.findViewById(R.id.my_go_listview);
 
 
-
+        SharedPreferences preferences = this.getActivity().getSharedPreferences("User", Context.MODE_PRIVATE);
+        String userid = preferences.getString("Name" , "0"); //抓SharedPreferences內Name值
         String query = "select * from doing a " +
                 "inner join doing_detail b " +
                 "on a.doing_id=b.doing_id " +
-                "where b.account_id='rosezzxx'";
+                "where b.account_id='"+userid+"'";
 
         try {
             connect = CONN(un, passwords, db, ip);

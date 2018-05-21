@@ -86,6 +86,7 @@ public class sign extends AppCompatActivity {
         un = "chirp2018";
         passwords = "chirp+123";
         db = "107-chirp";
+
         //檢查帳號是否重複
         user.addTextChangedListener(new TextWatcher() {
 
@@ -126,7 +127,44 @@ public class sign extends AppCompatActivity {
             }
         });
 
+        //檢查電話號碼是否重複
+        EditText phone_2 = (EditText)findViewById(R.id.phone);
+        phone_2.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                connect = CONN(un, passwords, db, ip);
+                String query = "SELECT count(*) as total FROM account Where phonenumber = '"+s+"' ";
+                try {
+                    connect = CONN(un, passwords, db, ip);
+                    stmt = connect.prepareStatement(query);
+                    rs = stmt.executeQuery();
+                    ArrayList<String> data = new ArrayList<String>();
+                    while (rs.next()) {
+                        total = rs.getString("total");
+                        data.add(total);
+
+                        sum = Integer.parseInt(total);
+                    }
+
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+
+                if(sum > 0){
+                    Toast.makeText(sign.this, "此手機已註冊過!!!", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
 
 
         //當選擇性別
@@ -182,8 +220,50 @@ public class sign extends AppCompatActivity {
                 final  String email_2 = email.getText().toString();
                 nickname =(EditText)findViewById(R.id.nickname);
                 final String nickname_2 = nickname.getText().toString();
+                // 電話
+                int sum_2 = 0;
+                connect = CONN(un, passwords, db, ip);
+                String query_2 = "SELECT count(*) as total FROM account Where phonenumber = '"+phone_2+"' ";
+                try {
+                    connect = CONN(un, passwords, db, ip);
+                    stmt = connect.prepareStatement(query_2);
+                    rs = stmt.executeQuery();
+                    ArrayList<String> data = new ArrayList<String>();
+                    while (rs.next()) {
+                        total = rs.getString("total");
+                        data.add(total);
 
-                if (userid_2.matches("") || name_2.matches("") || nickname_2.matches("")|| phone_2.matches("") || email_2.matches("") || sex.matches("") || address.matches("")){
+                        sum_2 = Integer.parseInt(total);
+                    }
+
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+
+                //帳號
+                connect = CONN(un, passwords, db, ip);
+                String query = "SELECT count(*) as total FROM account Where account_id = '"+userid_2+"' ";
+                try {
+                    connect = CONN(un, passwords, db, ip);
+                    stmt = connect.prepareStatement(query);
+                    rs = stmt.executeQuery();
+                    ArrayList<String> data = new ArrayList<String>();
+                    while (rs.next()) {
+                        total = rs.getString("total");
+                        data.add(total);
+
+                        sum = Integer.parseInt(total);
+                    }
+
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+
+                if(sum_2 > 0){
+                    Toast.makeText(sign.this, "此手機已註冊過!!!", Toast.LENGTH_SHORT).show();
+                }else if(sum > 0){
+                    Toast.makeText(sign.this, "此帳號以重複，請重新填寫", Toast.LENGTH_SHORT).show();
+                }else if (userid_2.matches("") || name_2.matches("") || nickname_2.matches("")|| phone_2.matches("") || email_2.matches("") || sex.matches("") || address.matches("")){
                     //Toast toast = Toast.makeText(sign.this, "欄位填寫未完成，請確實填寫", Toast.LENGTH_LONG);
                     Toast.makeText(sign.this, "欄位填寫未完成，請確實填寫", Toast.LENGTH_SHORT).show();
 

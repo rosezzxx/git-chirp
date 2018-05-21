@@ -83,6 +83,9 @@ public class calendar extends AppCompatActivity {
         Date dt=new Date();
         actionBar.setTitle(dateFormatForMonth.format(dt));
 
+
+
+
         compactCalendar =  (CompactCalendarView) findViewById(R.id.compactcalendar_view);
         compactCalendar.setUseThreeLetterAbbreviation(true);
 
