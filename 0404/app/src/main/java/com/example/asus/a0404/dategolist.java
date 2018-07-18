@@ -99,7 +99,7 @@ public class dategolist extends AppCompatActivity {
         passwords = "chirp+123";
         db = "107-chirp";
         connect = CONN(un, passwords, db, ip);
-        String query = "select * from doing_detail join doing  on doing_detail.doing_id =  doing.doing_id where ((doing_start BETWEEN Convert(datetime, '"+time+" 00:00:00') and Convert(datetime, '"+time+" 23:59:59')) or (doing_start <=CONVERT(char(10), '"+time+"',126))) and ((doing_end BETWEEN Convert(datetime, '"+time+" 00:00:00') and Convert(datetime, '"+time+" 23:59:59')) or (doing_end >=CONVERT(char(10), '"+time+"',126))) and (doing_detail.account_id = '"+userid+"')";
+        String query = "select * from doing left join doing_detail  on doing_detail.doing_id =  doing.doing_id where ((doing_start BETWEEN Convert(datetime, '"+time+" 00:00:00') and Convert(datetime, '"+time+" 23:59:59')) or (doing_start <=CONVERT(char(10), '"+time+"',126))) and ((doing_end BETWEEN Convert(datetime, '"+time+" 00:00:00') and Convert(datetime, '"+time+" 23:59:59')) or (doing_end >=CONVERT(char(10), '"+time+"',126))) and (doing_detail.account_id = '"+userid+"' or (doing_detail.account_id is null and doing.account_id = '"+userid+"'))";
         try {
             connect = CONN(un, passwords, db, ip);
             stmt = connect.prepareStatement(query);

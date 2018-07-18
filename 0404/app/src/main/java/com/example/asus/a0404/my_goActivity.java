@@ -1,7 +1,9 @@
 package com.example.asus.a0404;
 
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.v4.app.Fragment;
@@ -40,7 +42,7 @@ public class my_goActivity extends Fragment {
     String[] array_name =new String[data_name.size()];
     ArrayList<String> data_id = new ArrayList<String>();  //活動id
     String[] array_id =new String[data_id.size()];
-
+    List<Map<String, Object>> items = new ArrayList<Map<String, Object>>();
 
     public my_goActivity() {
         // Required empty public constructor
@@ -68,11 +70,20 @@ public class my_goActivity extends Fragment {
         ListView listview = (ListView)view.findViewById(R.id.my_go_listview);
 
 
-
+        SharedPreferences preferences = this.getActivity().getSharedPreferences("User", Context.MODE_PRIVATE);
+        String userid = preferences.getString("Name" , "0"); //抓SharedPreferences內Name值
         String query = "select * from doing a " +
                 "inner join doing_detail b " +
                 "on a.doing_id=b.doing_id " +
-                "where b.account_id='rosezzxx'";
+                "where b.account_id='"+userid+"'";
+
+
+
+        data_id.clear();
+        data_name.clear();
+        items.clear();
+        array_id=new String[data_id.size()];
+        array_name=new String[data_name.size()];
 
         try {
             connect = CONN(un, passwords, db, ip);
@@ -97,7 +108,7 @@ public class my_goActivity extends Fragment {
 
 
 
-            List<Map<String, Object>> items = new ArrayList<Map<String, Object>>();
+
             for(int i=0;i<array_id.length;i++){
                 Map item=new HashMap();
                 item.put("name",array_name[i]);

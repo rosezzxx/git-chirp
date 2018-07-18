@@ -3,6 +3,8 @@ package com.example.asus.a0404;
 
 import android.app.FragmentManager;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.design.widget.TabLayout;
@@ -10,7 +12,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Base64;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -24,6 +28,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.content.Intent;
@@ -34,6 +39,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -51,11 +57,6 @@ public class MainActivity extends AppCompatActivity
     PreparedStatement stmt;
     ResultSet rs;
 
-   //----------全部活動-----------
-//    ArrayList<String> data_name = new ArrayList<String>();
-//    String[] array_name =new String[data_name.size()];
-//    ArrayList<String> data_id = new ArrayList<String>();  //活動id
-//    String[] array_id =new String[data_id.size()];
 
     //-----------全部類別----------
     ArrayList<String> type_data_name = new ArrayList<String>();
@@ -82,42 +83,27 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-
-        SharedPreferences sharedPreferences = getSharedPreferences("User" , MODE_PRIVATE); //建立SharedPreferences
-        //sharedPreferences.edit().putString("Name", "").apply(); //存使用者id進sharedPreferences
-
-
-
-
         ip = "140.131.114.241";
         un = "chirp2018";
         passwords = "chirp+123";
         db = "107-chirp";
 
-        //--------活動列表-----------
-//        ListView listview = (ListView) findViewById(R.id.listview);
-//        String query = "select * from doing";
-//        try {
-//            connect = CONN(un, passwords, db, ip);
-//            stmt = connect.prepareStatement(query);
-//            rs = stmt.executeQuery();
-//
-//            while (rs.next()) {
-//                String id =rs.getString("doing_id");
-//                String name =rs.getString("doing_name");
-//                data_id.add(id);
-//                data_name.add(name);
-//            }
-//
-//            array_name=data_name.toArray(array_name);
-//            array_id=data_id.toArray(array_id);
-//            ArrayAdapter NoCoreAdapter = new ArrayAdapter(this,android.R.layout.simple_list_item_1, array_name);
-//            //listview.setAdapter(NoCoreAdapter);
-//            //listview.setOnItemClickListener(onClickListView);
-//
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
+
+        //登出
+        Button logout = (Button)findViewById(R.id.logout);
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+
+                intent.setClass(MainActivity.this,welcome.class);
+                startActivity(intent);
+                SharedPreferences sharedPreferences = getSharedPreferences("User" , MODE_PRIVATE); //建立SharedPreferences
+                sharedPreferences.edit().putString("Name", "").apply(); //存使用者id進sharedPreferences
+            }
+        });
+
+
 
 
 
@@ -171,9 +157,10 @@ public class MainActivity extends AppCompatActivity
         t1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent();
-                intent.setClass(MainActivity.this ,Main2Activity.class);
-                startActivity(intent);
+                type_id="%";
+                tabview();
+                onBackPressed();
+
             }
         });
 
@@ -205,6 +192,34 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
+        //大頭照
+        ImageView img = (ImageView) findViewById(R.id.imageView);
+
+        SharedPreferences sharedPreferences = getSharedPreferences("User" , MODE_PRIVATE); //建立SharedPreferences
+        String userid = sharedPreferences.getString("Name" , "0"); //抓SharedPreferences內Name值
+
+        String msg;
+        String image="";
+        try {
+            connect = CONN(un, passwords, db, ip);
+            String commands = "SELECT  img FROM account WHERE (account_id = '"+userid+"')";
+            Statement stmt = connect.createStatement();
+            rs = stmt.executeQuery(commands);
+            if (rs.next()) {
+                image = rs.getString("img");
+
+                String base64String = image;
+                byte[] decodedString = Base64.decode(base64String, Base64.DEFAULT);
+                Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+                img.setImageBitmap(decodedByte);
+            }
+            else {
+            }
+
+        } catch (SQLException ex) {
+            msg = ex.getMessage().toString();
+            Log.d("hitesh", msg);
+        }
 
 
 
@@ -217,6 +232,12 @@ public class MainActivity extends AppCompatActivity
         mTabs.addOnTabSelectedListener(this);
 
 
+        tabview();
+
+
+    }
+
+    public void tabview(){
         mViewPager.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager()) {
             @Override
             public Fragment getItem(int position) {
@@ -240,9 +261,9 @@ public class MainActivity extends AppCompatActivity
                 return 5;
             }
         });
-
-
     }
+
+
     //傳type_id給fragment
     public String get_type_id()
     {
@@ -282,24 +303,6 @@ public class MainActivity extends AppCompatActivity
 
 
 
-
-
-//----------全部活動------------
-//    private AdapterView.OnItemClickListener onClickListView = new AdapterView.OnItemClickListener(){
-//        @Override
-//        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//            // Toast 快顯功能 第三個參數 Toast.LENGTH_SHORT 2秒  LENGTH_LONG 5秒
-//            Toast.makeText(MainActivity.this,"id="+array_id[position], Toast.LENGTH_SHORT).show();
-//
-//            Intent intent = new Intent();
-//            intent.setClass(MainActivity.this ,Main2Activity.class);
-//            Bundle bundle=new Bundle();
-//            bundle.putString("doing_id",array_id[position].toString());
-//            intent.putExtras(bundle);
-//            startActivity(intent);
-//        }
-//    };
-
     //--------------全部分類-------------
     private AdapterView.OnItemClickListener onClickListView1 = new AdapterView.OnItemClickListener(){
         @Override
@@ -309,29 +312,7 @@ public class MainActivity extends AppCompatActivity
             Toast.makeText(MainActivity.this,"分類="+type_array_id[position], Toast.LENGTH_SHORT).show();
 
             type_id=type_array_id[position];
-            mViewPager.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager()) {
-                @Override
-                public Fragment getItem(int position) {
-                    switch (position) {
-                        case 0:
-                            return fragment1;
-                        case 1:
-                            return fragment2;
-                        case 2:
-                            return fragment3;
-                        case 3:
-                            return fragment4;
-                        case 4:
-                            return fragment5;
-                    }
-                    return null;
-                }
-
-                @Override
-                public int getCount() {
-                    return 5;
-                }
-            });
+            tabview();
 
 
             onBackPressed();
@@ -405,5 +386,16 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+
+    //返回鍵
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if(keyCode == KeyEvent.KEYCODE_BACK){
+            moveTaskToBack(true);
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 }

@@ -1,7 +1,9 @@
 package com.example.asus.a0404;
 
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.v4.app.Fragment;
@@ -10,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.Toast;
@@ -23,6 +26,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static android.content.Context.MODE_PRIVATE;
 
 
 /**
@@ -39,6 +44,7 @@ public class my_foundActivity extends Fragment {
     String[] array_name =new String[data_name.size()];
     ArrayList<String> data_id = new ArrayList<String>();  //活動id
     String[] array_id =new String[data_id.size()];
+    List<Map<String, Object>> items = new ArrayList<Map<String, Object>>();
 
     public my_foundActivity() {
         // Required empty public constructor
@@ -48,11 +54,18 @@ public class my_foundActivity extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         // Inflate the layout for this fragment
+
+
         View view = inflater.inflate(R.layout.fragment_my_found,container,false);
         initListView(view);
         return  view;
         //return inflater.inflate(R.layout.fragment_my_found, container, false);
+
+
+
+
     }
 
     private void initListView(View view) {
@@ -61,10 +74,20 @@ public class my_foundActivity extends Fragment {
         passwords = "chirp+123";
         db = "107-chirp";
 
+        SharedPreferences preferences = this.getActivity().getSharedPreferences("User", Context.MODE_PRIVATE);
+        String userid = preferences.getString("Name" , "0"); //抓SharedPreferences內Name值
+
         //--------創辦列表-----------
         ListView listview = (ListView)view.findViewById(R.id.my_found_listview);
         String query = "select * from doing " +
-                "where account_id='rosezzxx' ";
+                "where account_id='"+userid+"' ";
+
+
+        data_id.clear();
+        data_name.clear();
+        items.clear();
+        array_id=new String[data_id.size()];
+        array_name=new String[data_name.size()];
 
         try {
             connect = CONN(un, passwords, db, ip);
@@ -84,7 +107,7 @@ public class my_foundActivity extends Fragment {
 
             SimpleAdapter adapter;
 
-            List<Map<String, Object>> items = new ArrayList<Map<String, Object>>();
+
             for(int i=0;i<array_id.length;i++){
                 Map item=new HashMap();
                 item.put("name",array_name[i]);
@@ -100,6 +123,9 @@ public class my_foundActivity extends Fragment {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
+
+
 
     }
 

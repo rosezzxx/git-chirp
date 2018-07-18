@@ -1,6 +1,7 @@
 package com.example.asus.a0404;
 
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -48,10 +49,9 @@ public class Fragment_view extends Fragment {
     ArrayList<String> data_id = new ArrayList<String>();  //活動id
     String[] array_id =new String[data_id.size()];
     String type_id="%";
-
+    List<Map<String, Object>> items = new ArrayList<Map<String, Object>>();
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_view,container,false);
@@ -74,11 +74,16 @@ public class Fragment_view extends Fragment {
 
         //--------活動列表-----------
         ListView listview = (ListView)view.findViewById(R.id.listview_view);
-
+        listview.setAdapter(new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1));
 
         type_id=((MainActivity)getActivity()).get_type_id();
         Toast.makeText(getContext(),"活動="+type_id, Toast.LENGTH_SHORT).show();
 
+        data_id.clear();
+        data_name.clear();
+        items.clear();
+        array_id=new String[data_id.size()];
+        array_name=new String[data_name.size()];
 
 
         String query = "select * from doing where type_id like '"+type_id+"' ";
@@ -97,15 +102,8 @@ public class Fragment_view extends Fragment {
 
             array_name=data_name.toArray(array_name);
             array_id=data_id.toArray(array_id);
-
             SimpleAdapter adapter;
 
-
-
-
-
-
-            List<Map<String, Object>> items = new ArrayList<Map<String, Object>>();
             for(int i=0;i<array_id.length;i++){
                 Map item=new HashMap();
                 item.put("name",array_name[i]);
@@ -116,12 +114,6 @@ public class Fragment_view extends Fragment {
             adapter.notifyDataSetChanged();
             listview.setAdapter(adapter);
 
-
-
-
-
-
-
 //            ArrayAdapter NoCoreAdapter = new ArrayAdapter(getContext(),android.R.layout.simple_list_item_1, array_name);
 //            listview.setAdapter(NoCoreAdapter);
 
@@ -130,6 +122,7 @@ public class Fragment_view extends Fragment {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
 
 
 

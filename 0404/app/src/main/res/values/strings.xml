@@ -1,6 +1,7 @@
 <resources>
-    <string name="app_name">揪起來_整合</string>
+    <string name="app_name">揪起來</string>
 
+    <string name="app_name2"></string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
@@ -24,4 +25,25 @@
         <item>離島</item>
     </string-array>
     <string name="spn_ad_list_prompt">請選擇居住地</string>
+
+
+    <!--好友名稱-->
+    <string-array name="friends_lise">
+        <item>曾意淳</item>
+        <item>吳昱萱</item>
+        <item>劉玉婷</item>
+        <item>AAA</item>
+        <item>BBB</item>
+        <item>CCC</item>
+    </string-array>
+    <!--好友頭像-->
+    <array name="pics">
+        <item>@drawable/com_facebook_profile_picture_blank_square</item>
+        <item>@drawable/com_facebook_profile_picture_blank_square</item>
+        <item>@drawable/com_facebook_profile_picture_blank_square</item>
+        <item>@drawable/com_facebook_profile_picture_blank_square</item>
+        <item>@drawable/com_facebook_profile_picture_blank_square</item>
+        <item>@drawable/com_facebook_profile_picture_blank_square</item>
+
+    </array>
 </resources>

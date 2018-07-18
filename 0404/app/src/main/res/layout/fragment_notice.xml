@@ -5,14 +5,23 @@
     tools:context="com.example.asus.a0404.Fragment_notice">
 
     <!-- TODO: Update blank fragment layout -->
+
+
     <TextView
-        android:id="@+id/fragment4"
+        android:id="@+id/fragment1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="fragment1"
+        android:textSize="40dp" />
+
+    <ListView
+        android:id="@+id/listview_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@id/fragment1"
+        android:layout_above="@+id/tabs"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_centerVertical="true"
-        android:text="fragment4"
-        android:textSize="40dp" />
+        android:layout_alignParentStart="true"/>
+
 
 </RelativeLayout>
