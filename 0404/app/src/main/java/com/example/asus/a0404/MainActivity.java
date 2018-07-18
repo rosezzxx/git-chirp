@@ -246,6 +246,7 @@ public class MainActivity extends AppCompatActivity
     //傳type_id給fragment
     public String get_type_id()
     {
+
         return this.type_id;
     }
 
