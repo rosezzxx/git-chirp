@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.example.home.ui_design.login"
+    android:background="#FFFFFF">
+
+
+    <Button
+        android:id="@+id/facebook"
+        android:layout_width="292dp"
+        android:layout_height="62dp"
+        android:layout_marginTop="20dp"
+        android:layout_gravity="center"
+        android:background="@drawable/facebookk"
+        android:text="" />
+
+    <Button
+        android:id="@+id/google"
+        android:layout_width="292dp"
+        android:layout_height="62dp"
+        android:background="@drawable/google"
+        android:layout_marginTop="10dp"
+        android:layout_gravity="center"
+        android:text="" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="371dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        app:srcCompat="@drawable/other" />
+
+    <EditText
+        android:id="@+id/user"
+        android:layout_width="319dp"
+        android:layout_height="45dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:background="@drawable/user"
+        android:layout_gravity="center"
+        android:hint=" 請輸入帳號" />
+
+    <EditText
+        android:id="@+id/password"
+        android:layout_width="319dp"
+        android:layout_height="45dp"
+        android:ems="10"
+        android:inputType="textPassword"
+        android:background="@drawable/password"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:hint=" 請輸入密碼" />
+
+    <Button
+        android:id="@+id/login"
+        android:layout_width="312dp"
+        android:layout_height="51.5dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/login"
+        android:layout_gravity="center"
+        android:text="" />
+
+    <Button
+        android:id="@+id/sign"
+        android:layout_width="312dp"
+        android:layout_height="31dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/sign1"
+        android:layout_gravity="center"
+        android:text="" />
+</LinearLayout>
