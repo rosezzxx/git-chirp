@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/contencrollView"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context="com.example.home.chirp0728.add">
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_gravity="center"
+            android:text="發佈新活動"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/dname"
+            android:layout_width="350dp"
+            android:layout_height="45dp"
+            android:ems="10"
+            android:layout_marginTop="10dp"
+            android:inputType="textPersonName"
+            android:background="@drawable/text"
+            android:layout_gravity="center"
+            android:hint=" 填寫主題名稱" />
+
+        <EditText
+            android:id="@+id/dplace"
+            android:layout_width="350dp"
+            android:layout_height="45dp"
+            android:ems="10"
+            android:layout_marginTop="10dp"
+            android:inputType="textPersonName"
+            android:background="@drawable/text"
+            android:layout_gravity="center"
+            android:hint=" 填寫活動地點" />
+
+        <Spinner
+            android:id="@+id/dtype"
+            android:layout_width="350dp"
+            android:layout_height="45dp"
+            android:entries="@array/dtype"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/spinner"
+            android:layout_gravity="center"
+            android:spinnerMode="dialog" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="7dp"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal">
+
+            <Spinner
+                android:id="@+id/dtype2"
+                android:layout_width="180dp"
+                android:layout_height="45dp"
+                android:entries="@array/dup"
+                android:background="@drawable/down"
+                android:layout_gravity="center"
+                android:spinnerMode="dialog" />
+
+            <EditText
+                android:id="@+id/dup"
+                android:layout_width="165dp"
+                android:layout_height="45dp"
+                android:ems="10"
+                android:layout_marginLeft="5dp"
+                android:inputType="textPersonName"
+                android:background="@drawable/updown"
+                android:layout_gravity="center"
+                android:hint=" 填寫人數" />
+        </LinearLayout>
+
+        <EditText
+            android:id="@+id/dtime"
+            android:layout_width="350dp"
+            android:layout_height="45dp"
+            android:ems="10"
+            android:layout_marginTop="10dp"
+            android:inputType="textPersonName"
+            android:background="@drawable/timee"
+            android:layout_gravity="center"
+            android:hint=" 設定活動時間" />
+
+        <EditText
+            android:id="@+id/ddtime"
+            android:layout_width="350dp"
+            android:layout_height="45dp"
+            android:ems="10"
+            android:layout_marginTop="10dp"
+            android:inputType="textPersonName"
+            android:background="@drawable/timee"
+            android:layout_gravity="center"
+            android:hint=" 設定報名時間" />
+
+        <EditText
+            android:id="@+id/dcondition"
+            android:layout_width="350dp"
+            android:layout_height="45dp"
+            android:ems="10"
+            android:layout_marginTop="10dp"
+            android:inputType="textPersonName"
+            android:background="@drawable/timee"
+            android:layout_gravity="center"
+            android:hint=" 設定條件" />
+
+        <EditText
+            android:id="@+id/dmoney"
+            android:layout_width="350dp"
+            android:layout_height="45dp"
+            android:ems="10"
+            android:layout_marginTop="10dp"
+            android:inputType="textPersonName"
+            android:background="@drawable/text"
+            android:layout_gravity="center"
+            android:hint=" 填寫收費金額" />
+
+        <EditText
+            android:id="@+id/ddetails"
+            android:layout_width="350dp"
+            android:layout_height="45dp"
+            android:ems="10"
+            android:layout_marginTop="10dp"
+            android:inputType="textPersonName"
+            android:background="@drawable/text"
+            android:layout_gravity="center"
+            android:hint=" 活動詳細內容介紹" />
+
+        <Button
+            android:id="@+id/btnadd"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            android:background="#3b5998"
+            android:gravity="center"
+            android:text="新增活動"
+            android:textColor="#FFF"
+            android:textStyle="bold"
+            android:typeface="sans" />
+
+    </LinearLayout>
+</ScrollView>
