@@ -3,8 +3,8 @@ package com.example.home.chirp0728;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
 import android.view.View;
 import android.widget.Button;
@@ -15,7 +15,7 @@ import android.widget.Toast;
 
 import java.util.Calendar;
 
-public class add_time extends AppCompatActivity {
+public class update_time_sign extends AppCompatActivity {
 
     EditText startdate,starttime,enddate,endtime;
     Button btnadd;
@@ -24,18 +24,31 @@ public class add_time extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_time);
+        setContentView(R.layout.activity_add_time_sign);
 
         Intent intent = getIntent();
-        String dtime = intent.getStringExtra("dtime_ok");
+        String ddtime = intent.getStringExtra("ddtime_ok");
 
         startdate = (EditText)findViewById(R.id.startdate);
         starttime = (EditText)findViewById(R.id.starttime);
         enddate = (EditText)findViewById(R.id.enddate);
         endtime = (EditText)findViewById(R.id.endtime);
 
+        if(ddtime.equals("")==false){
+            String dtime_start = ddtime.substring(0,ddtime.indexOf("~"));
+            String dtime_start_date = dtime_start.substring(0,dtime_start.indexOf(" "));
+            String dtime_start_time = dtime_start.substring(dtime_start.indexOf(" ")+1,dtime_start.length());
+            String dtime_end = ddtime.substring(ddtime.indexOf("~")+1,ddtime.length());
+            String dtime_end_date = dtime_end.substring(0,dtime_end.indexOf(" "));
+            String dtime_end_time = dtime_end.substring(dtime_end.indexOf(" ")+1,dtime_end.length());
 
-
+            startdate.setText(dtime_start_date.replaceAll("-",""));
+            starttime.setText(dtime_start_time);
+            stime = dtime_start_time.replaceAll(":","");
+            enddate.setText(dtime_end_date.replaceAll("-",""));
+            endtime.setText(dtime_end_time);
+            etime = dtime_end_time.replaceAll(":","");
+        }
 
         startdate.setOnFocusChangeListener(new View.OnFocusChangeListener() {
 
@@ -120,16 +133,12 @@ public class add_time extends AppCompatActivity {
 
         btnadd = (Button)findViewById(R.id.btnadd);
         btnadd.setOnClickListener(btnaddonclick);
-
-
-
-
     }
 
     private void dpds() {
         Calendar c = Calendar.getInstance();
 
-        new DatePickerDialog(add_time.this, new DatePickerDialog.OnDateSetListener() {
+        new DatePickerDialog(update_time_sign.this, new DatePickerDialog.OnDateSetListener() {
 
             @Override
             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
@@ -155,7 +164,7 @@ public class add_time extends AppCompatActivity {
 
     private void tpds() {
         Calendar c = Calendar.getInstance();
-        new TimePickerDialog(add_time.this, new TimePickerDialog.OnTimeSetListener() {
+        new TimePickerDialog(update_time_sign.this, new TimePickerDialog.OnTimeSetListener() {
             @Override
             public void onTimeSet(TimePicker timePicker, int hh, int mm) {
                 if(hh<10 && mm<10){
@@ -181,7 +190,7 @@ public class add_time extends AppCompatActivity {
 
     private void dpde() {
         Calendar c = Calendar.getInstance();
-        new DatePickerDialog(add_time.this, new DatePickerDialog.OnDateSetListener() {
+        new DatePickerDialog(update_time_sign.this, new DatePickerDialog.OnDateSetListener() {
 
             @Override
             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
@@ -210,7 +219,7 @@ public class add_time extends AppCompatActivity {
 
     private void tpde() {
         Calendar c = Calendar.getInstance();
-        new TimePickerDialog(add_time.this, new TimePickerDialog.OnTimeSetListener() {
+        new TimePickerDialog(update_time_sign.this, new TimePickerDialog.OnTimeSetListener() {
             @Override
             public void onTimeSet(TimePicker timePicker, int hh, int mm) {
                 if(hh<10 && mm<10){
@@ -239,32 +248,32 @@ public class add_time extends AppCompatActivity {
         public void onClick(View v) {
             int check=0;
             if(startdate.getText().toString().equals("")){
-                Toast.makeText(add_time.this,"起始日期未填寫", Toast.LENGTH_SHORT).show();
+                Toast.makeText(update_time_sign.this,"起始日期未填寫", Toast.LENGTH_SHORT).show();
                 startdate.requestFocus();
                 check=1;
             }
             else if(starttime.getText().toString().equals("")){
-                Toast.makeText(add_time.this,"起始時間未填寫", Toast.LENGTH_SHORT).show();
+                Toast.makeText(update_time_sign.this,"起始時間未填寫", Toast.LENGTH_SHORT).show();
                 starttime.requestFocus();
                 check=1;
             }
             else if(enddate.getText().toString().equals("")){
-                Toast.makeText(add_time.this,"結束日期未填寫", Toast.LENGTH_SHORT).show();
+                Toast.makeText(update_time_sign.this,"結束日期未填寫", Toast.LENGTH_SHORT).show();
                 enddate.requestFocus();
                 check=1;
             }
             else if(endtime.getText().toString().equals("")){
-                Toast.makeText(add_time.this,"結束時間未填寫", Toast.LENGTH_SHORT).show();
+                Toast.makeText(update_time_sign.this,"結束時間未填寫", Toast.LENGTH_SHORT).show();
                 endtime.requestFocus();
                 check=1;
             }
             else if(Integer.parseInt(enddate.getText().toString()) < Integer.parseInt(startdate.getText().toString())){
-                Toast.makeText(add_time.this,"日期錯誤", Toast.LENGTH_SHORT).show();
+                Toast.makeText(update_time_sign.this,"日期錯誤", Toast.LENGTH_SHORT).show();
                 enddate.requestFocus();
                 check=1;
             }
             else if((Integer.parseInt(enddate.getText().toString()) == Integer.parseInt(startdate.getText().toString())) && (Integer.parseInt(etime) < Integer.parseInt(stime))){
-                Toast.makeText(add_time.this, "時間錯誤", Toast.LENGTH_SHORT).show();
+                Toast.makeText(update_time_sign.this, "時間錯誤", Toast.LENGTH_SHORT).show();
                 endtime.requestFocus();
                 check=1;
             }
@@ -274,7 +283,7 @@ public class add_time extends AppCompatActivity {
                 String endt=enddate.getText() + " " + endtime.getText();
                 Intent.putExtra("startt", startt);
                 Intent.putExtra("endt", endt);
-                setResult(1, Intent);
+                setResult(2, Intent);
                 finish();
             }
 

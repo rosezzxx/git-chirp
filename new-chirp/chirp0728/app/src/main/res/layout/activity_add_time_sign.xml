@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#ffffff"
+    tools:context="com.example.home.chirp0728.add_time_sign">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginLeft="15dp"
+        android:background="#FFFFFF"
+        android:orientation="horizontal">
+
+
+        <TextView
+            android:id="@+id/start"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:gravity="center_horizontal|center"
+            android:text="開始日期"
+            android:textSize="14sp" />
+
+        <EditText
+            android:id="@+id/startdate"
+            android:layout_width="280dp"
+            android:layout_height="45dp"
+            android:ems="10"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:inputType="textPersonName"
+            android:background="@drawable/text"
+            android:layout_gravity="center"
+            android:hint=" 請選擇開始日期" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:background="#FFFFFF"
+        android:orientation="horizontal">
+
+
+        <TextView
+            android:id="@+id/time"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:gravity="center_horizontal|center"
+            android:text="開始時間"
+            android:textSize="14sp" />
+
+        <EditText
+            android:id="@+id/starttime"
+            android:layout_width="280dp"
+            android:layout_height="45dp"
+            android:ems="10"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:inputType="textPersonName"
+            android:background="@drawable/text"
+            android:layout_gravity="center"
+            android:hint=" 請選擇開始時間" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="10dp"
+        android:background="#FFFFFF"
+        android:orientation="horizontal">
+
+
+        <TextView
+            android:id="@+id/end"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:gravity="center_horizontal|center"
+            android:text="結束日期"
+            android:textSize="14sp" />
+
+        <EditText
+            android:id="@+id/enddate"
+            android:layout_width="280dp"
+            android:layout_height="45dp"
+            android:ems="10"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:inputType="textPersonName"
+            android:background="@drawable/text"
+            android:layout_gravity="center"
+            android:hint=" 請選擇結束日期" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="10dp"
+        android:background="#FFFFFF"
+        android:orientation="horizontal">
+
+
+        <TextView
+            android:id="@+id/endt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:gravity="center_horizontal|center"
+            android:text="結束時間"
+            android:textSize="14sp" />
+
+        <EditText
+            android:id="@+id/endtime"
+            android:layout_width="280dp"
+            android:layout_height="45dp"
+            android:ems="10"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginRight="10dp"
+            android:inputType="textPersonName"
+            android:background="@drawable/text"
+            android:layout_gravity="center"
+            android:hint=" 請選擇結束時間" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btnadd"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#3b5998"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:gravity="center"
+        android:text="確定"
+        android:textColor="#FFF"
+        android:textStyle="bold"
+        android:typeface="sans" />
+</LinearLayout>
