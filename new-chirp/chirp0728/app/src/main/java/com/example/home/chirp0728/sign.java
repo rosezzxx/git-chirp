@@ -170,7 +170,7 @@ public class sign extends AppCompatActivity {
                 //設定Intent切換頁面使用
                 Intent intent = new Intent();
                 intent.setClass(sign.this,imgupload.class);
-                final Bundle bundle = new Bundle();
+                    final Bundle bundle = new Bundle();
 
                 //取值
                 userid = (EditText) findViewById(R.id.user);

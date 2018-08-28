@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.example.home.chirp0728.account">
+
+    <ImageButton
+        android:id="@+id/imageButton"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="20dp"
+        android:layout_gravity="center"
+        android:background="#FFFFFF"
+        app:srcCompat="@drawable/com_facebook_profile_picture_blank_square"
+        android:scaleType="fitCenter"
+        android:adjustViewBounds="true"/>
+
+    <TextView
+        android:id="@+id/username"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_marginTop="5dp"
+        android:text=""
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <ImageView
+        android:id="@+id/imageView14"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        app:srcCompat="@drawable/linee" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/logiway"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_weight="1"
+            android:text="登入方式"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/way"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_margin="10dp"
+            android:gravity="right"
+            android:textSize="16sp"
+            android:text="" />
+    </LinearLayout>
+
+    <EditText
+        android:id="@+id/nicknamexml"
+        android:layout_width="340dp"
+        android:layout_height="45dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:background="@drawable/user"
+        android:layout_gravity="center"
+        android:hint=" 請輸入暱稱" />
+
+    <EditText
+        android:id="@+id/phonexml"
+        android:layout_width="340dp"
+        android:layout_height="45dp"
+        android:ems="10"
+        android:layout_margin="10dp"
+        android:inputType="textPhonetic"
+        android:background="@drawable/phone"
+        android:layout_gravity="center"
+        android:hint=" 請輸入手機" />
+
+
+    <Spinner
+        android:id="@+id/spnadxml"
+        android:layout_width="340dp"
+        android:layout_height="45dp"
+        android:entries="@array/address_list"
+
+        android:prompt="@string/spn_ad_list_prompt"
+        android:background="@drawable/address"
+        android:layout_gravity="center"
+        android:spinnerMode="dialog" />
+
+
+    <Spinner
+        android:id="@+id/radsexxml"
+        android:layout_width="340dp"
+        android:layout_height="45dp"
+        android:layout_margin="10dp"
+        android:entries="@array/sex_list"
+        android:prompt="@string/sex_ad_list_prompt"
+        android:background="@drawable/sex"
+        android:layout_gravity="center"
+        android:spinnerMode="dialog" />
+
+    <Button
+        android:id="@+id/update"
+        android:layout_width="340dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/update"
+        android:layout_gravity="center"
+        android:text="" />
+</LinearLayout>

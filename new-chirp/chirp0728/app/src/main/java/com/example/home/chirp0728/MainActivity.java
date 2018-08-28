@@ -1,10 +1,11 @@
 package com.example.home.chirp0728;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -14,31 +15,38 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.TextView;
+import android.widget.ListView;
+import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
-import org.w3c.dom.Text;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    private LinearLayout L1;
 
-    String user;
+    private LinearLayout L1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
+        //Toast.makeText(MainActivity.this,"測試111",Toast.LENGTH_SHORT).show();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-
-
-
-        //Toast.makeText(MainActivity.this, user, Toast.LENGTH_SHORT).show();
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -49,34 +57,21 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-
-        //建立SharedPreferences
-        SharedPreferences settings = getSharedPreferences("User", MODE_PRIVATE);
-        String value = settings.getString("Name", "");
-        //String username = sharedPreferences.getString("Name" , "defaultValue"); //抓SharedPreferences內Name值
-
-        /*Intent intent = getIntent();
-        Bundle bundle = intent.getExtras();
-        user = bundle.getString("username");*/
-        NavigationView navigationView2 = (NavigationView) findViewById(R.id.nav_view);
-        View headerView = navigationView2.getHeaderView(0);
-        TextView navUsername = (TextView) headerView.findViewById(R.id.userr);
-        navUsername.setText(value);
-
-
-
-        L1 = (LinearLayout) findViewById(R.id.doo);
-        L1.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
+      L1 = (LinearLayout) findViewById(R.id.doo);
+       L1.setOnClickListener(new View.OnClickListener()
+       {
+         @Override
             public void onClick(View v)
-            {
-                Intent intent = new Intent();
-                intent.setClass(MainActivity.this,deatial.class);
-                startActivity(intent);
-            }
+          {
+             Intent intent = new Intent();
+             intent.setClass(MainActivity.this,deatial.class);
+             startActivity(intent);
+           }
 
-        });
+       });
+
+
+
 
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -90,7 +85,7 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-        Button search = (Button) findViewById(R.id.search);
+		Button search = (Button) findViewById(R.id.search);
         search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -100,6 +95,11 @@ public class MainActivity extends AppCompatActivity
             }
         });
     }
+
+
+
+
+
 
     @Override
     public void onBackPressed() {
@@ -115,8 +115,11 @@ public class MainActivity extends AppCompatActivity
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
+
         return true;
     }
+
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -126,9 +129,9 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        /*if (id == R.id.action_settings) {
+        if (id == R.id.nav_slideshow) {
             return true;
-        }*/
+        }
 
         return super.onOptionsItemSelected(item);
     }
@@ -139,31 +142,32 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_home) {
+        if (id == R.id.nav_home) {//首頁
             // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+        } else if (id == R.id.nav_gallery) {//訂閱
 
-        } else if (id == R.id.nav_slideshow) {
+        } else if (id == R.id.nav_slideshow) { //活動管理
 
-        } else if (id == R.id.nav_manage) {
+        } else if (id == R.id.nav_manage) {//好友管理
+            Intent intent = new Intent();
+            intent.setClass(MainActivity.this,chat.class);
+            startActivity(intent);
 
-        } else if (id == R.id.nav_schedule) {
+        } else if (id == R.id.nav_schedule) { //查看行事曆
             Intent intent = new Intent();
             intent.setClass(MainActivity.this,calendar.class);
             startActivity(intent);
 
-
-        } else if (id == R.id.nav_lead) {
+        } else if (id == R.id.nav_lead) {//留言管理
             Intent intent = new Intent();
             intent.setClass(MainActivity.this,lookmessage.class);
             startActivity(intent);
-
-        }else if (id == R.id.nav_access) {
-
-        }else if (id == R.id.nav_out) {
-
+        }else if (id == R.id.nav_access) {//帳號管理
+            Intent intent = new Intent();
+            intent.setClass(MainActivity.this,account.class);
+            startActivity(intent);
+        }else if (id == R.id.nav_out) { //登出
         }
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
