@@ -6,9 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="#ffffff"
-    tools:context="com.example.home.chirp0728.add_time">
-
-
+    tools:context="com.example.home.chirp0728.update_time_sign">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

@@ -15,7 +15,7 @@ import android.widget.Toast;
 
 import java.util.Calendar;
 
-public class add_time extends AppCompatActivity {
+public class add_time_sign extends AppCompatActivity {
 
     EditText startdate,starttime,enddate,endtime;
     Button btnadd;
@@ -24,7 +24,7 @@ public class add_time extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_time);
+        setContentView(R.layout.activity_add_time_sign);
 
         Intent intent = getIntent();
         String dtime = intent.getStringExtra("dtime_ok");
@@ -33,9 +33,6 @@ public class add_time extends AppCompatActivity {
         starttime = (EditText)findViewById(R.id.starttime);
         enddate = (EditText)findViewById(R.id.enddate);
         endtime = (EditText)findViewById(R.id.endtime);
-
-
-
 
         startdate.setOnFocusChangeListener(new View.OnFocusChangeListener() {
 
@@ -120,16 +117,12 @@ public class add_time extends AppCompatActivity {
 
         btnadd = (Button)findViewById(R.id.btnadd);
         btnadd.setOnClickListener(btnaddonclick);
-
-
-
-
     }
 
     private void dpds() {
         Calendar c = Calendar.getInstance();
 
-        new DatePickerDialog(add_time.this, new DatePickerDialog.OnDateSetListener() {
+        new DatePickerDialog(add_time_sign.this, new DatePickerDialog.OnDateSetListener() {
 
             @Override
             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
@@ -155,7 +148,7 @@ public class add_time extends AppCompatActivity {
 
     private void tpds() {
         Calendar c = Calendar.getInstance();
-        new TimePickerDialog(add_time.this, new TimePickerDialog.OnTimeSetListener() {
+        new TimePickerDialog(add_time_sign.this, new TimePickerDialog.OnTimeSetListener() {
             @Override
             public void onTimeSet(TimePicker timePicker, int hh, int mm) {
                 if(hh<10 && mm<10){
@@ -181,7 +174,7 @@ public class add_time extends AppCompatActivity {
 
     private void dpde() {
         Calendar c = Calendar.getInstance();
-        new DatePickerDialog(add_time.this, new DatePickerDialog.OnDateSetListener() {
+        new DatePickerDialog(add_time_sign.this, new DatePickerDialog.OnDateSetListener() {
 
             @Override
             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
@@ -210,7 +203,7 @@ public class add_time extends AppCompatActivity {
 
     private void tpde() {
         Calendar c = Calendar.getInstance();
-        new TimePickerDialog(add_time.this, new TimePickerDialog.OnTimeSetListener() {
+        new TimePickerDialog(add_time_sign.this, new TimePickerDialog.OnTimeSetListener() {
             @Override
             public void onTimeSet(TimePicker timePicker, int hh, int mm) {
                 if(hh<10 && mm<10){
@@ -239,32 +232,32 @@ public class add_time extends AppCompatActivity {
         public void onClick(View v) {
             int check=0;
             if(startdate.getText().toString().equals("")){
-                Toast.makeText(add_time.this,"起始日期未填寫", Toast.LENGTH_SHORT).show();
+                Toast.makeText(add_time_sign.this,"起始日期未填寫", Toast.LENGTH_SHORT).show();
                 startdate.requestFocus();
                 check=1;
             }
             else if(starttime.getText().toString().equals("")){
-                Toast.makeText(add_time.this,"起始時間未填寫", Toast.LENGTH_SHORT).show();
+                Toast.makeText(add_time_sign.this,"起始時間未填寫", Toast.LENGTH_SHORT).show();
                 starttime.requestFocus();
                 check=1;
             }
             else if(enddate.getText().toString().equals("")){
-                Toast.makeText(add_time.this,"結束日期未填寫", Toast.LENGTH_SHORT).show();
+                Toast.makeText(add_time_sign.this,"結束日期未填寫", Toast.LENGTH_SHORT).show();
                 enddate.requestFocus();
                 check=1;
             }
             else if(endtime.getText().toString().equals("")){
-                Toast.makeText(add_time.this,"結束時間未填寫", Toast.LENGTH_SHORT).show();
+                Toast.makeText(add_time_sign.this,"結束時間未填寫", Toast.LENGTH_SHORT).show();
                 endtime.requestFocus();
                 check=1;
             }
             else if(Integer.parseInt(enddate.getText().toString()) < Integer.parseInt(startdate.getText().toString())){
-                Toast.makeText(add_time.this,"日期錯誤", Toast.LENGTH_SHORT).show();
+                Toast.makeText(add_time_sign.this,"日期錯誤", Toast.LENGTH_SHORT).show();
                 enddate.requestFocus();
                 check=1;
             }
             else if((Integer.parseInt(enddate.getText().toString()) == Integer.parseInt(startdate.getText().toString())) && (Integer.parseInt(etime) < Integer.parseInt(stime))){
-                Toast.makeText(add_time.this, "時間錯誤", Toast.LENGTH_SHORT).show();
+                Toast.makeText(add_time_sign.this, "時間錯誤", Toast.LENGTH_SHORT).show();
                 endtime.requestFocus();
                 check=1;
             }
@@ -274,7 +267,7 @@ public class add_time extends AppCompatActivity {
                 String endt=enddate.getText() + " " + endtime.getText();
                 Intent.putExtra("startt", startt);
                 Intent.putExtra("endt", endt);
-                setResult(1, Intent);
+                setResult(2, Intent);
                 finish();
             }
 

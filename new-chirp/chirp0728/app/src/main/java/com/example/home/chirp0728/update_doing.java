@@ -1,17 +1,15 @@
 package com.example.home.chirp0728;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.text.InputType;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -25,7 +23,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class add extends AppCompatActivity {
+public class update_doing extends AppCompatActivity {
 
     EditText dname,dplace,dup,ddtime,dcondition,dmoney,ddetails;
     Spinner dtype,dtype2;
@@ -41,7 +39,7 @@ public class add extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add);
+        setContentView(R.layout.activity_update_doing);
 
         ip = "140.131.114.241";
         un = "chirp2018";
@@ -54,26 +52,60 @@ public class add extends AppCompatActivity {
         dtype2 = (Spinner)findViewById(R.id.dtype2);
         dup = (EditText)findViewById(R.id.dup);
         //dtime = (EditText)findViewById(R.id.dtime);
+        dtime = (TextView)findViewById(R.id.dtime);
         ddtime = (EditText)findViewById(R.id.ddtime);
         dcondition = (EditText)findViewById(R.id.dcondition);
         ddetails = (EditText)findViewById(R.id.ddetails);
         dmoney = (EditText)findViewById(R.id.dmoney);
-        ddetails = (EditText)findViewById(R.id.ddetails);
 
+        String select_doing="select * from doing where doing_id='78'";
 
+        try {
+            connect = CONN(un, passwords, db, ip);
+            stmt = connect.prepareStatement(select_doing);
+            rs = stmt.executeQuery();
+            while (rs.next()) {
+                dname.setText(rs.getString("doing_name"));
+                dplace.setText(rs.getString("doing_place"));
+                String totalpeople = rs.getString("totalpeople");
+                dup.setText(totalpeople.substring(totalpeople.indexOf("-")+1,totalpeople.length()));
+                if(totalpeople.substring(0,totalpeople.indexOf("-")) == "up"){
+                    str2="最多";
+                    dtype2.setSelection(0);
+                }
+                else{
+                    str2="最少";
+                    dtype2.setSelection(1);
+                }
+                //dup.setText(rs.getString("totalpeople"));
+                dtime_startt = rs.getString("doing_start");
+                dtime_endt = rs.getString("doing_end");
+                dtime.setText( dtime_startt.substring(0,16).replaceAll("-","") + "~" + dtime_endt.substring(0,16).replaceAll("-",""));
+                ddtime_startt = rs.getString("sign_start");
+                ddtime_endt =rs.getString("sign_end");
+                ddtime.setText( ddtime_startt.substring(0,16).replaceAll("-","") + "~" + ddtime_endt.substring(0,16).replaceAll("-",""));
+                d_condition = rs.getString("parner_id");
+                dcondition.setText("設定完成");
+                dmoney.setText(rs.getString("pay_money"));
+                ddetails.setText(rs.getString("doing_content"));
+            }
+        } catch (SQLException e) {
+            Toast.makeText(update_doing.this,"失敗!!!", Toast.LENGTH_SHORT).show();
+            e.printStackTrace();
+        }
         ddtime.setInputType(InputType.TYPE_NULL);
         dcondition.setInputType(InputType.TYPE_NULL);
 
-        dtime = (TextView)findViewById(R.id.dtime);
+
         dtime.setInputType(InputType.TYPE_NULL);
         dtime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 Intent intent = new Intent();
-                intent.setClass(add.this,add_time.class);
+                intent.setClass(update_doing.this,update_time.class);
                 Bundle bundle = new Bundle();
-                bundle.putString("dtime_ok",dtime_ok);
+                bundle.putString("dtime_ok",dtime.getText().toString());
 
                 intent.putExtras(bundle);
                 startActivityForResult(intent,1);
@@ -85,10 +117,10 @@ public class add extends AppCompatActivity {
             public void onClick(View v) {
 
                 Intent intent = new Intent();
-                intent.setClass(add.this,add_time_sign.class);
+                intent.setClass(update_doing.this,update_time_sign.class);
 
                 Bundle bundle = new Bundle();
-                bundle.putString("ddtime_ok",ddtime_ok);
+                bundle.putString("ddtime_ok",ddtime.getText().toString());
 
                 intent.putExtras(bundle);
                 startActivityForResult(intent,2);
@@ -100,7 +132,7 @@ public class add extends AppCompatActivity {
             public void onClick(View v) {
 
                 Intent intent = new Intent();
-                intent.setClass(add.this,add_condition.class);
+                intent.setClass(update_doing.this,add_condition.class);
 
                 Bundle bundle = new Bundle();
                 bundle.putString("dcondition_ok",dcondition.getText().toString());
@@ -124,7 +156,7 @@ public class add extends AppCompatActivity {
                 CItem item = new CItem(type_id, type_name);
                 lst.add(item);
             }
-            ArrayAdapter<CItem> myaAdapter = new ArrayAdapter<CItem>(add.this,  android.R.layout.simple_list_item_1, lst);
+            ArrayAdapter<CItem> myaAdapter = new ArrayAdapter<CItem>(update_doing.this,  android.R.layout.simple_list_item_1, lst);
             dtype.setAdapter(myaAdapter);
         } catch (SQLException e) {
             e.printStackTrace();
@@ -186,69 +218,80 @@ public class add extends AppCompatActivity {
             // TODO Auto-generated method stub
             int check=0;
             if(dname.getText().toString().equals("")){
-                Toast.makeText(add.this,"主題未填寫", Toast.LENGTH_SHORT).show();
+                Toast.makeText(update_doing.this,"主題未填寫", Toast.LENGTH_SHORT).show();
                 dname.requestFocus();
                 check=1;
             }
             else if(dplace.getText().toString().equals("")){
-                Toast.makeText(add.this,"地點未填寫", Toast.LENGTH_SHORT).show();
+                Toast.makeText(update_doing.this,"地點未填寫", Toast.LENGTH_SHORT).show();
                 dplace.requestFocus();
                 check=1;
             }
             else if(str2.equals("--選擇上下限--")){
-                Toast.makeText(add.this,"上下限未選", Toast.LENGTH_SHORT).show();
+                Toast.makeText(update_doing.this,"上下限未選", Toast.LENGTH_SHORT).show();
                 dtype2.requestFocus();
                 check=1;
             }
             else if(dup.getText().toString().equals("")){
-                Toast.makeText(add.this,"人數未填寫", Toast.LENGTH_SHORT).show();
+                Toast.makeText(update_doing.this,"人數未填寫", Toast.LENGTH_SHORT).show();
                 dup.requestFocus();
                 check=1;
             }
             else if(dtime.getText().toString().equals("")){
-                Toast.makeText(add.this,"活動時間未設定", Toast.LENGTH_SHORT).show();
+                Toast.makeText(update_doing.this,"活動時間未設定", Toast.LENGTH_SHORT).show();
                 check=1;
             }
             else if(ddtime.getText().toString().equals("")){
-                Toast.makeText(add.this,"報名時間未設定", Toast.LENGTH_SHORT).show();
+                Toast.makeText(update_doing.this,"報名時間未設定", Toast.LENGTH_SHORT).show();
                 check=1;
             }
             else if(dcondition.getText().toString().equals("")){
-                Toast.makeText(add.this,"條件未設定", Toast.LENGTH_SHORT).show();
+                Toast.makeText(update_doing.this,"條件未設定", Toast.LENGTH_SHORT).show();
                 check=1;
             }
             else if(dmoney.getText().toString().equals("")){
-                Toast.makeText(add.this,"收費未填寫", Toast.LENGTH_SHORT).show();
+                Toast.makeText(update_doing.this,"收費未填寫", Toast.LENGTH_SHORT).show();
                 dmoney.requestFocus();
                 check=1;
             }
             else if(ddetails.getText().toString().equals("")){
-                Toast.makeText(add.this,"詳細介紹未填寫", Toast.LENGTH_SHORT).show();
+                Toast.makeText(update_doing.this,"詳細介紹未填寫", Toast.LENGTH_SHORT).show();
                 ddetails.requestFocus();
                 check=1;
             }
             else if (check==0){
                 String dpeople;
-                if(str2.equals("上限")){
+                if(str2.equals("最多")){
                     dpeople = "up-"+dup.getText().toString();
                 }else{
                     dpeople = "down-"+dup.getText().toString();
                 }
 
-                String query_insert="insert into doing(doing_name,account_id, type_id, doing_start, doing_end,parner_id, totalpeople, doing_place, doing_content, doing_date, sign_start, sign_end, pay_money) " +
-                        "values('" + dname.getText().toString() + "','" + "rosezzxx" + "','" + str+ "','" + dtime_startt + "','"  + dtime_endt + "','" + d_condition + "','" + dpeople + "','" + dplace.getText().toString() + "','" + ddetails.getText().toString() + "',getdate(),'" + ddtime_startt + "','" + ddtime_endt + "','" + dmoney.getText().toString() + "')";
+                String query_update="update doing set doing_name='" + dname.getText().toString() + "',"+
+                        "account_id='" + "rosezzxx" + "',"+
+                        "type_id='"+ str + "',"+
+                        "doing_start='"+ dtime_startt + "',"+
+                        "doing_end='"+ dtime_endt + "',"+
+                        "parner_id='"+ d_condition + "',"+
+                        "totalpeople='"+ dpeople + "',"+
+                        "doing_place='"+ dplace.getText().toString() + "',"+
+                        "doing_content='"+ ddetails.getText().toString() + "',"+
+                        "sign_start='"+ ddtime_startt + "',"+
+                        "sign_end='"+ ddtime_endt + "',"+
+                        "pay_money='"+ dmoney.getText().toString()+ "'"+
+                        " where doing_id='78'";
 
                 try {
                     connect = CONN(un, passwords, db, ip);
-                    stmt = connect.prepareStatement(query_insert);
+                    stmt = connect.prepareStatement(query_update);
                     rs = stmt.executeQuery();
-                    Toast.makeText(add.this,"創辦成功", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(update_doing.this,"修改成功", Toast.LENGTH_SHORT).show();
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
 
                 Intent intent = new Intent();
-                intent.setClass(add.this,MainActivity.class);
+                intent.setClass(update_doing.this,MainActivity.class);
                 startActivity(intent);
             }
         }
