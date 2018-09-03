@@ -28,7 +28,7 @@ public class update_doing extends AppCompatActivity {
     EditText dname,dplace,dup,ddtime,dcondition,dmoney,ddetails;
     Spinner dtype,dtype2;
     Button btnadd;
-    String str,str2,dtime_ok,ddtime_ok, dtime_startt,dtime_endt,ddtime_startt,ddtime_endt,dcondition_c,dcondition_n,d_condition;
+    String str,str2,dtime_startt,dtime_endt,ddtime_startt,ddtime_endt,dcondition_c,dcondition_n,d_condition,dtype_id;
     TextView dtime;
 
     String ip, db, un, passwords;
@@ -67,6 +67,7 @@ public class update_doing extends AppCompatActivity {
             while (rs.next()) {
                 dname.setText(rs.getString("doing_name"));
                 dplace.setText(rs.getString("doing_place"));
+                dtype_id = rs.getString("type_id");
                 String totalpeople = rs.getString("totalpeople");
                 dup.setText(totalpeople.substring(totalpeople.indexOf("-")+1,totalpeople.length()));
                 if(totalpeople.substring(0,totalpeople.indexOf("-")) == "up"){
@@ -77,22 +78,38 @@ public class update_doing extends AppCompatActivity {
                     str2="最少";
                     dtype2.setSelection(1);
                 }
-                //dup.setText(rs.getString("totalpeople"));
                 dtime_startt = rs.getString("doing_start");
                 dtime_endt = rs.getString("doing_end");
                 dtime.setText( dtime_startt.substring(0,16).replaceAll("-","") + "~" + dtime_endt.substring(0,16).replaceAll("-",""));
                 ddtime_startt = rs.getString("sign_start");
                 ddtime_endt =rs.getString("sign_end");
                 ddtime.setText( ddtime_startt.substring(0,16).replaceAll("-","") + "~" + ddtime_endt.substring(0,16).replaceAll("-",""));
-                d_condition = rs.getString("parner_id");
+                dcondition_n = rs.getString("parner_id");
                 dcondition.setText("設定完成");
                 dmoney.setText(rs.getString("pay_money"));
                 ddetails.setText(rs.getString("doing_content"));
             }
         } catch (SQLException e) {
-            Toast.makeText(update_doing.this,"失敗!!!", Toast.LENGTH_SHORT).show();
             e.printStackTrace();
         }
+
+        dcondition_c="";
+        String dcon_sp[] = dcondition_n.split(",");
+        for(int ii=0;ii<dcon_sp.length;ii++){
+            String select_dcondition = "select * from parner where parner_id='" + dcon_sp[ii] + "'";
+            try {
+                connect = CONN(un, passwords, db, ip);
+                stmt = connect.prepareStatement(select_dcondition);
+                rs = stmt.executeQuery();
+                while (rs.next()) {
+                    dcondition_c=dcondition_c + rs.getString("parner_name") + ",";
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        dcondition.setText(dcondition_c);
+
         ddtime.setInputType(InputType.TYPE_NULL);
         dcondition.setInputType(InputType.TYPE_NULL);
 
@@ -132,10 +149,10 @@ public class update_doing extends AppCompatActivity {
             public void onClick(View v) {
 
                 Intent intent = new Intent();
-                intent.setClass(update_doing.this,add_condition.class);
+                intent.setClass(update_doing.this,update_condition.class);
 
                 Bundle bundle = new Bundle();
-                bundle.putString("dcondition_ok",dcondition.getText().toString());
+                bundle.putString("dcondition_ok",dcondition_n);
 
                 intent.putExtras(bundle);
                 startActivityForResult(intent,3);
@@ -158,6 +175,18 @@ public class update_doing extends AppCompatActivity {
             }
             ArrayAdapter<CItem> myaAdapter = new ArrayAdapter<CItem>(update_doing.this,  android.R.layout.simple_list_item_1, lst);
             dtype.setAdapter(myaAdapter);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        String select_type = "select * from doingtype where type_id='" + dtype_id + "'";
+        try {
+            connect = CONN(un, passwords, db, ip);
+            stmt = connect.prepareStatement(select_type);
+            rs = stmt.executeQuery();
+            while (rs.next()) {
+                dtype.setSelection(Integer.parseInt(rs.getString("type_id"))-1);
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -198,18 +227,17 @@ public class update_doing extends AppCompatActivity {
         if (1 == resultCode && 1 == requestCode){
             dtime_startt = data.getStringExtra("startt");
             dtime_endt = data.getStringExtra("endt");
-            dtime.setText(dtime_startt+ " ~ " + dtime_endt);
+            dtime.setText(dtime_startt+ "~" + dtime_endt);
         }
         if (2 == resultCode && 2 == requestCode){
             ddtime_startt = data.getStringExtra("startt");
             ddtime_endt = data.getStringExtra("endt");
-            ddtime.setText(ddtime_startt+ " ~ " + ddtime_endt);
+            ddtime.setText(ddtime_startt+ "~" + ddtime_endt);
         }
         if (3 == resultCode && 3 == requestCode){
-            d_condition = data.getStringExtra("condition");
-//            dcondition_c = data.getStringExtra("condition_chinese");
-//            dcondition_n = data.getStringExtra("condition_number");
-            dcondition.setText("設定完成");
+            dcondition_c = data.getStringExtra("condition_chinese");
+            dcondition_n = data.getStringExtra("condition_number");
+            dcondition.setText(dcondition_c);
         }
     }
     private Button.OnClickListener btnaddonclick = new Button.OnClickListener() {
@@ -272,7 +300,7 @@ public class update_doing extends AppCompatActivity {
                         "type_id='"+ str + "',"+
                         "doing_start='"+ dtime_startt + "',"+
                         "doing_end='"+ dtime_endt + "',"+
-                        "parner_id='"+ d_condition + "',"+
+                        "parner_id='"+ dcondition_n + "',"+
                         "totalpeople='"+ dpeople + "',"+
                         "doing_place='"+ dplace.getText().toString() + "',"+
                         "doing_content='"+ ddetails.getText().toString() + "',"+
@@ -280,7 +308,6 @@ public class update_doing extends AppCompatActivity {
                         "sign_end='"+ ddtime_endt + "',"+
                         "pay_money='"+ dmoney.getText().toString()+ "'"+
                         " where doing_id='78'";
-
                 try {
                     connect = CONN(un, passwords, db, ip);
                     stmt = connect.prepareStatement(query_update);
