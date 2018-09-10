@@ -15,8 +15,6 @@ android:background="#FFFFFF">
     android:layout_alignParentLeft="true"
     android:layout_alignParentTop="true"
     android:textSize="12sp"
-    android:text=""
-    android:textColor="#ffffff"
     />
 
 <Button

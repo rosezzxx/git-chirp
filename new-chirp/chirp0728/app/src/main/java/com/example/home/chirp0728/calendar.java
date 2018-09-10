@@ -9,7 +9,6 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.TextView;
 import android.widget.Toast;
 import com.github.sundeepk.compactcalendarview.CompactCalendarView;
 import com.github.sundeepk.compactcalendarview.domain.Event;
@@ -78,14 +77,12 @@ public class calendar extends AppCompatActivity {
         setContentView(R.layout.activity_calendar);
 
         final ActionBar actionBar = getSupportActionBar();
-        actionBar.setTitle("查看行事曆");
-        //actionBar.setDisplayHomeAsUpEnabled(false);
-        final Date dt=new Date();
+        actionBar.setDisplayHomeAsUpEnabled(false);
+        Date dt=new Date();
+        actionBar.setTitle(dateFormatForMonth.format(dt));
 
 
 
-        final TextView month = (TextView)findViewById(R.id.textView15);
-        month.setText(dateFormatForMonth.format(dt));
 
         compactCalendar =  (CompactCalendarView) findViewById(R.id.compactcalendar_view);
         compactCalendar.setUseThreeLetterAbbreviation(true);
@@ -169,7 +166,6 @@ public class calendar extends AppCompatActivity {
             @Override
             public void onMonthScroll(Date firstDayOfNewMonth) {
                 //actionBar.setTitle(dateFormatForMonth.format(firstDayOfNewMonth));
-                month.setText(dateFormatForMonth.format(firstDayOfNewMonth));
             }
         });
     }

@@ -44,6 +44,9 @@ public class my_foundActivity extends Fragment {
     String[] array_address =new String[data_address.size()];
     ArrayList<String> data_time = new ArrayList<String>();  //活動時間
     String[] array_time =new String[data_time.size()];
+    ArrayList<String> data_type = new ArrayList<String>();  //活動類別
+    String[] array_type =new String[data_type.size()];
+
     String type_id="%";
     List<Map<String, Object>> items = new ArrayList<Map<String, Object>>();
 
@@ -74,19 +77,22 @@ public class my_foundActivity extends Fragment {
 
         //--------創辦列表-----------
         ListView listview = (ListView)view.findViewById(R.id.my_found_listview);
-        String query = "select * from doing " +
-                "where account_id='"+userid+"' ";
+        String query = "select * from doing a  " +
+                " inner join doingtype b on a.type_id=b.type_id " +
+                " where account_id='"+userid+"'";
 
 
         data_id.clear();
         data_name.clear();
         data_address.clear();
         data_time.clear();
+        data_type.clear();
         items.clear();
         array_id=new String[data_id.size()];
         array_name=new String[data_name.size()];
         array_address=new String[data_address.size()];
         array_time=new String[data_time.size()];
+        array_type=new String[data_type.size()];
 
         try {
             connect = CONN(un, passwords, db, ip);
@@ -98,10 +104,12 @@ public class my_foundActivity extends Fragment {
                 String name =rs.getString("doing_name");
                 String address =rs.getString("doing_place");
                 String time=""+(rs.getString("doing_start")).substring(0,16)+"~"+(rs.getString("doing_end")).substring(0,16);
+                String type =rs.getString("type_name")+"版";
                 data_id.add(id);
                 data_name.add(name);
                 data_address.add(address);
                 data_time.add(time);
+                data_type.add(type);
             }
 
 
@@ -109,6 +117,7 @@ public class my_foundActivity extends Fragment {
             array_id=data_id.toArray(array_id);
             array_address=data_address.toArray(array_address);
             array_time=data_time.toArray(array_time);
+            array_type=data_type.toArray(array_type);
             SimpleAdapter adapter;
 
 
@@ -117,10 +126,11 @@ public class my_foundActivity extends Fragment {
                 item.put("name",array_name[i]);
                 item.put("address",array_address[i]);
                 item.put("time",array_time[i]);
+                item.put("type",array_type[i]);
                 items.add(item);
             }
 
-            adapter = new SimpleAdapter(getContext(),items,R.layout.activity_dolist, new String[]{"name","address","time"},new int[]{R.id.item_title_tv,R.id.item_content_address,R.id.item_content_time});
+            adapter = new SimpleAdapter(getContext(),items,R.layout.activity_dolist, new String[]{"name","address","time","type"},new int[]{R.id.item_title_tv,R.id.item_content_address,R.id.item_content_time,R.id.item_title_type});
             adapter.notifyDataSetChanged();
             listview.setAdapter(adapter);
 

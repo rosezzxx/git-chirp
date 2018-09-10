@@ -80,7 +80,7 @@
                 android:layout_height="45dp"
                 android:ems="10"
                 android:layout_marginLeft="5dp"
-                android:inputType="number"
+                android:inputType="textPersonName"
                 android:background="@drawable/updown"
                 android:layout_gravity="center"
                 android:hint=" 填寫人數" />

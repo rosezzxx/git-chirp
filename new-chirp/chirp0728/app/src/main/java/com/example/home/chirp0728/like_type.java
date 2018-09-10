@@ -1,19 +1,17 @@
 package com.example.home.chirp0728;
 
-
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Bundle;
 import android.os.StrictMode;
-import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import java.sql.Connection;
@@ -26,11 +24,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+public class like_type extends AppCompatActivity {
 
-/**
- * A simple {@link Fragment} subclass.
- */
-public class my_go extends Fragment {
+
 
     String ip, db, un, passwords;
     Connection connect;
@@ -48,41 +44,31 @@ public class my_go extends Fragment {
     ArrayList<String> data_type = new ArrayList<String>();  //活動類別
     String[] array_type =new String[data_type.size()];
 
+
     String type_id="%";
     List<Map<String, Object>> items = new ArrayList<Map<String, Object>>();
 
 
-    public my_go() {
-        // Required empty public constructor
-    }
-
-
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_my_go,container,false);
-        initListView(view);
-        return  view;
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_like_type);
 
-        //return inflater.inflate(R.layout.fragment_my_go, container, false);
-    }
 
-    private void initListView(View view) {
-
+        Toast.makeText(like_type.this,"1",Toast.LENGTH_SHORT).show();
         ip = "140.131.114.241";
         un = "chirp2018";
         passwords = "chirp+123";
         db = "107-chirp";
 
 
-        //--------參加列表-----------
-        ListView listview = (ListView)view.findViewById(R.id.my_go_listview);
+        //--------活動列表-----------
+        ListView listview = (ListView)findViewById(R.id.like_type_listview_view);
+        listview.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1));
 
-        SharedPreferences preferences = this.getActivity().getSharedPreferences("User", Context.MODE_PRIVATE);
-        String userid = preferences.getString("Name" , "0"); //抓SharedPreferences內Name值
-        String query = "select * from  mygo_view " +
-                "where account_id2='"+userid+"'";
+
+        //type_id=((MainActivity)getActivity()).get_type_id();    //分類id
+
 
         data_id.clear();
         data_name.clear();
@@ -95,6 +81,20 @@ public class my_go extends Fragment {
         array_address=new String[data_address.size()];
         array_time=new String[data_time.size()];
         array_type=new String[data_type.size()];
+
+        SharedPreferences sharedPreferences = getSharedPreferences("User" , MODE_PRIVATE); //建立SharedPreferences
+        String userid = sharedPreferences.getString("Name" , "0"); //抓SharedPreferences內Name值
+
+        String query = "select * from doing_view  " +
+                " where type_id in  " +
+                " (select subscription_content from subscription  " +
+                " where subscription_type='2'  and account_id='"+userid+"') " +
+                "  or " +
+                "   account_id in " +
+                "  (select subscription_content from subscription " +
+                "   where " +
+                "   subscription_type='1'  and account_id='"+userid+"') " +
+                " order by doing_start";
 
         try {
             connect = CONN(un, passwords, db, ip);
@@ -132,14 +132,35 @@ public class my_go extends Fragment {
                 items.add(item);
             }
 
-            adapter = new SimpleAdapter(getContext(),items,R.layout.activity_dolist, new String[]{"name","address","time","type"},new int[]{R.id.item_title_tv,R.id.item_content_address,R.id.item_content_time,R.id.item_title_type});
+            adapter = new SimpleAdapter(this,items,R.layout.activity_dolist, new String[]{"name","address","time","type"},new int[]{R.id.item_title_tv,R.id.item_content_address,R.id.item_content_time,R.id.item_title_type});
             adapter.notifyDataSetChanged();
             listview.setAdapter(adapter);
 
-//            ArrayAdapter NoCoreAdapter = new ArrayAdapter(getContext(),android.R.layout.simple_list_item_1, array_name);
-//            listview.setAdapter(NoCoreAdapter);
-
             listview.setOnItemClickListener(onClickListView);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+
+
+
+        Spinner spinner = (Spinner)findViewById(R.id.like_type);
+
+        String query2 = " select * from doingtype ";
+
+        try {
+            connect = CONN(un, passwords, db, ip);
+            stmt = connect.prepareStatement(query);
+            rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                String id =rs.getString("doing_id");
+
+            }
+
+
+
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -151,23 +172,27 @@ public class my_go extends Fragment {
 
 
 
+
+
+
+
     }
 
+
+
+    //---------查看活動詳細內容-----------------------------------------
     private AdapterView.OnItemClickListener onClickListView = new AdapterView.OnItemClickListener(){
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-
-
             Intent intent = new Intent();
-            intent.setClass(getContext(),deatial.class);
+            intent.setClass(like_type.this,deatial.class);
             Bundle bundle=new Bundle();
             bundle.putString("doing_id",array_id[position].toString());
             intent.putExtras(bundle);
             startActivity(intent);
         }
     };
-    
 
 
     private Connection CONN(String _user, String _pass, String _DB,
@@ -193,6 +218,8 @@ public class my_go extends Fragment {
         }
         return conn;
     }
+
+
 
 
 }

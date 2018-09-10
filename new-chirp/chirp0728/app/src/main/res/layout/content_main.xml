@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 
-<android.support.design.widget.CoordinatorLayout xmlns:tools="http://schemas.android.com/tools"
+<RelativeLayout xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_content"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#DDDDDD">
+    android:background="#DDDDDD"
+    >
 
 
 
-    <android.support.v7.widget.CardView
+    <!--<android.support.v7.widget.CardView
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
@@ -102,15 +103,36 @@
             </LinearLayout>
 
         </LinearLayout>
-    </android.support.v7.widget.CardView>
+    </android.support.v7.widget.CardView>-->
+
+
+
+
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:background="#DDDDDD"
+
         tools:context="com.example.asus.chirp.tabtest">
+
+        <TextView
+            android:id="@+id/spp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:layout_marginLeft="3dp"
+            android:layout_weight="1"
+            android:text=""/>
+
+
+        <ListView
+            android:id="@+id/listview_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/spp"
+            android:layout_marginBottom="55dp"/>
 
 
 
@@ -121,7 +143,8 @@
             android:minHeight="?attr/actionBarSize"
             android:layout_alignParentBottom="true"
             android:background="#3b5998"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:id="@+id/linearLayout">
 
 
             <TableLayout
@@ -172,7 +195,7 @@
                         android:orientation="horizontal">
 
                         <Button
-                            android:id="@+id/search"
+                            android:id="@+id/button9"
                             android:layout_width="50dp"
                             android:layout_height="50dp"
                             android:background="@drawable/searchh" />
@@ -184,14 +207,17 @@
 
     </RelativeLayout>
 
+
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fabadd"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom|right"
-        android:layout_marginRight="16dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
         android:layout_marginBottom="60dp"
         app:srcCompat="@android:drawable/ic_input_add"
-        app:layout_anchorGravity="bottom|right|end"
-        tools:layout_editor_absoluteY="547dp" />
-</android.support.design.widget.CoordinatorLayout>
+        />
+
+
+
+</RelativeLayout>

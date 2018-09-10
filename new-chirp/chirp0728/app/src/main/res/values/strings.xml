@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">揪起來0728</string>
+    <string name="app_name">揪起來</string>
     <string name="app_name2"></string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -44,4 +44,5 @@
 
     <!--fbid-->
     <string name="facebook_app_id">1869772153034615</string>
+    <string name="title_activity_mydoing">mydoing</string>
 </resources>

@@ -6,35 +6,35 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_home"
-            android:icon="@drawable/house"
+            android:icon="@drawable/ic_menu_camera"
             android:title="首頁" />
         <item
             android:id="@+id/nav_gallery"
-            android:icon="@drawable/heart"
+            android:icon="@drawable/ic_menu_gallery"
             android:title="訂閱" />
         <item
             android:id="@+id/nav_slideshow"
-            android:icon="@drawable/flag"
+            android:icon="@drawable/ic_menu_slideshow"
             android:title="活動管理" />
         <item
             android:id="@+id/nav_manage"
-            android:icon="@drawable/manypeople"
+            android:icon="@drawable/ic_menu_manage"
             android:title="好友管理" />
         <item
             android:id="@+id/nav_schedule"
-            android:icon="@drawable/calendar"
+            android:icon="@drawable/ic_menu_manage"
             android:title="查看行事曆" />
         <item
             android:id="@+id/nav_lead"
-            android:icon="@drawable/message"
+            android:icon="@drawable/ic_menu_manage"
             android:title="留言管理" />
         <item
             android:id="@+id/nav_access"
-            android:icon="@drawable/userr"
+            android:icon="@drawable/ic_menu_manage"
             android:title="帳號管理" />
         <item
             android:id="@+id/nav_out"
-            android:icon="@drawable/logout"
+            android:icon="@drawable/ic_menu_manage"
             android:title="登出" />
     </group>
 
