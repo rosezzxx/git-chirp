@@ -11,16 +11,16 @@
 
     <LinearLayout
         android:layout_width="340dp"
-        android:layout_height="65dp"
+        android:layout_height="50dp"
         android:layout_marginTop="10dp"
         android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
+        android:layout_marginRight="7dp"
         android:orientation="horizontal">
 
         <EditText
-            android:id="@+id/editText"
+            android:id="@+id/keyword"
             android:layout_width="340dp"
-            android:layout_height="65dp"
+            android:layout_height="50dp"
             android:layout_marginRight="7dp"
             android:layout_marginBottom="5dp"
             android:layout_marginTop="3dp"
@@ -29,6 +29,13 @@
             android:inputType="textPersonName"
             android:hint=" 請輸入關鍵字"
             android:text="" />
+
+        <!--<Button-->
+            <!--android:id="@+id/button2"-->
+            <!--android:layout_width="60dp"-->
+            <!--android:layout_height="50dp"-->
+            <!--android:background="@drawable/search"-->
+            <!--android:text="" />-->
 
     </LinearLayout>
 
@@ -60,13 +67,12 @@
             android:textSize="18sp" />
 
         <EditText
-            android:id="@+id/editText2"
+            android:id="@+id/datetime"
             android:layout_width="250dp"
             android:layout_height="40dp"
             android:ems="10"
-            android:inputType="textPersonName"
+            android:inputType="none"
             android:layout_gravity="center_vertical"
-            android:background="@drawable/timese"
             android:hint=" 不拘"
             android:text="" />
     </LinearLayout>
@@ -99,13 +105,13 @@
             android:textSize="18sp" />
 
         <EditText
-            android:id="@+id/editText3"
+            android:id="@+id/location"
             android:layout_width="250dp"
             android:layout_height="40dp"
             android:ems="10"
             android:inputType="textPersonName"
             android:layout_gravity="center_vertical"
-            android:background="@drawable/timese"
+
             android:hint=" 不拘"
             android:text="" />
     </LinearLayout>
@@ -137,16 +143,29 @@
             android:text="類別"
             android:textSize="18sp" />
 
-        <EditText
-            android:id="@+id/editText4"
+
+        <Spinner
+            android:id="@+id/dtype"
             android:layout_width="250dp"
             android:layout_height="40dp"
+            android:layout_gravity="center_vertical"
             android:ems="10"
             android:inputType="textPersonName"
-            android:layout_gravity="center_vertical"
-            android:background="@drawable/timese"
-            android:hint=" 不拘"
-            android:text="" />
+            android:background="@drawable/spinner"
+            android:entries="@array/dtype"
+            android:spinnerMode="dialog" />
+
+
+        <!--<EditText-->
+            <!--android:id="@+id/editText4"-->
+            <!--android:layout_width="250dp"-->
+            <!--android:layout_height="40dp"-->
+            <!--android:ems="10"-->
+            <!--android:inputType="textPersonName"-->
+            <!--android:layout_gravity="center_vertical"-->
+            <!--android:background="@drawable/timese"-->
+            <!--android:hint=" 不拘"-->
+            <!--android:text="" />-->
 
     </LinearLayout>
 

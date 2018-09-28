@@ -172,45 +172,45 @@ public class update_condition extends AppCompatActivity {
 
             String par="";
             String par_name = "";
-                if (ckb1.isChecked() == true) {
-                    par = par + "1,";
-                    par_name = par_name + "15-20歲,";
-                }
-                if (ckb2.isChecked() == true) {
-                    par = par + "2,";
-                    par_name = par_name + "20-30歲,";
-                }
-                if (ckb3.isChecked() == true) {
-                    par = par + "3,";
-                    par_name = par_name + "30-40歲,";
-                }
-                if (ckb4.isChecked() == true) {
-                    par = par + "4,";
-                    par_name = par_name + "40-50歲,";
-                }
-                if (ckb5.isChecked() == true) {
-                    par = par + "5,";
-                    par_name = par_name + "50歲以上,";
-                }
-                if (ckb6.isChecked() == true) {
-                    par = par + "6,";
-                    par_name = par_name + "男,";
-                }
-                if (ckb7.isChecked() == true) {
-                    par = par + "7,";
-                    par_name = par_name + "女,";
-                }
-                if (ckb8.isChecked() == true) {
-                    par = "8,";
-                    par_name = par_name + "無條件";
-                }
+            if (ckb1.isChecked() == true) {
+                par = par + "1,";
+                par_name = par_name + "15-20歲,";
+            }
+            if (ckb2.isChecked() == true) {
+                par = par + "2,";
+                par_name = par_name + "20-30歲,";
+            }
+            if (ckb3.isChecked() == true) {
+                par = par + "3,";
+                par_name = par_name + "30-40歲,";
+            }
+            if (ckb4.isChecked() == true) {
+                par = par + "4,";
+                par_name = par_name + "40-50歲,";
+            }
+            if (ckb5.isChecked() == true) {
+                par = par + "5,";
+                par_name = par_name + "50歲以上,";
+            }
+            if (ckb6.isChecked() == true) {
+                par = par + "6,";
+                par_name = par_name + "男,";
+            }
+            if (ckb7.isChecked() == true) {
+                par = par + "7,";
+                par_name = par_name + "女,";
+            }
+            if (ckb8.isChecked() == true) {
+                par = "8,";
+                par_name = par_name + "無條件";
+            }
 
-                Intent Intent = new Intent();
+            Intent Intent = new Intent();
 
-                Intent.putExtra("condition_number", par);
-                Intent.putExtra("condition_chinese", par_name);
-                setResult(3, Intent);
-                finish();
+            Intent.putExtra("condition_number", par);
+            Intent.putExtra("condition_chinese", par_name);
+            setResult(3, Intent);
+            finish();
 
 
         }

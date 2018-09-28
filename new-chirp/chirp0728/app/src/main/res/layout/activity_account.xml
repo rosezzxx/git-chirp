@@ -106,6 +106,19 @@
         android:spinnerMode="dialog" />
 
     <Button
+        android:id="@+id/btnnext"
+        android:layout_width="340dp"
+        android:layout_height="45dp"
+        android:layout_gravity="center"
+        android:background="#3b5998"
+        android:gravity="center"
+        android:text="下一步"
+        android:textColor="#FFF"
+        android:textStyle="bold"
+        android:typeface="sans" />
+
+    <!--
+    <Button
         android:id="@+id/update"
         android:layout_width="340dp"
         android:layout_height="45dp"
@@ -113,5 +126,5 @@
         android:layout_marginBottom="10dp"
         android:background="@drawable/update"
         android:layout_gravity="center"
-        android:text="" />
+        android:text="" />-->
 </LinearLayout>

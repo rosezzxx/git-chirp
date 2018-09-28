@@ -7,8 +7,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#DDDDDD"
-    >
+    android:background="#DDDDDD">
 
 
 
@@ -103,21 +102,19 @@
             </LinearLayout>
 
         </LinearLayout>
-    </android.support.v7.widget.CardView>-->
-
-
-
-
+    </android.support.v7.widget.CardView> -->
+	
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-
+        android:background="#DDDDDD"
         tools:context="com.example.asus.chirp.tabtest">
 
-        <TextView
+
+		 <TextView
             android:id="@+id/spp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -126,16 +123,15 @@
             android:layout_weight="1"
             android:text=""/>
 
+			
 
-        <ListView
+		<ListView
             android:id="@+id/listview_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/spp"
             android:layout_marginBottom="55dp"/>
-
-
-
+			
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -195,7 +191,7 @@
                         android:orientation="horizontal">
 
                         <Button
-                            android:id="@+id/button9"
+                            android:id="@+id/search"
                             android:layout_width="50dp"
                             android:layout_height="50dp"
                             android:background="@drawable/searchh" />
@@ -207,17 +203,14 @@
 
     </RelativeLayout>
 
-
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fabadd"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
+        android:layout_gravity="bottom|right"
+        android:layout_marginRight="16dp"
         android:layout_marginBottom="60dp"
         app:srcCompat="@android:drawable/ic_input_add"
-        />
-
-
-
+        app:layout_anchorGravity="bottom|right|end"
+        tools:layout_editor_absoluteY="547dp" />
 </RelativeLayout>

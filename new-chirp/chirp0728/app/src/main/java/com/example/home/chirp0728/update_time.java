@@ -28,29 +28,16 @@ public class update_time extends AppCompatActivity {
 
         Intent intent = getIntent();
         String dtime = intent.getStringExtra("dtime_ok");
-        Toast.makeText(update_time.this,dtime, Toast.LENGTH_SHORT).show();
+
         startdate = (EditText)findViewById(R.id.startdate);
         starttime = (EditText)findViewById(R.id.starttime);
         enddate = (EditText)findViewById(R.id.enddate);
         endtime = (EditText)findViewById(R.id.endtime);
 
-        if(dtime.equals("")==false){
-            String dtime_start = dtime.substring(0,dtime.indexOf("~"));
-            String dtime_start_date = dtime_start.substring(0,dtime_start.indexOf(" "));
-            String dtime_start_time = dtime_start.substring(dtime_start.indexOf(" ")+1,dtime_start.length());
-            String dtime_end = dtime.substring(dtime.indexOf("~")+1,dtime.length());
-            String dtime_end_date = dtime_end.substring(0,dtime_end.indexOf(" "));
-            String dtime_end_time = dtime_end.substring(dtime_end.indexOf(" ")+1,dtime_end.length());
 
-            startdate.setText(dtime_start_date.replaceAll("-",""));
-            starttime.setText(dtime_start_time);
-            stime = dtime_start_time.replaceAll(":","");
-            enddate.setText(dtime_end_date.replaceAll("-",""));
-            endtime.setText(dtime_end_time);
-            etime = dtime_end_time.replaceAll(":","");
-        }
 
-       startdate.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+
+        startdate.setOnFocusChangeListener(new View.OnFocusChangeListener() {
 
             @Override
             public void onFocusChange(View v, boolean hasFocus) {

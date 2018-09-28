@@ -62,13 +62,6 @@ public class message extends AppCompatActivity {
         setContentView(R.layout.activity_message);
 
 
-
-
-
-
-
-
-
         ip = "140.131.114.241";
         un = "chirp2018";
         passwords = "chirp+123";
@@ -152,7 +145,7 @@ public class message extends AppCompatActivity {
 
 
                 SharedPreferences sharedPreferences = getSharedPreferences("User" , MODE_PRIVATE); //建立SharedPreferences
-                String userid = sharedPreferences.getString("Name" , "0"); //抓SharedPreferences內Name值
+                String userid = sharedPreferences.getString("id" , "0"); //抓SharedPreferences內Name值
 
                 EditText content = (EditText)findViewById(R.id.content);
 

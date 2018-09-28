@@ -111,12 +111,40 @@ public class MainActivity extends AppCompatActivity
 
             //String query = "select * from doing where type_id like '"+type_id+"' ";
 
+            final String  search,keyword,datetime,location,dtype;
+            Bundle bundle =getIntent().getExtras(); //抓前一頁變數
 
-            String query = "select * from doing_view " +
-                    " where doing_name like '%%' or doing_content like '%%' or type_name like '%%' " +
+
+
+
+            String query="";
+
+        if (bundle != null && bundle.containsKey("search") ){
+            search=bundle.getString("search"); // search
+
+            if(search.equals("search")){ //搜尋來的
+
+                keyword=bundle.getString("keyword"); //關鍵字
+                datetime=bundle.getString("datetime"); // 時間
+                location=bundle.getString("location"); // 地點
+                dtype=bundle.getString("dtype"); // 類別
+
+                query = "select * from doing_view " +
+                        " where doing_name like '%"+keyword+"%' and doing_start   >=  '"+datetime+"' and  doing_place like '%"+location+"%'  and  type_id like '%"+dtype+"%' " +
+                        " order by doing_start";
+            }
+
+        }else{
+            query = "select * from doing_view " +
                     " order by doing_start";
+        }
 
-            try {
+
+
+
+
+
+        try{
                 connect = CONN(un, passwords, db, ip);
                 stmt = connect.prepareStatement(query);
                 rs = stmt.executeQuery();
@@ -170,7 +198,7 @@ public class MainActivity extends AppCompatActivity
         //----搜尋---------------------------------------
 
 
-        Button button9=(Button)findViewById(R.id.button9);
+        Button button9=(Button)findViewById(R.id.search);
         button9.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
@@ -212,6 +240,7 @@ public class MainActivity extends AppCompatActivity
             bundle.putString("doing_id",array_id[position].toString());
             intent.putExtras(bundle);
             startActivity(intent);
+
         }
     };
 
@@ -284,7 +313,10 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_home) {  //首頁
+            Intent intent = new Intent();
+            intent.setClass(MainActivity.this,MainActivity.class);
 
+            startActivity(intent);
             // Handle the camera action
         } else if (id == R.id.nav_gallery) {  //訂閱
             Intent intent = new Intent();
@@ -297,6 +329,9 @@ public class MainActivity extends AppCompatActivity
             Toast.makeText(this, "1", Toast.LENGTH_SHORT).show();
 
         } else if (id == R.id.nav_manage) {  //好友管理
+			Intent intent = new Intent();
+            intent.setClass(MainActivity.this,friends_list.class);
+            startActivity(intent);
 
         } else if (id == R.id.nav_schedule) {  //查看行事曆
             Intent intent = new Intent();
@@ -305,10 +340,22 @@ public class MainActivity extends AppCompatActivity
 
 
         } else if (id == R.id.nav_lead) {  //留言管理
+			Intent intent = new Intent();
+            intent.setClass(MainActivity.this,lookmessage.class);
+            startActivity(intent);
 
         }else if (id == R.id.nav_access) {  //帳號管理
+			Intent intent = new Intent();
+            intent.setClass(MainActivity.this,account.class);
+            startActivity(intent);
 
-        }else if (id == R.id.nav_out) {  //登出
+        }else if (id == R.id.sensor) {  //搖一搖
+            Intent intent = new Intent();
+            intent.setClass(MainActivity.this,sensor.class);
+            startActivity(intent);
+
+        }
+        else if (id == R.id.nav_out) {  //登出
 
         }
 

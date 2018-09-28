@@ -80,9 +80,10 @@ public class my_go extends Fragment {
         ListView listview = (ListView)view.findViewById(R.id.my_go_listview);
 
         SharedPreferences preferences = this.getActivity().getSharedPreferences("User", Context.MODE_PRIVATE);
-        String userid = preferences.getString("Name" , "0"); //抓SharedPreferences內Name值
+        String userid = preferences.getString("id" , "0"); //抓SharedPreferences內Name值
         String query = "select * from  mygo_view " +
-                "where account_id2='"+userid+"'";
+                "where account_id2='"+userid+"'  " +
+                "  order by doing_start ";
 
         data_id.clear();
         data_name.clear();

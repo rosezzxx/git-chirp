@@ -73,13 +73,14 @@ public class my_foundActivity extends Fragment {
         db = "107-chirp";
 
         SharedPreferences preferences = this.getActivity().getSharedPreferences("User", Context.MODE_PRIVATE);
-        String userid = preferences.getString("Name" , "0"); //抓SharedPreferences內Name值
+        String userid = preferences.getString("id" , "0"); //抓SharedPreferences內Name值
 
         //--------創辦列表-----------
         ListView listview = (ListView)view.findViewById(R.id.my_found_listview);
         String query = "select * from doing a  " +
                 " inner join doingtype b on a.type_id=b.type_id " +
-                " where account_id='"+userid+"'";
+                " where account_id='"+userid+"'  " +
+                " order by doing_start ";
 
 
         data_id.clear();

@@ -3,6 +3,7 @@ package com.example.home.chirp0728;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.annotation.NonNull;
@@ -14,10 +15,16 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
+import com.facebook.FacebookActivity;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
+import com.facebook.Profile;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.google.android.gms.auth.api.Auth;
@@ -33,7 +40,7 @@ import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.GoogleAuthProvider;
-
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -42,77 +49,26 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import android.content.Intent;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
-
-import com.facebook.CallbackManager;
-import com.facebook.FacebookCallback;
-import com.facebook.FacebookException;
-import com.facebook.FacebookSdk;
-import com.facebook.login.LoginManager;
-import com.facebook.login.LoginResult;
-import com.facebook.login.widget.LoginButton;
-import com.google.android.gms.auth.api.Auth;
-import com.google.android.gms.auth.api.signin.GoogleSignIn;
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.android.gms.auth.api.signin.GoogleSignInApi;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.auth.api.signin.GoogleSignInResult;
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.SignInButton;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthCredential;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseAuthException;
-import com.google.firebase.auth.GoogleAuthProvider;
-
-import java.io.IOError;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-
-import android.annotation.SuppressLint;
-import android.content.Intent;
-import android.os.Bundle;
-import android.os.StrictMode;
-import android.support.v7.app.AppCompatActivity;
-import android.util.AndroidRuntimeException;
-import android.util.Log;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemSelectedListener;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.Spinner;
-import android.widget.Toast;
-import android.content.SharedPreferences;
-
-import java.util.Arrays;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class login extends AppCompatActivity {
 
     int sum = 0;
-    String total;
+    int sum_fb = 0;
+    String total,total_google;
+    String total_fb;
     String accountid;
+    String accountid_Fb;
 
 
     Connection con;
     String ip, db, un, passwords;
-    Connection connect;
-    PreparedStatement stmt;
-    ResultSet rs;
+    String ip2, db2, un2, passwords2;
+    String ip3, db3, un3, passwords3;
+    Connection connect,connect2,connect3;
+    PreparedStatement stmt,stmt2,stmt3,stmt4,stmt5;
+    ResultSet rs,rs2,rs3,rs4,rs5;
 
     @SuppressLint("NewApi")
     private Connection CONN(String _user, String _pass, String _DB, String _server) {
@@ -148,20 +104,20 @@ public class login extends AppCompatActivity {
     private SignInButton mGoogleBtn;
     public static  final int RC_SIGN_IN = 1;
     private FirebaseAuth mAuth;
-    private FirebaseAuth .AuthStateListener mAuthListener;
+    private FirebaseAuth.AuthStateListener mAuthListener;
     private static final String TAG = "MAIN_ACTIVITY";
-
-
+    private AccessToken accessToken;
+    private String fbemail,fbname,fbid,fbimgid,googlemail,googlename,googleid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        //建立FacebookManger
         FacebookSdk.sdkInitialize(getApplicationContext());
         callbackManager = CallbackManager.Factory.create();
 
         setContentView(R.layout.activity_login);
-
 
         //google
         // Configure Google Sign In
@@ -197,17 +153,15 @@ public class login extends AppCompatActivity {
             }
         });
 
-
-
         //fb登入
+
         info = (TextView)findViewById(R.id.info);
         loginButton = (Button)findViewById(R.id.fb_login);
 
         loginButton.setOnClickListener(new Button.OnClickListener(){
-
             @Override
             public void onClick(View v) {
-                LoginManager.getInstance().logInWithReadPermissions(login.this, Arrays.asList("public_profile", "user_friends"));
+                LoginManager.getInstance().logInWithReadPermissions(login.this, Arrays.asList("public_profile", "user_friends", "email"));
             }
         });
 
@@ -215,10 +169,101 @@ public class login extends AppCompatActivity {
         LoginManager.getInstance().registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
-                info.setText("User ID:  " +
-                        loginResult.getAccessToken().getUserId() + "\n" +
-                        "Auth Token: " + loginResult.getAccessToken().getToken());
-            }
+
+                //Toast.makeText(login.this, "123", Toast.LENGTH_SHORT).show();
+                accessToken = loginResult.getAccessToken();
+                GraphRequest request = GraphRequest.newMeRequest(accessToken, new GraphRequest.GraphJSONObjectCallback() {
+                            //當RESPONSE回來的時候
+                            @Override
+                            public void onCompleted(JSONObject object, GraphResponse response) {
+                                //讀出姓名、ID、網頁連結
+                                Log.d("FB" , "complete");
+                                Log.d("FB" , object.optString("name"));
+                                Log.d("FB" , object.optString("link"));
+                                Log.d("FB" , object.optString("id"));
+                                Log.d("FB" , object.optString("email"));
+
+                                try {
+                                    fbemail = object.getString("email");
+                                    fbname = object.getString("name");
+                                    fbid = object.getString("id");
+
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                                Toast.makeText(login.this, fbid, Toast.LENGTH_SHORT).show();
+
+                                //檢查第一次登入
+                                ip2 = "140.131.114.241";
+                                un2 = "chirp2018";
+                                passwords2 = "chirp+123";
+                                db2 = "107-chirp";
+                                String query2 = "SELECT count(*) as total FROM account Where account_id = '"+fbemail+"' ";
+                                try {
+                                    connect2 = CONN(un2, passwords2, db2, ip2);
+                                    stmt2 = connect2.prepareStatement(query2);
+                                    rs2 = stmt2.executeQuery();
+                                    ArrayList<String> data3 = new ArrayList<String>();
+
+                                    while (rs2.next()) {
+                                        total_fb = rs2.getString("total");
+                                        data3.add(total_fb);
+                                    }
+
+                                    if (total_fb.equals("0")){
+                                        Toast.makeText(login.this, "第一次", Toast.LENGTH_SHORT).show();
+
+                                        //先新增資料至資料庫
+
+                                        String query3 = "INSERT INTO account(account_id,username)VALUES('"+fbemail+"','"+fbname+"')";
+                                        try {
+                                            connect2 = CONN(un2, passwords2, db2, ip2);
+                                            stmt3 = connect2.prepareStatement(query3);
+                                            rs3 = stmt3.executeQuery();
+
+                                        } catch (SQLException e) {
+                                            e.printStackTrace();
+                                        }
+
+                                        SharedPreferences settings = getSharedPreferences("User", MODE_PRIVATE);
+                                        // Writing data to SharedPreferences
+                                        SharedPreferences.Editor editor = settings.edit();
+                                        editor.putString("id", fbemail);
+                                        editor.putString("imgid", fbid);
+                                        editor.putString("Name", fbname);
+                                        editor.putString("way", "facebook");
+                                        editor.commit();
+                                        Intent intent = new Intent();
+                                        intent.setClass(login.this,account.class);
+                                        startActivity(intent);
+                                    }else{
+                                        Toast.makeText(login.this, "不是第一次使用facebook登入", Toast.LENGTH_SHORT).show();
+                                        SharedPreferences settings = getSharedPreferences("User", MODE_PRIVATE);
+                                        // Writing data to SharedPreferences
+                                        SharedPreferences.Editor editor = settings.edit();
+                                        editor.putString("id", fbemail);
+                                        editor.putString("way", "facebook");
+                                        editor.putString("name", fbname);
+                                        editor.putString("imgid", fbid);
+                                        editor.commit();
+                                        Intent intent = new Intent();
+                                        intent.setClass(login.this,MainActivity.class);
+                                        startActivity(intent);
+                                    }
+
+                                } catch (SQLException e) {
+                                    e.printStackTrace();
+                                }
+                                 //檢查第一次登入
+
+                            }});
+                //包入你想要得到的資料，送出 request
+                Bundle parameters = new Bundle();
+                parameters.putString("fields","id,name,link,email,gender");
+                request.setParameters(parameters);
+                request.executeAsync();
+                //Toast.makeText(login.this, fbemail, Toast.LENGTH_SHORT).show();
+        }
 
             @Override
             public void onCancel() {
@@ -235,25 +280,20 @@ public class login extends AppCompatActivity {
         //一般登入檢查
         Button login = (Button) findViewById(R.id.login);
         login.setOnClickListener(new View.OnClickListener() {
-
-
             @Override
             public void onClick(View v) {
                 EditText user_1 = (EditText)findViewById(R.id.user);
                 String userid = user_1.getText().toString();
                 EditText psw_1 = (EditText)findViewById(R.id.psw);
                 String psw_2 = psw_1.getText().toString();
-                SharedPreferences sharedPreferences = getSharedPreferences("User" , MODE_PRIVATE); //建立SharedPreferences
-
+                Toast.makeText(login.this, "123", Toast.LENGTH_SHORT).show();
+                //連線
                 ip = "140.131.114.241";
                 un = "chirp2018";
                 passwords = "chirp+123";
                 db = "107-chirp";
-                connect = CONN(un, passwords, db, ip);
                 String query = "SELECT account_id,count(*) as total FROM account Where account_id = '"+userid+"' and account_pwd = '"+psw_2+"' group by account_id";
-
                 try {
-
                     connect = CONN(un, passwords, db, ip);
                     stmt = connect.prepareStatement(query);
                     rs = stmt.executeQuery();
@@ -269,24 +309,24 @@ public class login extends AppCompatActivity {
                     }
 
                     if(sum == 1){
-
                         Toast.makeText(login.this, "登入成功", Toast.LENGTH_SHORT).show();
-
                         Intent intent = new Intent();
                         intent.setClass(login.this,MainActivity.class);
+
                         startActivity(intent);
 
+                        SharedPreferences settings = getSharedPreferences("User", MODE_PRIVATE);
+                        // Writing data to SharedPreferences
+                        SharedPreferences.Editor editor = settings.edit();
+                        editor.putString("id", accountid);
+                        editor.putString("way", "平台登入");
+                        editor.commit();
 
-                        sharedPreferences.edit().putString("Name", accountid).apply(); //存使用者id進sharedPreferences
 
                     }else{
                         Toast.makeText(login.this, "帳號密碼有誤，請重新輸入", Toast.LENGTH_SHORT).show();
 
                     }
-
-                    //Toast.makeText(login.this, total, Toast.LENGTH_SHORT).show();
-
-
 
                 } catch (SQLException e) {
                     e.printStackTrace();
@@ -316,7 +356,81 @@ public class login extends AppCompatActivity {
     }
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == RC_SIGN_IN){
+            GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
+            //Toast.makeText(login.this, "aaa", Toast.LENGTH_SHORT).show();
+            if (result.isSuccess()){
+                GoogleSignInAccount account = result.getSignInAccount();
+                firebaseAuthWithGoogle(account);
+                googlemail = account.getEmail();
+                googlename = account.getFamilyName() + account.getGivenName();
+                Toast.makeText(login.this, account.getEmail(), Toast.LENGTH_SHORT).show();
+                //檢查第一次登入
+                ip3 = "140.131.114.241";
+                un3 = "chirp2018";
+                passwords3 = "chirp+123";
+                db3 = "107-chirp";
+                String query4 = "SELECT count(*) as total FROM account Where account_id = '"+googlemail+"' ";
+                try {
+                    connect3 = CONN(un3, passwords3, db3, ip3);
+                    stmt4 = connect3.prepareStatement(query4);
+                    rs4 = stmt4.executeQuery();
+                    ArrayList<String> data_google = new ArrayList<String>();
+
+                    while (rs4.next()) {
+                        total_google = rs4.getString("total");
+                        data_google.add(total_google);
+                    }
+
+                    if (total_google.equals("0")){
+                        Toast.makeText(login.this, "第一次", Toast.LENGTH_SHORT).show();
+                        String query5 = "INSERT INTO account(account_id,username)VALUES('"+googlemail+"','"+googlename+"')";
+                        try {
+                            connect3 = CONN(un3, passwords3, db3, ip3);
+                            stmt5 = connect3.prepareStatement(query5);
+                            rs5 = stmt5.executeQuery();
+
+                        } catch (SQLException e) {
+                            e.printStackTrace();
+                        }
+                        SharedPreferences settings = getSharedPreferences("User", MODE_PRIVATE);
+                        // Writing data to SharedPreferences
+                        SharedPreferences.Editor editor = settings.edit();
+                        editor.putString("id",googlemail);
+                        editor.putString("Name", googlename);
+                        editor.putString("way", "Google");
+                        editor.commit();
+                        Intent intent2 = new Intent();
+                        intent2.setClass(login.this,account.class);
+                        startActivity(intent2);
+                    }else{
+                        Toast.makeText(login.this, "不是第一次使用Google登入", Toast.LENGTH_SHORT).show();
+                        SharedPreferences settings = getSharedPreferences("User", MODE_PRIVATE);
+                        // Writing data to SharedPreferences
+                        SharedPreferences.Editor editor = settings.edit();
+                        editor.putString("id",googlemail);
+                        editor.putString("Name", googlename);
+                        editor.putString("way", "Google");
+                        editor.commit();
+                        Intent intent2 = new Intent();
+                        intent2.setClass(login.this,MainActivity.class);
+                        startActivity(intent2);
+                    }
+
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+                //檢查第一次登入
+                Toast.makeText(login.this, "登入成功", Toast.LENGTH_SHORT).show();
+            }
+        }else{
+            callbackManager.onActivityResult(requestCode, resultCode, data);
+        }
+    }
+
+  /*@Override
+   public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
         // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
@@ -329,7 +443,7 @@ public class login extends AppCompatActivity {
                 firebaseAuthWithGoogle(account);
             }
         }
-    }
+    }*/
 
     private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
 
@@ -348,10 +462,8 @@ public class login extends AppCompatActivity {
                             Log.w(TAG, "signInWithCredential:failure", task.getException());
 
                         }
-
                         // ...
                     }
                 });
     }
-
 }
