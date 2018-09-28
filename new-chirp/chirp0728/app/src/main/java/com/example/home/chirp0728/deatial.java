@@ -8,7 +8,10 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.location.LocationListener;
 import android.location.LocationManager;
+<<<<<<< HEAD
 import android.net.Uri;
+=======
+>>>>>>> master
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.StrictMode;
@@ -18,7 +21,10 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+<<<<<<< HEAD
 import android.widget.ImageButton;
+=======
+>>>>>>> master
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,7 +38,17 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+<<<<<<< HEAD
 
+=======
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+>>>>>>> master
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -41,6 +57,7 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Locale;
 
+<<<<<<< HEAD
 
 
 import java.io.BufferedReader;
@@ -52,6 +69,8 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 
+=======
+>>>>>>> master
 public class deatial extends AppCompatActivity implements OnMapReadyCallback {
     private static String LOG_TAG = "deatial";
     private Button btn_query;
@@ -73,6 +92,14 @@ public class deatial extends AppCompatActivity implements OnMapReadyCallback {
     Connection connect;
     PreparedStatement stmt;
     ResultSet rs;
+<<<<<<< HEAD
+=======
+
+    String type_id=""; //類別id
+    String view_type_id="";  //是否訂閱類別id
+
+    String money2;
+>>>>>>> master
 
     String type_id=""; //類別id
     String view_type_id="";  //是否訂閱類別id
@@ -89,10 +116,13 @@ public class deatial extends AppCompatActivity implements OnMapReadyCallback {
 
 
 
+<<<<<<< HEAD
 
         et_address2 = (TextView)findViewById(R.id.addresss);
         et_address = et_address2.getText().toString();
 
+=======
+>>>>>>> master
         MapFragment mapFragment = (MapFragment) getFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
@@ -109,11 +139,17 @@ public class deatial extends AppCompatActivity implements OnMapReadyCallback {
         Bundle bundle =getIntent().getExtras(); //抓前一頁變數
         final String  doing_id=bundle.getString("doing_id"); //活動id
 
+<<<<<<< HEAD
 
 
         //----基本資料-------
         final TextView doing_name=(TextView)findViewById(R.id.doing_name); //活動名稱
         TextView doing_type=(TextView)findViewById(R.id.doing_type); //活動類別
+=======
+        //----基本資料-------
+        TextView doing_name=(TextView)findViewById(R.id.doing_name); //活動名稱
+        final TextView doing_type=(TextView)findViewById(R.id.doing_type); //活動類別
+>>>>>>> master
         TextView address=(TextView)findViewById(R.id.addresss); //活動地址
         TextView time=(TextView)findViewById(R.id.time); //活動時間
         TextView up=(TextView)findViewById(R.id.up); //活動人數
@@ -122,6 +158,7 @@ public class deatial extends AppCompatActivity implements OnMapReadyCallback {
         TextView name=(TextView)findViewById(R.id.name); //主辦人暱稱
         TextView look=(TextView)findViewById(R.id.look); //查看主辦人過去活動紀錄
 
+<<<<<<< HEAD
 
         String query="";
         if (doing_id.equals("sensor")){  //搖一搖
@@ -133,6 +170,10 @@ public class deatial extends AppCompatActivity implements OnMapReadyCallback {
                     "where doing_id='"+doing_id+"' ";
         }
 
+=======
+        String query = "select * from doing_view  " +
+                "where doing_id='"+doing_id+"' ";
+>>>>>>> master
 
 
         try {
@@ -142,7 +183,11 @@ public class deatial extends AppCompatActivity implements OnMapReadyCallback {
 
             while (rs.next()) {
 
+<<<<<<< HEAD
                 doing_id2=rs.getString("doing_id");
+=======
+
+>>>>>>> master
                 doing_name.setText(rs.getString("doing_name")); //活動名稱
                 doing_type.setText(rs.getString("type_name")); //活動類別
                 address.setText(rs.getString("doing_place")); //活動地址
@@ -152,6 +197,7 @@ public class deatial extends AppCompatActivity implements OnMapReadyCallback {
                 String pee=peo.substring(peo.indexOf('-')+1);
                 up.setText("人數上限："+pee+"人"); //活動人數
 
+<<<<<<< HEAD
                 String money2="0";
                 if((rs.getString("pay_money").equals("0"))==false){
                     money2=rs.getString("pay_money"); //活動費用
@@ -165,6 +211,15 @@ public class deatial extends AppCompatActivity implements OnMapReadyCallback {
                 textView9.setText(rs.getString("doing_content")); //活動詳細內容
                 name.setText(rs.getString("nickname")); //主辦人暱稱
                 account_id=rs.getString("account_id"); //主辦人id
+=======
+                money2="0";
+                if((rs.getString("pay_money").equals("0"))==false){
+                    money2=rs.getString("pay_money"); //活動費用
+                }
+                money.setText(money2); //活動費用
+                textView9.setText(rs.getString("doing_content")); //活動詳細內容
+                name.setText(rs.getString("nickname")); //主辦人暱稱
+>>>>>>> master
                 type_id=rs.getString("type_id"); //類別id
 
 
@@ -172,7 +227,11 @@ public class deatial extends AppCompatActivity implements OnMapReadyCallback {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+<<<<<<< HEAD
 
+=======
+        et_address = address.getText().toString();
+>>>>>>> master
 
 
         //-------是否訂閱-----------------------------------
@@ -238,12 +297,20 @@ public class deatial extends AppCompatActivity implements OnMapReadyCallback {
                 }
 
                 Bundle bundle =getIntent().getExtras(); //抓前一頁變數
+<<<<<<< HEAD
                 //final String  doing_id=bundle.getString("doing_id"); //活動id
+=======
+                final String  doing_id=bundle.getString("doing_id"); //活動id
+>>>>>>> master
 
                 Intent intent = new Intent();
                 intent.setClass(deatial.this,deatial.class);
                 Bundle bundle1=new Bundle();
+<<<<<<< HEAD
                 bundle1.putString("doing_id",doing_id2);
+=======
+                bundle1.putString("doing_id",doing_id);
+>>>>>>> master
                 intent.putExtras(bundle);
                 startActivity(intent);
 
@@ -263,10 +330,19 @@ public class deatial extends AppCompatActivity implements OnMapReadyCallback {
                 SharedPreferences sharedPreferences = getSharedPreferences("User" , MODE_PRIVATE); //建立SharedPreferences
                 String userid = sharedPreferences.getString("id" , "0"); //抓SharedPreferences內Name值
 
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> master
                 //Bundle bundle =getIntent().getExtras(); //抓前一頁變數
                 // String  doing_id=bundle.getString("doing_id"); //活動id
 
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> master
                 String query = "insert into doing_detail (doing_id, account_id) values('"+doing_id+"','"+userid+"')";
                 try {
                     connect = CONN(un, passwords, db, ip);
@@ -294,6 +370,7 @@ public class deatial extends AppCompatActivity implements OnMapReadyCallback {
                     });
                     dialog.show();
                 }else{
+<<<<<<< HEAD
 
                     String query3 = "insert into money (money_doing_id, money_account_id,money_sum) values('"+doing_id+"','"+userid+"','"+money2+"')";
                     try {
@@ -305,6 +382,8 @@ public class deatial extends AppCompatActivity implements OnMapReadyCallback {
                         e.printStackTrace();
                     }
 
+=======
+>>>>>>> master
                     AlertDialog.Builder dialog = new AlertDialog.Builder(deatial.this);
                     dialog.setTitle("付款通知"); //設定dialog 的title顯示內容
                     dialog.setMessage("需付款活動，將導向付款畫面"); //設定dialog 的內容
@@ -312,14 +391,22 @@ public class deatial extends AppCompatActivity implements OnMapReadyCallback {
                     dialog.setCancelable(false); //關閉 Android 系統的主要功能鍵(menu,home等...)
                     dialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
+<<<<<<< HEAD
                             String name = doing_name.getText().toString(); //活動名稱
                             String value = money2; //金額
+=======
+                            String one = "金額=" + money2; //傳值
+>>>>>>> master
                             //跳頁
                             Intent intent = new Intent();
                             intent.setClass(deatial.this,Main2Activity.class);
                             final Bundle bundle = new Bundle();
+<<<<<<< HEAD
                             bundle.putString("name",name);
                             bundle.putString("value",value);
+=======
+                            bundle.putString("get",one);
+>>>>>>> master
                             intent.putExtras(bundle);
                             startActivity(intent);
 
@@ -330,11 +417,26 @@ public class deatial extends AppCompatActivity implements OnMapReadyCallback {
                     });
                     dialog.show();
 
+<<<<<<< HEAD
                 }
 
             }
         });
 
+=======
+
+
+                }
+
+
+
+
+
+            }
+        });
+
+
+>>>>>>> master
         //----我要留言---------------------------------------
 
         Button btnmessage=(Button)findViewById(R.id.btnmessage);
@@ -344,7 +446,11 @@ public class deatial extends AppCompatActivity implements OnMapReadyCallback {
                 Intent intent = new Intent();
                 intent.setClass(deatial.this,message.class);
                 Bundle bundle=new Bundle();
+<<<<<<< HEAD
                 bundle.putString("doing_id",doing_id2);
+=======
+                bundle.putString("doing_id",doing_id);
+>>>>>>> master
                 intent.putExtras(bundle);
                 startActivity(intent);
 
@@ -355,6 +461,7 @@ public class deatial extends AppCompatActivity implements OnMapReadyCallback {
 
 
 
+<<<<<<< HEAD
         //---------line分享---------------------------------------
 
         ImageButton imageButton5=(ImageButton)findViewById(R.id.imageButton5);
@@ -411,11 +518,16 @@ public class deatial extends AppCompatActivity implements OnMapReadyCallback {
             }
         });
 
+=======
+>>>>>>> master
 
 
     }
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> master
     private Connection CONN(String _user, String _pass, String _DB,
                             String _server) {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()
@@ -486,7 +598,10 @@ public class deatial extends AppCompatActivity implements OnMapReadyCallback {
 
     }
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> master
     //http
     InputStream ByGetMethod(String ServerURL) {
 
@@ -647,6 +762,9 @@ public class deatial extends AppCompatActivity implements OnMapReadyCallback {
             Log.d(LOG_TAG, "Result: " + result);
         }
     }
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> master
 }
