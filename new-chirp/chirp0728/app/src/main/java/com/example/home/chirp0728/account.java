@@ -44,7 +44,7 @@ public class account extends AppCompatActivity {
     PreparedStatement stmt,stmt2;
     ResultSet rs,rs2;
 
-    String sex,location,phonenumber,nickname,image;
+    String sex,location,phonenumber,nickname,image,nickname_2,phonenumber_2,namevalue;
 
     byte[] byteArray;
     String encodedImage = null;
@@ -89,12 +89,13 @@ public class account extends AppCompatActivity {
         final EditText phonexml = (EditText)findViewById(R.id.phonexml);
         final Spinner spnadxml = (Spinner)findViewById(R.id.spnadxml);
         final Spinner radsexxml = (Spinner)findViewById(R.id.radsexxml);
-        final Button update = (Button)findViewById(R.id.update);
+        //final Button update = (Button)findViewById(R.id.update);
+        final Button next = (Button)findViewById(R.id.btnnext);
 
         //平台登入修改個人資料
         //取得SharedPreferences的資料(帳號.登入方式)
         SharedPreferences settings = getSharedPreferences("User", MODE_PRIVATE);
-        final String namevalue = settings.getString("id", "");
+        namevalue = settings.getString("id", "");
         String way = settings.getString("way", "");
         String name = settings.getString("name", "");
         String userID = settings.getString("imgid", "");
@@ -155,7 +156,6 @@ public class account extends AppCompatActivity {
             radsexxml.setSelection(spinnerPosition,true);*/
 
             //頭像
-
             if (image != null){
                 encodedImage = image;
                 String base64String = image;
@@ -220,16 +220,44 @@ public class account extends AppCompatActivity {
             }
         });
 
+
+        //按下下一步
+        next.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //取值
+                nickname_2 = nicknamexml.getText().toString();
+                phonenumber_2 = phonexml.getText().toString();
+
+                if (nickname_2.matches("") || phonenumber_2.matches("") || sex.matches("")|| location.matches("") ){
+                    Toast.makeText(account.this, "欄位填寫未完成，請確實填寫", Toast.LENGTH_SHORT).show();
+                }else{
+
+                    //跳至帳戶管理
+                    Intent intent = new Intent();
+                    intent.setClass(account.this,nextBank.class);
+                    final Bundle bundle = new Bundle();
+                    bundle.putString("sex",sex);
+                    bundle.putString("location",location);
+                    bundle.putString("phonenumber",phonenumber_2);
+                    bundle.putString("nickname",nickname_2);
+                    bundle.putString("encodedImage",encodedImage);
+                    bundle.putString("namevalue",namevalue);
+                    intent.putExtras(bundle);
+                    startActivity(intent);
+                }
+            }
+        });
+
         //按下修改
-        update.setOnClickListener(new View.OnClickListener() {
+        /*update.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //取值
                 final String nickname_2 = nicknamexml.getText().toString();
                 final String phonenumber_2 = phonexml.getText().toString();
 
                 if (nickname_2.matches("") || phonenumber_2.matches("") || sex.matches("")|| location.matches("") ){
-                    //Toast toast = Toast.makeText(sign.this, "欄位填寫未完成，請確實填寫", Toast.LENGTH_LONG);
+
                     Toast.makeText(account.this, "欄位填寫未完成，請確實填寫", Toast.LENGTH_SHORT).show();
                 }else{
                     ip2 = "140.131.114.241";
@@ -253,8 +281,9 @@ public class account extends AppCompatActivity {
                 }
 
             }
-        });
+        });*/
 
+        //按下修改
     }
 
     //修改頭像

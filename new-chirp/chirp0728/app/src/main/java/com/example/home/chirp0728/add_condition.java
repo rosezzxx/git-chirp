@@ -133,36 +133,36 @@ public class add_condition extends AppCompatActivity {
         public void onClick(View v) {
 
             String par="";
-                if (ckb1.isChecked() == true) {
-                    par = par + "1,";
-                }
-                if (ckb2.isChecked() == true) {
-                    par = par + "2,";
-                }
-                if (ckb3.isChecked() == true) {
-                    par = par + "3,";
-                }
-                if (ckb4.isChecked() == true) {
-                    par = par + "4,";
-                }
-                if (ckb5.isChecked() == true) {
-                    par = par + "5,";
-                }
-                if (ckb6.isChecked() == true) {
-                    par = par + "6,";
-                }
-                if (ckb7.isChecked() == true) {
-                    par = par + "7,";
-                }
-                if (ckb8.isChecked() == true) {
-                    par = "8";
-                }
+            if (ckb1.isChecked() == true) {
+                par = par + "1,";
+            }
+            if (ckb2.isChecked() == true) {
+                par = par + "2,";
+            }
+            if (ckb3.isChecked() == true) {
+                par = par + "3,";
+            }
+            if (ckb4.isChecked() == true) {
+                par = par + "4,";
+            }
+            if (ckb5.isChecked() == true) {
+                par = par + "5,";
+            }
+            if (ckb6.isChecked() == true) {
+                par = par + "6,";
+            }
+            if (ckb7.isChecked() == true) {
+                par = par + "7,";
+            }
+            if (ckb8.isChecked() == true) {
+                par = "8";
+            }
 
-                Intent Intent = new Intent();
+            Intent Intent = new Intent();
 
-                Intent.putExtra("condition", par);
-                setResult(3, Intent);
-                finish();
+            Intent.putExtra("condition", par);
+            setResult(3, Intent);
+            finish();
 
 
         }

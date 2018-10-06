@@ -5,7 +5,8 @@
     android:id="@+id/drawerlayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.home.chirp0728.mydoing">
+    tools:context="com.example.home.chirp0728.mydoing"
+    android:background="#DDDDDD">
 
 
     <TextView
@@ -53,6 +54,7 @@
         android:id="@+id/my_viewpager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="#DDDDDD"
         android:layout_below="@+id/my_tabs"/>
 
 

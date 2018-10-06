@@ -55,12 +55,17 @@ public class imgupload extends AppCompatActivity {
     ProgressBar pg;
 
     ResultSet rs;
-    Connection con;
+    Connection con,connect;
     String un;
     String password;
     String db;
     String ip;
     String user,pass,name,phone,email,sex,address,nickname;
+
+
+    //db連線變數
+    String ip2,db2,un2,passwords2;
+    PreparedStatement stmt;
 
     @SuppressLint("NewApi")
     private Connection ConnectionHelper(String user, String password, String database, String server) {
@@ -145,6 +150,7 @@ public class imgupload extends AppCompatActivity {
                 PreparedStatement preStmt = con.prepareStatement(commands);
                 preStmt.executeUpdate();
                 msg = "Inserted Successfully";
+
             } catch (SQLException ex) {
                 msg = ex.getMessage().toString();
                 Log.d("hitesh", msg);
@@ -165,6 +171,19 @@ public class imgupload extends AppCompatActivity {
             catch (Exception ex) {
                 msg = ex.getMessage().toString();
                 Log.d("hitesh", msg);
+            }
+
+            ip2 = "140.131.114.241";
+            un2 = "chirp2018";
+            passwords2 = "chirp+123";
+            db2 = "107-chirp";
+            String query = "INSERT INTO bank(bank_user,bank_code,bank_account)VALUES('"+user+"',null,null)";
+            try {
+                connect = ConnectionHelper(un2, passwords2, db2, ip2);
+                stmt = connect.prepareStatement(query);
+                rs = stmt.executeQuery();
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
 
             txtmsg.setText(msg);

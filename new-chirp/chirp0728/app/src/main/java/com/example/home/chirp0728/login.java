@@ -153,8 +153,6 @@ public class login extends AppCompatActivity {
             }
         });
 
-
-
         //fb登入
 
         info = (TextView)findViewById(R.id.info);
@@ -171,6 +169,8 @@ public class login extends AppCompatActivity {
         LoginManager.getInstance().registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
+
+                //Toast.makeText(login.this, "123", Toast.LENGTH_SHORT).show();
                 accessToken = loginResult.getAccessToken();
                 GraphRequest request = GraphRequest.newMeRequest(accessToken, new GraphRequest.GraphJSONObjectCallback() {
                             //當RESPONSE回來的時候
@@ -312,6 +312,7 @@ public class login extends AppCompatActivity {
                         Toast.makeText(login.this, "登入成功", Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent();
                         intent.setClass(login.this,MainActivity.class);
+
                         startActivity(intent);
 
                         SharedPreferences settings = getSharedPreferences("User", MODE_PRIVATE);
@@ -358,16 +359,13 @@ public class login extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == RC_SIGN_IN){
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
-
+            //Toast.makeText(login.this, "aaa", Toast.LENGTH_SHORT).show();
             if (result.isSuccess()){
                 GoogleSignInAccount account = result.getSignInAccount();
                 firebaseAuthWithGoogle(account);
-                Intent intent = new Intent();
-                intent.setClass(login.this,MainActivity.class);
-                startActivity(intent);
-                Uri personPhoto = account.getPhotoUrl();
                 googlemail = account.getEmail();
                 googlename = account.getFamilyName() + account.getGivenName();
+                Toast.makeText(login.this, account.getEmail(), Toast.LENGTH_SHORT).show();
                 //檢查第一次登入
                 ip3 = "140.131.114.241";
                 un3 = "chirp2018";
@@ -396,7 +394,6 @@ public class login extends AppCompatActivity {
                         } catch (SQLException e) {
                             e.printStackTrace();
                         }
-
                         SharedPreferences settings = getSharedPreferences("User", MODE_PRIVATE);
                         // Writing data to SharedPreferences
                         SharedPreferences.Editor editor = settings.edit();
@@ -425,8 +422,6 @@ public class login extends AppCompatActivity {
                     e.printStackTrace();
                 }
                 //檢查第一次登入
-
-
                 Toast.makeText(login.this, "登入成功", Toast.LENGTH_SHORT).show();
             }
         }else{
@@ -434,7 +429,7 @@ public class login extends AppCompatActivity {
         }
     }
 
-    /* @Override
+  /*@Override
    public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 

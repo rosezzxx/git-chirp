@@ -235,7 +235,7 @@ public class add extends AppCompatActivity {
                 }
 
                 String query_insert="insert into doing(doing_name,account_id, type_id, doing_start, doing_end,parner_id, totalpeople, doing_place, doing_content, doing_date, sign_start, sign_end, pay_money) " +
-                        "values('" + dname.getText().toString() + "','" + "rosezzxx" + "','" + str+ "','" + dtime_startt + "','"  + dtime_endt + "','" + d_condition + "','" + dpeople + "','" + dplace.getText().toString() + "','" + ddetails.getText().toString() + "',getdate(),'" + ddtime_startt + "','" + ddtime_endt + "','" + dmoney.getText().toString() + "')";
+                        "values('" + dname.getText().toString() + "','" + "test" + "','" + str+ "','" + dtime_startt + "','"  + dtime_endt + "','" + d_condition + "','" + dpeople + "','" + dplace.getText().toString() + "','" + ddetails.getText().toString() + "',getdate(),'" + ddtime_startt + "','" + ddtime_endt + "','" + dmoney.getText().toString() + "')";
 
                 try {
                     connect = CONN(un, passwords, db, ip);

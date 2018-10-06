@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 
-<android.support.design.widget.CoordinatorLayout xmlns:tools="http://schemas.android.com/tools"
+<RelativeLayout xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_content"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -11,7 +11,7 @@
 
 
 
-    <android.support.v7.widget.CardView
+    <!--<android.support.v7.widget.CardView
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
@@ -102,7 +102,8 @@
             </LinearLayout>
 
         </LinearLayout>
-    </android.support.v7.widget.CardView>
+    </android.support.v7.widget.CardView> -->
+	
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
@@ -113,7 +114,24 @@
         tools:context="com.example.asus.chirp.tabtest">
 
 
+		 <TextView
+            android:id="@+id/spp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:layout_marginLeft="3dp"
+            android:layout_weight="1"
+            android:text=""/>
 
+			
+
+		<ListView
+            android:id="@+id/listview_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/spp"
+            android:layout_marginBottom="55dp"/>
+			
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -121,7 +139,8 @@
             android:minHeight="?attr/actionBarSize"
             android:layout_alignParentBottom="true"
             android:background="#3b5998"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:id="@+id/linearLayout">
 
 
             <TableLayout
@@ -194,4 +213,4 @@
         app:srcCompat="@android:drawable/ic_input_add"
         app:layout_anchorGravity="bottom|right|end"
         tools:layout_editor_absoluteY="547dp" />
-</android.support.design.widget.CoordinatorLayout>
+</RelativeLayout>
