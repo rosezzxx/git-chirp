@@ -2,6 +2,7 @@ package com.example.home.chirp0728;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -22,7 +23,9 @@ public class update_condition extends AppCompatActivity {
 
         Intent intent = getIntent();
         String dcondition = intent.getStringExtra("dcondition_ok");
-        Toast.makeText(update_condition.this,dcondition, Toast.LENGTH_SHORT).show();
+
+        final ActionBar actionBar = getSupportActionBar();
+        actionBar.setTitle("活動篩選");
 
         ckb8 = (CheckBox)findViewById(R.id.checkBox);
         ckb1 = (CheckBox)findViewById(R.id.checkBox2);

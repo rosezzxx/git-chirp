@@ -4,6 +4,7 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
 import android.view.View;
@@ -28,6 +29,9 @@ public class update_time_sign extends AppCompatActivity {
 
         Intent intent = getIntent();
         String ddtime = intent.getStringExtra("ddtime_ok");
+
+        final ActionBar actionBar = getSupportActionBar();
+        actionBar.setTitle("報名時間");
 
         startdate = (EditText)findViewById(R.id.startdate);
         starttime = (EditText)findViewById(R.id.starttime);
@@ -144,10 +148,10 @@ public class update_time_sign extends AppCompatActivity {
             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
 
                 // TODO Auto-generated method stub
-                if(monthOfYear<10 && dayOfMonth <10){
+                if(monthOfYear+1<10 && dayOfMonth <10){
                     startdate.setText(year+"0"+(monthOfYear+1)+"0"+dayOfMonth);
                 }
-                else if(monthOfYear<10){
+                else if(monthOfYear+1<10){
                     startdate.setText(year+"0"+(monthOfYear+1)+""+dayOfMonth);
                 }
                 else if(dayOfMonth<10){
@@ -197,10 +201,10 @@ public class update_time_sign extends AppCompatActivity {
                 // TODO Auto-generated method stub
 
 
-                if(monthOfYear<10 && dayOfMonth <10){
+                if(monthOfYear+1<10 && dayOfMonth <10){
                     enddate.setText(year+"0"+(monthOfYear+1)+"0"+dayOfMonth);
                 }
-                else if(monthOfYear<10){
+                else if(monthOfYear+1<10){
                     enddate.setText(year+"0"+(monthOfYear+1)+""+dayOfMonth);
                 }
                 else if(dayOfMonth<10){

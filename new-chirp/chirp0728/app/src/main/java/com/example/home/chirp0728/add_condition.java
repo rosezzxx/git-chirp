@@ -3,6 +3,7 @@ package com.example.home.chirp0728;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.StrictMode;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -20,6 +21,9 @@ public class add_condition extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_condition);
+
+        final ActionBar actionBar = getSupportActionBar();
+        actionBar.setTitle("活動篩選");
 
         ckb8 = (CheckBox)findViewById(R.id.checkBox);
         ckb1 = (CheckBox)findViewById(R.id.checkBox2);

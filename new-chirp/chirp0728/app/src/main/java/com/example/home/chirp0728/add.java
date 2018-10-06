@@ -2,7 +2,9 @@ package com.example.home.chirp0728;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.StrictMode;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.InputType;
@@ -35,8 +37,8 @@ public class add extends AppCompatActivity {
 
     String ip, db, un, passwords;
     Connection connect;
-    PreparedStatement stmt;
-    ResultSet rs;
+    PreparedStatement stmt,stmt2;
+    ResultSet rs,rs2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +49,9 @@ public class add extends AppCompatActivity {
         un = "chirp2018";
         passwords = "chirp+123";
         db = "107-chirp";
+
+        final ActionBar actionBar = getSupportActionBar();
+        actionBar.setTitle("新增活動");
 
         dname = (EditText)findViewById(R.id.dname);
         dplace = (EditText)findViewById(R.id.dplace);
@@ -228,15 +233,20 @@ public class add extends AppCompatActivity {
             }
             else if (check==0){
                 String dpeople;
-                if(str2.equals("最多")){
+                if(str2.equals("上限")){
                     dpeople = "up-"+dup.getText().toString();
                 }else{
                     dpeople = "down-"+dup.getText().toString();
                 }
 
-                String query_insert="insert into doing(doing_name,account_id, type_id, doing_start, doing_end,parner_id, totalpeople, doing_place, doing_content, doing_date, sign_start, sign_end, pay_money) " +
-                        "values('" + dname.getText().toString() + "','" + "test" + "','" + str+ "','" + dtime_startt + "','"  + dtime_endt + "','" + d_condition + "','" + dpeople + "','" + dplace.getText().toString() + "','" + ddetails.getText().toString() + "',getdate(),'" + ddtime_startt + "','" + ddtime_endt + "','" + dmoney.getText().toString() + "')";
+                SharedPreferences sharedPreferences = getSharedPreferences("User" , MODE_PRIVATE); //建立SharedPreferences
+                String userid = sharedPreferences.getString("id" , "0"); //抓SharedPreferences內Name值
 
+                String query_insert="insert into doing(doing_name,account_id, type_id, doing_start, doing_end,parner_id, totalpeople, doing_place, doing_content, doing_date, sign_start, sign_end, pay_money) " +
+                        "values('" + dname.getText().toString() + "','" + userid + "','" + str+ "','" + dtime_startt + "','"  + dtime_endt + "','" + d_condition + "','" + dpeople + "','" + dplace.getText().toString() + "','" + ddetails.getText().toString() + "',getdate(),'" + ddtime_startt + "','" + ddtime_endt + "','" + dmoney.getText().toString() + "');" +
+                        "insert into doing_detail(doing_id,account_id,detail_date) values((select scope_identity() as a),'" + userid + "',getdate());";
+
+                int insert_ok=0;
                 try {
                     connect = CONN(un, passwords, db, ip);
                     stmt = connect.prepareStatement(query_insert);

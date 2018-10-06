@@ -1,8 +1,10 @@
 package com.example.home.chirp0728;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.StrictMode;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
 import android.util.Log;
@@ -31,6 +33,8 @@ public class update_doing extends AppCompatActivity {
     String str,str2,dtime_startt,dtime_endt,ddtime_startt,ddtime_endt,dcondition_c,dcondition_n,d_condition,dtype_id;
     TextView dtime;
 
+    String doid="";
+
     String ip, db, un, passwords;
     Connection connect;
     PreparedStatement stmt;
@@ -46,6 +50,9 @@ public class update_doing extends AppCompatActivity {
         passwords = "chirp+123";
         db = "107-chirp";
 
+        final ActionBar actionBar = getSupportActionBar();
+        actionBar.setTitle("修改活動");
+
         dname = (EditText)findViewById(R.id.dname);
         dplace = (EditText)findViewById(R.id.dplace);
         dtype = (Spinner)findViewById(R.id.dtype);
@@ -58,8 +65,12 @@ public class update_doing extends AppCompatActivity {
         ddetails = (EditText)findViewById(R.id.ddetails);
         dmoney = (EditText)findViewById(R.id.dmoney);
 
-        String select_doing="select * from doing where doing_id='78'";
 
+        Bundle bundle =getIntent().getExtras(); //抓前一頁變數
+        final String  doing_id=bundle.getString("doing_id"); //活動id
+        doid=doing_id;
+        String select_doing="select * from doing where doing_id='"+doing_id+"'";
+//        String select_doing="select * from doing where doing_id='100'";
         try {
             connect = CONN(un, passwords, db, ip);
             stmt = connect.prepareStatement(select_doing);
@@ -289,14 +300,18 @@ public class update_doing extends AppCompatActivity {
             }
             else if (check==0){
                 String dpeople;
-                if(str2.equals("最多")){
+                Toast.makeText(update_doing.this,"123333", Toast.LENGTH_SHORT).show();
+                if(str2.equals("上限")){
                     dpeople = "up-"+dup.getText().toString();
                 }else{
                     dpeople = "down-"+dup.getText().toString();
                 }
+                Toast.makeText(update_doing.this,dpeople, Toast.LENGTH_SHORT).show();
+                SharedPreferences sharedPreferences = getSharedPreferences("User" , MODE_PRIVATE); //建立SharedPreferences
+                String userid = sharedPreferences.getString("id" , "0"); //抓SharedPreferences內Name值
 
                 String query_update="update doing set doing_name='" + dname.getText().toString() + "',"+
-                        "account_id='" + "rosezzxx" + "',"+
+                        "account_id='" + userid + "',"+
                         "type_id='"+ str + "',"+
                         "doing_start='"+ dtime_startt + "',"+
                         "doing_end='"+ dtime_endt + "',"+
@@ -307,7 +322,7 @@ public class update_doing extends AppCompatActivity {
                         "sign_start='"+ ddtime_startt + "',"+
                         "sign_end='"+ ddtime_endt + "',"+
                         "pay_money='"+ dmoney.getText().toString()+ "'"+
-                        " where doing_id='78'";
+                        " where doing_id='"+doid+"'";
                 try {
                     connect = CONN(un, passwords, db, ip);
                     stmt = connect.prepareStatement(query_update);
