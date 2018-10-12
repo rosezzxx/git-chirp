@@ -3,28 +3,18 @@ package com.example.home.chirp0728;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-<<<<<<< HEAD
 import android.view.MotionEvent;
 import android.view.View;
-=======
->>>>>>> master
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-<<<<<<< HEAD
 import android.widget.Toast;
 
 public class Main2Activity extends AppCompatActivity {
 
     String name = null;
     String value = null;
-=======
-
-public class Main2Activity extends AppCompatActivity {
-
-    String gettext = null;
->>>>>>> master
     WebView mWebview;
 
     @Override
@@ -32,15 +22,11 @@ public class Main2Activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
 
-        //å–å¾—å‰ä¸€é å€¼
+        //¨ú±o«e¤@­¶­È
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
-<<<<<<< HEAD
         name = bundle.getString("name");
         value = bundle.getString("value");
-=======
-        gettext = bundle.getString("get");
->>>>>>> master
 
         mWebview = (WebView)findViewById(R.id.webView);
 
@@ -57,8 +43,7 @@ public class Main2Activity extends AppCompatActivity {
         url.indexOf("/OrderResultURL") < 0 */
 
 
-        //webViewé¡¯ç¤ºç¶²é 
-<<<<<<< HEAD
+        //webViewÅã¥Üºô­¶
         mWebview.loadUrl("http://fatfat-ting.ics-expo.org/index/Android/index?name=" + name +"& value=" + value);
         //mWebview.loadUrl("http://fatfat-ting.ics-expo.org/index/Android/OrderResultURL");
 
@@ -90,9 +75,5 @@ public class Main2Activity extends AppCompatActivity {
             }
 
         });
-=======
-        mWebview.loadUrl("http://fatfat-ting.ics-expo.org/index/Android/index?get=" + gettext);
-        //mWebview.loadUrl("http://fatfat-ting.ics-expo.org/index/Android/OrderResultURL");
->>>>>>> master
     }
 }

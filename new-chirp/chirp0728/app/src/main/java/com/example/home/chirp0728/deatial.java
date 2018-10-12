@@ -8,10 +8,7 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.location.LocationListener;
 import android.location.LocationManager;
-<<<<<<< HEAD
 import android.net.Uri;
-=======
->>>>>>> master
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.StrictMode;
@@ -21,10 +18,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-<<<<<<< HEAD
 import android.widget.ImageButton;
-=======
->>>>>>> master
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -38,17 +32,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-<<<<<<< HEAD
 
-=======
-import java.io.BufferedReader;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
->>>>>>> master
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -57,7 +41,6 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Locale;
 
-<<<<<<< HEAD
 
 
 import java.io.BufferedReader;
@@ -69,8 +52,6 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 
-=======
->>>>>>> master
 public class deatial extends AppCompatActivity implements OnMapReadyCallback {
     private static String LOG_TAG = "deatial";
     private Button btn_query;
@@ -82,32 +63,26 @@ public class deatial extends AppCompatActivity implements OnMapReadyCallback {
     private int currentTime = 0;
     private Handler handler = new Handler();
     private boolean getLocationFlag = false;
-    private LatLng START = null; // å•Ÿå§‹åº§æ¨™
+    private LatLng START = null; // ±Ò©l®y¼Ğ
     private TextView et_address2;
     String et_address;;
     String PostParam;
 
-    //------é€£ç·š--------------
+    //------³s½u--------------
     String ip, db, un, passwords;
     Connection connect;
     PreparedStatement stmt;
     ResultSet rs;
-<<<<<<< HEAD
-=======
 
-    String type_id=""; //é¡åˆ¥id
-    String view_type_id="";  //æ˜¯å¦è¨‚é–±é¡åˆ¥id
+    String type_id=""; //Ãş§Oid
+    String view_type_id="";  //¬O§_­q¾\Ãş§Oid
 
-    String money2;
->>>>>>> master
-
-    String type_id=""; //é¡åˆ¥id
-    String view_type_id="";  //æ˜¯å¦è¨‚é–±é¡åˆ¥id
-
-    String doing_id2=""; //æ´»å‹•id
-    String account_id=""; // ä¸»è¾¦äººid
+    String doing_id2=""; //¬¡°Êid
+    String account_id=""; // ¥D¿ì¤Hid
 
     String money2;
+
+    String updoing="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -115,14 +90,6 @@ public class deatial extends AppCompatActivity implements OnMapReadyCallback {
         setContentView(R.layout.activity_deatial);
 
 
-
-<<<<<<< HEAD
-
-        et_address2 = (TextView)findViewById(R.id.addresss);
-        et_address = et_address2.getText().toString();
-
-=======
->>>>>>> master
         MapFragment mapFragment = (MapFragment) getFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
@@ -136,32 +103,27 @@ public class deatial extends AppCompatActivity implements OnMapReadyCallback {
         db = "107-chirp";
 
 
-        Bundle bundle =getIntent().getExtras(); //æŠ“å‰ä¸€é è®Šæ•¸
-        final String  doing_id=bundle.getString("doing_id"); //æ´»å‹•id
-
-<<<<<<< HEAD
+        Bundle bundle =getIntent().getExtras(); //§ì«e¤@­¶ÅÜ¼Æ
+        final String  doing_id=bundle.getString("doing_id"); //¬¡°Êid
 
 
-        //----åŸºæœ¬è³‡æ–™-------
-        final TextView doing_name=(TextView)findViewById(R.id.doing_name); //æ´»å‹•åç¨±
-        TextView doing_type=(TextView)findViewById(R.id.doing_type); //æ´»å‹•é¡åˆ¥
-=======
-        //----åŸºæœ¬è³‡æ–™-------
-        TextView doing_name=(TextView)findViewById(R.id.doing_name); //æ´»å‹•åç¨±
-        final TextView doing_type=(TextView)findViewById(R.id.doing_type); //æ´»å‹•é¡åˆ¥
->>>>>>> master
-        TextView address=(TextView)findViewById(R.id.addresss); //æ´»å‹•åœ°å€
-        TextView time=(TextView)findViewById(R.id.time); //æ´»å‹•æ™‚é–“
-        TextView up=(TextView)findViewById(R.id.up); //æ´»å‹•äººæ•¸
-        TextView money=(TextView)findViewById(R.id.money); //æ´»å‹•è²»ç”¨
-        TextView textView9=(TextView)findViewById(R.id.textView9); //æ´»å‹•è©³ç´°å…§å®¹
-        TextView name=(TextView)findViewById(R.id.name); //ä¸»è¾¦äººæš±ç¨±
-        TextView look=(TextView)findViewById(R.id.look); //æŸ¥çœ‹ä¸»è¾¦äººéå»æ´»å‹•ç´€éŒ„
 
-<<<<<<< HEAD
+        //----°ò¥»¸ê®Æ-------
+        final TextView doing_name=(TextView)findViewById(R.id.doing_name); //¬¡°Ê¦WºÙ
+        TextView doing_type=(TextView)findViewById(R.id.doing_type); //¬¡°ÊÃş§O
+        TextView address=(TextView)findViewById(R.id.addresss); //¬¡°Ê¦a§}
+
+
+        TextView time=(TextView)findViewById(R.id.time); //¬¡°Ê®É¶¡
+        TextView up=(TextView)findViewById(R.id.up); //¬¡°Ê¤H¼Æ
+        TextView money=(TextView)findViewById(R.id.money); //¬¡°Ê¶O¥Î
+        TextView textView9=(TextView)findViewById(R.id.textView9); //¬¡°Ê¸Ô²Ó¤º®e
+        TextView name=(TextView)findViewById(R.id.name); //¥D¿ì¤H¼ÊºÙ
+        TextView look=(TextView)findViewById(R.id.look); //¬d¬İ¥D¿ì¤H¹L¥h¬¡°Ê¬ö¿ı
+
 
         String query="";
-        if (doing_id.equals("sensor")){  //æ–ä¸€æ–
+        if (doing_id.equals("sensor")){  //·n¤@·n
             query = " select TOP 1 * from doing_view  " +
                     " ORDER BY NEWID() ";
         }
@@ -170,10 +132,6 @@ public class deatial extends AppCompatActivity implements OnMapReadyCallback {
                     "where doing_id='"+doing_id+"' ";
         }
 
-=======
-        String query = "select * from doing_view  " +
-                "where doing_id='"+doing_id+"' ";
->>>>>>> master
 
 
         try {
@@ -183,61 +141,51 @@ public class deatial extends AppCompatActivity implements OnMapReadyCallback {
 
             while (rs.next()) {
 
-<<<<<<< HEAD
                 doing_id2=rs.getString("doing_id");
-=======
-
->>>>>>> master
-                doing_name.setText(rs.getString("doing_name")); //æ´»å‹•åç¨±
-                doing_type.setText(rs.getString("type_name")); //æ´»å‹•é¡åˆ¥
-                address.setText(rs.getString("doing_place")); //æ´»å‹•åœ°å€
-                time.setText("æ´»å‹•æ™‚é–“ï¼š"+(rs.getString("doing_start")).substring(0,16)+"~"+(rs.getString("doing_end")).substring(0,16)); //æ´»å‹•æ™‚é–“
+                doing_name.setText(rs.getString("doing_name")); //¬¡°Ê¦WºÙ
+                doing_type.setText(rs.getString("type_name")); //¬¡°ÊÃş§O
+                address.setText(rs.getString("doing_place")); //¬¡°Ê¦a§}
+                time.setText("¬¡°Ê®É¶¡¡G"+(rs.getString("doing_start")).substring(0,16)+"~"+(rs.getString("doing_end")).substring(0,16)); //¬¡°Ê®É¶¡
 
                 String peo=rs.getString("totalpeople");
+                String doup=peo.substring(0,1);
                 String pee=peo.substring(peo.indexOf('-')+1);
-                up.setText("äººæ•¸ä¸Šé™ï¼š"+pee+"äºº"); //æ´»å‹•äººæ•¸
 
-<<<<<<< HEAD
-                String money2="0";
-                if((rs.getString("pay_money").equals("0"))==false){
-                    money2=rs.getString("pay_money"); //æ´»å‹•è²»ç”¨
+                if(doup.equals("d")){
+                    up.setText("¤H¼Æ¤U­­¡G"+pee+"¤H"); //¬¡°Ê¤H¼Æ
+                }
+                else{
+                    up.setText("¤H¼Æ¤W­­¡G"+pee+"¤H"); //¬¡°Ê¤H¼Æ
                 }
 
 
-
-
-
-                money.setText(money2); //æ´»å‹•è²»ç”¨
-                textView9.setText(rs.getString("doing_content")); //æ´»å‹•è©³ç´°å…§å®¹
-                name.setText(rs.getString("nickname")); //ä¸»è¾¦äººæš±ç¨±
-                account_id=rs.getString("account_id"); //ä¸»è¾¦äººid
-=======
                 money2="0";
                 if((rs.getString("pay_money").equals("0"))==false){
-                    money2=rs.getString("pay_money"); //æ´»å‹•è²»ç”¨
+                    money2=rs.getString("pay_money"); //¬¡°Ê¶O¥Î
                 }
-                money.setText(money2); //æ´»å‹•è²»ç”¨
-                textView9.setText(rs.getString("doing_content")); //æ´»å‹•è©³ç´°å…§å®¹
-                name.setText(rs.getString("nickname")); //ä¸»è¾¦äººæš±ç¨±
->>>>>>> master
-                type_id=rs.getString("type_id"); //é¡åˆ¥id
+
+
+
+
+
+                money.setText(money2); //¬¡°Ê¶O¥Î
+                textView9.setText(rs.getString("doing_content")); //¬¡°Ê¸Ô²Ó¤º®e
+                name.setText(rs.getString("nickname")); //¥D¿ì¤H¼ÊºÙ
+                account_id=rs.getString("account_id"); //¥D¿ì¤Hid
+                type_id=rs.getString("type_id"); //Ãş§Oid
 
 
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-<<<<<<< HEAD
 
-=======
+
         et_address = address.getText().toString();
->>>>>>> master
+        //-------¬O§_­q¾\-----------------------------------
 
-
-        //-------æ˜¯å¦è¨‚é–±-----------------------------------
-
-        SharedPreferences sharedPreferences = getSharedPreferences("User" , MODE_PRIVATE); //å»ºç«‹SharedPreferences
-        String userid = sharedPreferences.getString("id" , "0"); //æŠ“SharedPreferenceså…§Nameå€¼
+        SharedPreferences sharedPreferences = getSharedPreferences("User" , MODE_PRIVATE); //«Ø¥ßSharedPreferences
+        String userid = sharedPreferences.getString("id" , "0"); //§ìSharedPreferences¤ºName­È
 
         String query2 = "select * from subscription  " +
                 " where subscription_type='2' and subscription_content='"+type_id+"'  "+
@@ -271,13 +219,13 @@ public class deatial extends AppCompatActivity implements OnMapReadyCallback {
 
 
 
-        //-------------æŒ‰ä¸‹æ„›å¿ƒè¨‚é–±-------------------------------------------
+        //-------------«ö¤U·R¤ß­q¾\-------------------------------------------
         img.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
 
-                SharedPreferences sharedPreferences = getSharedPreferences("User" , MODE_PRIVATE); //å»ºç«‹SharedPreferences
-                String userid = sharedPreferences.getString("id" , "0"); //æŠ“SharedPreferenceså…§Nameå€¼
+                SharedPreferences sharedPreferences = getSharedPreferences("User" , MODE_PRIVATE); //«Ø¥ßSharedPreferences
+                String userid = sharedPreferences.getString("id" , "0"); //§ìSharedPreferences¤ºName­È
 
                 String query;
                 if(type_id.equals(view_type_id)){
@@ -296,21 +244,13 @@ public class deatial extends AppCompatActivity implements OnMapReadyCallback {
                     e.printStackTrace();
                 }
 
-                Bundle bundle =getIntent().getExtras(); //æŠ“å‰ä¸€é è®Šæ•¸
-<<<<<<< HEAD
-                //final String  doing_id=bundle.getString("doing_id"); //æ´»å‹•id
-=======
-                final String  doing_id=bundle.getString("doing_id"); //æ´»å‹•id
->>>>>>> master
+                Bundle bundle =getIntent().getExtras(); //§ì«e¤@­¶ÅÜ¼Æ
+                //final String  doing_id=bundle.getString("doing_id"); //¬¡°Êid
 
                 Intent intent = new Intent();
                 intent.setClass(deatial.this,deatial.class);
                 Bundle bundle1=new Bundle();
-<<<<<<< HEAD
                 bundle1.putString("doing_id",doing_id2);
-=======
-                bundle1.putString("doing_id",doing_id);
->>>>>>> master
                 intent.putExtras(bundle);
                 startActivity(intent);
 
@@ -318,126 +258,132 @@ public class deatial extends AppCompatActivity implements OnMapReadyCallback {
         });
 
 
+        final Button btnchooseimage=(Button)findViewById(R.id.btnchooseimage);
 
-        //----æˆ‘è¦åƒåŠ ---------------------------------------
 
 
-        Button btnchooseimage=(Button)findViewById(R.id.btnchooseimage);
+
+        String query1 = "select  * from doing_view  " +
+                "where doing_id='"+doing_id+"'";
+
+
+
+
+        try {
+            connect = CONN(un, passwords, db, ip);
+            stmt = connect.prepareStatement(query1);
+            rs = stmt.executeQuery();
+
+
+            while (rs.next()) {
+                if(rs.getString("account_id").equals(userid)){
+                    btnchooseimage.setText("­×§ï");
+                    updoing="1";
+                }
+            }
+
+
+        }catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+
+        //----§Ú­n°Ñ¥[---------------------------------------
+
         btnchooseimage.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
 
-                SharedPreferences sharedPreferences = getSharedPreferences("User" , MODE_PRIVATE); //å»ºç«‹SharedPreferences
-                String userid = sharedPreferences.getString("id" , "0"); //æŠ“SharedPreferenceså…§Nameå€¼
+                SharedPreferences sharedPreferences = getSharedPreferences("User" , MODE_PRIVATE); //«Ø¥ßSharedPreferences
+                String userid = sharedPreferences.getString("id" , "0"); //§ìSharedPreferences¤ºName­È
 
-<<<<<<< HEAD
-=======
-
-
->>>>>>> master
-                //Bundle bundle =getIntent().getExtras(); //æŠ“å‰ä¸€é è®Šæ•¸
-                // String  doing_id=bundle.getString("doing_id"); //æ´»å‹•id
+                //Bundle bundle =getIntent().getExtras(); //§ì«e¤@­¶ÅÜ¼Æ
+                // String  doing_id=bundle.getString("doing_id"); //¬¡°Êid
 
 
-<<<<<<< HEAD
-=======
+                if(updoing.equals("1")){ //­×§ï¬¡°Ê
+                    //Toast.makeText(deatial.this, "eeee"+doing_id, Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent();
+                    intent.setClass(deatial.this,update_doing.class);
+                    final Bundle bundle = new Bundle();
+                    bundle.putString("doing_id",doing_id);
+                    intent.putExtras(bundle);
+                    startActivity(intent);
 
->>>>>>> master
-                String query = "insert into doing_detail (doing_id, account_id) values('"+doing_id+"','"+userid+"')";
-                try {
-                    connect = CONN(un, passwords, db, ip);
-                    stmt = connect.prepareStatement(query);
-                    rs = stmt.executeQuery();
-
-                }catch (SQLException e) {
-                    e.printStackTrace();
                 }
+                else {
 
 
-                //åˆ¤æ–·éœ€ä¸éœ€è¦æ”¶è²»
-                if (money2.equals("0")){
-                    AlertDialog.Builder dialog = new AlertDialog.Builder(deatial.this);
-                    dialog.setTitle("åƒåŠ æˆåŠŸ"); //è¨­å®šdialog çš„titleé¡¯ç¤ºå…§å®¹
-                    dialog.setMessage("è«‹åœ¨æŒ‡å®šæ™‚é–“åƒåŠ æ´»å‹•ï¼"); //è¨­å®šdialog çš„å…§å®¹
-                    //dialog.setIcon(android.R.drawable.ic_dialog_alert);//è¨­å®šdialog çš„ICON
-                    dialog.setCancelable(false); //é—œé–‰ Android ç³»çµ±çš„ä¸»è¦åŠŸèƒ½éµ(menu,homeç­‰...)
-                    dialog.setPositiveButton("æ˜¯", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            Intent intent = new Intent();
-                            intent.setClass(deatial.this,MainActivity.class);
-                            startActivity(intent);
-                        }
-                    });
-                    dialog.show();
-                }else{
-<<<<<<< HEAD
-
-                    String query3 = "insert into money (money_doing_id, money_account_id,money_sum) values('"+doing_id+"','"+userid+"','"+money2+"')";
+                    String query = "insert into doing_detail (doing_id, account_id) values('" + doing_id + "','" + userid + "')";
                     try {
                         connect = CONN(un, passwords, db, ip);
-                        stmt = connect.prepareStatement(query3);
+                        stmt = connect.prepareStatement(query);
                         rs = stmt.executeQuery();
 
-                    }catch (SQLException e) {
+                    } catch (SQLException e) {
                         e.printStackTrace();
                     }
 
-=======
->>>>>>> master
-                    AlertDialog.Builder dialog = new AlertDialog.Builder(deatial.this);
-                    dialog.setTitle("ä»˜æ¬¾é€šçŸ¥"); //è¨­å®šdialog çš„titleé¡¯ç¤ºå…§å®¹
-                    dialog.setMessage("éœ€ä»˜æ¬¾æ´»å‹•ï¼Œå°‡å°å‘ä»˜æ¬¾ç•«é¢"); //è¨­å®šdialog çš„å…§å®¹
-                    //dialog.setIcon(android.R.drawable.ic_dialog_alert);//è¨­å®šdialog çš„ICON
-                    dialog.setCancelable(false); //é—œé–‰ Android ç³»çµ±çš„ä¸»è¦åŠŸèƒ½éµ(menu,homeç­‰...)
-                    dialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-<<<<<<< HEAD
-                            String name = doing_name.getText().toString(); //æ´»å‹•åç¨±
-                            String value = money2; //é‡‘é¡
-=======
-                            String one = "é‡‘é¡=" + money2; //å‚³å€¼
->>>>>>> master
-                            //è·³é 
-                            Intent intent = new Intent();
-                            intent.setClass(deatial.this,Main2Activity.class);
-                            final Bundle bundle = new Bundle();
-<<<<<<< HEAD
-                            bundle.putString("name",name);
-                            bundle.putString("value",value);
-=======
-                            bundle.putString("get",one);
->>>>>>> master
-                            intent.putExtras(bundle);
-                            startActivity(intent);
 
+                    //§PÂ_»İ¤£»İ­n¦¬¶O
+                    if (money2.equals("0")) {
+                        AlertDialog.Builder dialog = new AlertDialog.Builder(deatial.this);
+                        dialog.setTitle("°Ñ¥[¦¨¥\"); //³]©wdialog ªºtitleÅã¥Ü¤º®e
+                        dialog.setMessage("½Ğ¦b«ü©w®É¶¡°Ñ¥[¬¡°Ê¡I"); //³]©wdialog ªº¤º®e
+                        //dialog.setIcon(android.R.drawable.ic_dialog_alert);//³]©wdialog ªºICON
+                        dialog.setCancelable(false); //Ãö³¬ Android ¨t²Îªº¥D­n¥\¯àÁä(menu,homeµ¥...)
+                        dialog.setPositiveButton("¬O", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                Intent intent = new Intent();
+                                intent.setClass(deatial.this, MainActivity.class);
+                                startActivity(intent);
+                            }
+                        });
+                        dialog.show();
+                    } else {
 
-                            new MakeNetworkCall().execute("http://fatfat-ting.ics-expo.org/index/Android/index" +
-                                    "?get=4", "Get");
+                        String query3 = "insert into money (money_doing_id, money_account_id,money_sum,money_status) values('" + doing_id + "','" + userid + "','" + money2 + "','0')";
+                        try {
+                            connect = CONN(un, passwords, db, ip);
+                            stmt = connect.prepareStatement(query3);
+                            rs = stmt.executeQuery();
+
+                        } catch (SQLException e) {
+                            e.printStackTrace();
                         }
-                    });
-                    dialog.show();
 
-<<<<<<< HEAD
+                        AlertDialog.Builder dialog = new AlertDialog.Builder(deatial.this);
+                        dialog.setTitle("¥I´Ú³qª¾"); //³]©wdialog ªºtitleÅã¥Ü¤º®e
+                        dialog.setMessage("»İ¥I´Ú¬¡°Ê¡A±N¾É¦V¥I´Úµe­±"); //³]©wdialog ªº¤º®e
+                        //dialog.setIcon(android.R.drawable.ic_dialog_alert);//³]©wdialog ªºICON
+                        dialog.setCancelable(false); //Ãö³¬ Android ¨t²Îªº¥D­n¥\¯àÁä(menu,homeµ¥...)
+                        dialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                String name = doing_name.getText().toString(); //¬¡°Ê¦WºÙ
+                                String value = money2; //ª÷ÃB
+                                //¸õ­¶
+                                Intent intent = new Intent();
+                                intent.setClass(deatial.this, Main2Activity.class);
+                                final Bundle bundle = new Bundle();
+                                bundle.putString("name", name);
+                                bundle.putString("value", value);
+                                intent.putExtras(bundle);
+                                startActivity(intent);
+
+
+                                //new MakeNetworkCall().execute("http://fatfat-ting.ics-expo.org/index/Android/index" +
+                                        //"?get=4", "Get");
+                            }
+                        });
+                        dialog.show();
+
+                    }
                 }
 
             }
         });
 
-=======
-
-
-                }
-
-
-
-
-
-            }
-        });
-
-
->>>>>>> master
-        //----æˆ‘è¦ç•™è¨€---------------------------------------
+        //----§Ú­n¯d¨¥---------------------------------------
 
         Button btnmessage=(Button)findViewById(R.id.btnmessage);
         btnmessage.setOnClickListener(new View.OnClickListener() {
@@ -446,11 +392,7 @@ public class deatial extends AppCompatActivity implements OnMapReadyCallback {
                 Intent intent = new Intent();
                 intent.setClass(deatial.this,message.class);
                 Bundle bundle=new Bundle();
-<<<<<<< HEAD
                 bundle.putString("doing_id",doing_id2);
-=======
-                bundle.putString("doing_id",doing_id);
->>>>>>> master
                 intent.putExtras(bundle);
                 startActivity(intent);
 
@@ -461,30 +403,86 @@ public class deatial extends AppCompatActivity implements OnMapReadyCallback {
 
 
 
-<<<<<<< HEAD
-        //---------lineåˆ†äº«---------------------------------------
+        //---------line¤À¨É---------------------------------------
 
         ImageButton imageButton5=(ImageButton)findViewById(R.id.imageButton5);
         imageButton5.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-
+                shareTo("chirp","¤À¨É¤º®e","test");
 
 
             }
         });
 
 
+        //---------FB¤À¨É---------------------------------------
 
-        //---------åŠ å¥½å‹---------------------------------------
+        ImageButton imageButton4=(ImageButton)findViewById(R.id.imageButton4);
+        imageButton4.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                shareTo("chirp","¤À¨É¤º®e","test");
 
+
+            }
+        });
+
+
+        //---------¬d¬İ¹L¥h¬¡°Ê--------------------------------------
+        TextView lookdoinged=(TextView)findViewById(R.id.look);
+        lookdoinged.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                //Toast.makeText(deatial.this, "eeee"+account_id, Toast.LENGTH_SHORT).show();
+
+                Intent intent = new Intent();
+                intent.setClass(deatial.this,look_doinged.class);
+                Bundle bundle=new Bundle();
+                bundle.putString("doing_account_id",account_id);
+                intent.putExtras(bundle);
+                startActivity(intent);
+            }
+        });
+
+
+
+
+
+        //---------¥[¦n¤Í---------------------------------------
         TextView addfriend=(TextView)findViewById(R.id.addfriend);
+
+
+        //¬O§_¤w¬°¦n¤Í
+        String queryyy="select count(*) as a from friend " +
+                " where friend_account='"+userid+"' and account_id='"+account_id+"'";
+        try {
+            connect = CONN(un, passwords, db, ip);
+            stmt = connect.prepareStatement(queryyy);
+            rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                if(rs.getString("a").equals("1")){
+                    addfriend.setText("¤w¬°¦n¤Í");
+                    addfriend.setEnabled(false);
+                }
+            }
+
+
+        }catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+
+
+
+
+
         addfriend.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
-                SharedPreferences sharedPreferences = getSharedPreferences("User" , MODE_PRIVATE); //å»ºç«‹SharedPreferences
-                String userid = sharedPreferences.getString("id" , "0"); //æŠ“SharedPreferenceså…§Nameå€¼
+                SharedPreferences sharedPreferences = getSharedPreferences("User" , MODE_PRIVATE); //«Ø¥ßSharedPreferences
+                String userid = sharedPreferences.getString("id" , "0"); //§ìSharedPreferences¤ºName­È
 
                 String query = " insert into friend (friend_account, account_id) values('"+account_id+"','"+userid+"')";
+                String query2 = " insert into friend (account_id, friend_account) values('"+account_id+"','"+userid+"')";
                 try {
                     connect = CONN(un, passwords, db, ip);
                     stmt = connect.prepareStatement(query);
@@ -493,15 +491,22 @@ public class deatial extends AppCompatActivity implements OnMapReadyCallback {
                 }catch (SQLException e) {
                     e.printStackTrace();
                 }
+                try {
+                    connect = CONN(un, passwords, db, ip);
+                    stmt = connect.prepareStatement(query2);
+                    rs = stmt.executeQuery();
 
+                }catch (SQLException e) {
+                    e.printStackTrace();
+                }
 
 
                 AlertDialog.Builder dialog = new AlertDialog.Builder(deatial.this);
-                dialog.setTitle("æˆåŠŸåŠ å¥½å‹"); //è¨­å®šdialog çš„titleé¡¯ç¤ºå…§å®¹
-                dialog.setMessage("å·²æˆç‚ºå¥½å‹ï¼"); //è¨­å®šdialog çš„å…§å®¹
-                //dialog.setIcon(android.R.drawable.ic_dialog_alert);//è¨­å®šdialog çš„ICON
-                dialog.setCancelable(false); //é—œé–‰ Android ç³»çµ±çš„ä¸»è¦åŠŸèƒ½éµ(menu,homeç­‰...)
-                dialog.setPositiveButton("æ˜¯", new DialogInterface.OnClickListener() {
+                dialog.setTitle("¦¨¥\¥[¦n¤Í"); //³]©wdialog ªºtitleÅã¥Ü¤º®e
+                dialog.setMessage("¤w¦¨¬°¦n¤Í¡I"); //³]©wdialog ªº¤º®e
+                //dialog.setIcon(android.R.drawable.ic_dialog_alert);//³]©wdialog ªºICON
+                dialog.setCancelable(false); //Ãö³¬ Android ¨t²Îªº¥D­n¥\¯àÁä(menu,homeµ¥...)
+                dialog.setPositiveButton("¬O", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
 //                        Intent intent = new Intent();
 //                        intent.setClass(deatial.this,MainActivity.class);
@@ -510,24 +515,14 @@ public class deatial extends AppCompatActivity implements OnMapReadyCallback {
                 });
                 dialog.show();
 
-
-
-
-
-
             }
         });
 
-=======
->>>>>>> master
 
 
     }
 
-<<<<<<< HEAD
 
-=======
->>>>>>> master
     private Connection CONN(String _user, String _pass, String _DB,
                             String _server) {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()
@@ -552,6 +547,14 @@ public class deatial extends AppCompatActivity implements OnMapReadyCallback {
         return conn;
     }
 
+    //--line¤À¨É----
+    private void shareTo(String subject, String body, String chooserTitle) {
+        Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
+        sharingIntent.setType("text/plain");
+        sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "´ª°_¨Ó");
+        sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, "¤º®e");
+        startActivity(Intent.createChooser(sharingIntent, chooserTitle));
+    }
 
     public void onMapReady(GoogleMap googleMap) {
         map = googleMap;
@@ -560,7 +563,7 @@ public class deatial extends AppCompatActivity implements OnMapReadyCallback {
 
     private void getLatLngByAddr() {
         try {
-            Geocoder gc = new Geocoder(this, Locale.TRADITIONAL_CHINESE); // åœ°å€:å°ç£
+            Geocoder gc = new Geocoder(this, Locale.TRADITIONAL_CHINESE); // ¦a°Ï:¥xÆW
             List<Address> addresses = gc.getFromLocationName(et_address.trim(), 1);
 
             if (addresses != null && !addresses.isEmpty()) {
@@ -587,21 +590,18 @@ public class deatial extends AppCompatActivity implements OnMapReadyCallback {
             Marker note1 = map.addMarker( new MarkerOptions().position(START).title(addrStr));
         }
 
-        // è¨­å®šä¸­å¿ƒé»
+        // ³]©w¤¤¤ßÂI
         CameraUpdate center = CameraUpdateFactory.newLatLng(START);
         map.moveCamera(center);
         map.animateCamera(CameraUpdateFactory. zoomTo(15), 1000, null );
 
-        // ä¹Ÿå¯ä»¥ç”¨é€™å€‹æ–¹æ³•å–ä»£ä¸Šé¢è¨­å®šä¸­å¿ƒé»
+        // ¤]¥i¥H¥Î³o­Ó¤èªk¨ú¥N¤W­±³]©w¤¤¤ßÂI
         // map.moveCamera(CameraUpdateFactory.newLatLngZoom(START, 15));
         //
 
     }
 
-<<<<<<< HEAD
 
-=======
->>>>>>> master
     //http
     InputStream ByGetMethod(String ServerURL) {
 
@@ -762,9 +762,6 @@ public class deatial extends AppCompatActivity implements OnMapReadyCallback {
             Log.d(LOG_TAG, "Result: " + result);
         }
     }
-<<<<<<< HEAD
 
 
-=======
->>>>>>> master
 }
