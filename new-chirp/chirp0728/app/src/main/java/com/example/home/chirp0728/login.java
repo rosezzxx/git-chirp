@@ -66,9 +66,9 @@ public class login extends AppCompatActivity {
     String ip, db, un, passwords;
     String ip2, db2, un2, passwords2;
     String ip3, db3, un3, passwords3;
-    Connection connect,connect2,connect3;
-    PreparedStatement stmt,stmt2,stmt3,stmt4,stmt5;
-    ResultSet rs,rs2,rs3,rs4,rs5;
+    Connection connect,connect2,connect3,connect_bank,connect_bank_g;
+    PreparedStatement stmt,stmt2,stmt3,stmt4,stmt5,stmt_bank,stmt_bank_g;
+    ResultSet rs,rs2,rs3,rs4,rs5,rs_bank,rs_bank_g;
 
     @SuppressLint("NewApi")
     private Connection CONN(String _user, String _pass, String _DB, String _server) {
@@ -113,7 +113,7 @@ public class login extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        //Âª∫Á´ãFacebookManger
+        //´ÿ•ﬂFacebookManger
         FacebookSdk.sdkInitialize(getApplicationContext());
         callbackManager = CallbackManager.Factory.create();
 
@@ -153,11 +153,9 @@ public class login extends AppCompatActivity {
             }
         });
 
-        //fbÁôªÂÖ•
-
+        //fbµn§J
         info = (TextView)findViewById(R.id.info);
         loginButton = (Button)findViewById(R.id.fb_login);
-
         loginButton.setOnClickListener(new Button.OnClickListener(){
             @Override
             public void onClick(View v) {
@@ -169,101 +167,101 @@ public class login extends AppCompatActivity {
         LoginManager.getInstance().registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
-
-                //Toast.makeText(login.this, "123", Toast.LENGTH_SHORT).show();
                 accessToken = loginResult.getAccessToken();
                 GraphRequest request = GraphRequest.newMeRequest(accessToken, new GraphRequest.GraphJSONObjectCallback() {
-                            //Áï∂RESPONSEÂõû‰æÜÁöÑÊôÇÂÄô
-                            @Override
-                            public void onCompleted(JSONObject object, GraphResponse response) {
-                                //ËÆÄÂá∫ÂßìÂêç„ÄÅID„ÄÅÁ∂≤È†ÅÈÄ£Áµê
-                                Log.d("FB" , "complete");
-                                Log.d("FB" , object.optString("name"));
-                                Log.d("FB" , object.optString("link"));
-                                Log.d("FB" , object.optString("id"));
-                                Log.d("FB" , object.optString("email"));
+                    //∑ÌRESPONSE¶^®”™∫Æ…≠‘
+                    @Override
+                    public void onCompleted(JSONObject object, GraphResponse response) {
+                        //≈™•X©m¶W°BID°B∫Ù≠∂≥sµ≤
+                        Log.d("FB" , "complete");
+                        Log.d("FB" , object.optString("name"));
+                        Log.d("FB" , object.optString("link"));
+                        Log.d("FB" , object.optString("id"));
+                        Log.d("FB" , object.optString("email"));
 
-                                try {
-                                    fbemail = object.getString("email");
-                                    fbname = object.getString("name");
-                                    fbid = object.getString("id");
+                        try {
+                            fbemail = object.getString("email");
+                            fbname = object.getString("name");
+                            fbid = object.getString("id");
 
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
-                                Toast.makeText(login.this, fbid, Toast.LENGTH_SHORT).show();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        Toast.makeText(login.this, fbid, Toast.LENGTH_SHORT).show();
 
-                                //Ê™¢Êü•Á¨¨‰∏ÄÊ¨°ÁôªÂÖ•
-                                ip2 = "140.131.114.241";
-                                un2 = "chirp2018";
-                                passwords2 = "chirp+123";
-                                db2 = "107-chirp";
-                                String query2 = "SELECT count(*) as total FROM account Where account_id = '"+fbemail+"' ";
+                        //¿À¨d≤ƒ§@¶∏µn§J
+                        ip2 = "140.131.114.241";
+                        un2 = "chirp2018";
+                        passwords2 = "chirp+123";
+                        db2 = "107-chirp";
+                        String query2 = "SELECT count(*) as total FROM account Where account_id = '"+fbemail+"' ";
+                        try {
+                            connect2 = CONN(un2, passwords2, db2, ip2);
+                            stmt2 = connect2.prepareStatement(query2);
+                            rs2 = stmt2.executeQuery();
+                            ArrayList<String> data3 = new ArrayList<String>();
+
+                            while (rs2.next()) {
+                                total_fb = rs2.getString("total");
+                                data3.add(total_fb);
+                            }
+
+                            SharedPreferences settings = getSharedPreferences("User", MODE_PRIVATE);
+                            // Writing data to SharedPreferences
+                            SharedPreferences.Editor editor = settings.edit();
+                            editor.putString("id", fbemail);
+                            editor.putString("way", "facebook");
+                            editor.putString("name", fbname);
+                            editor.putString("imgid", fbid);
+                            editor.commit();
+
+                            if (total_fb.equals("0")){
+                                //Toast.makeText(login.this, "≤ƒ§@¶∏", Toast.LENGTH_SHORT).show();
+
+                                //•˝∑sºW∏ÍÆ∆¶‹∏ÍÆ∆Æw
+
+                                String query3 = "INSERT INTO account(account_id,username)VALUES('"+fbemail+"','"+fbname+"')";
                                 try {
                                     connect2 = CONN(un2, passwords2, db2, ip2);
-                                    stmt2 = connect2.prepareStatement(query2);
-                                    rs2 = stmt2.executeQuery();
-                                    ArrayList<String> data3 = new ArrayList<String>();
-
-                                    while (rs2.next()) {
-                                        total_fb = rs2.getString("total");
-                                        data3.add(total_fb);
-                                    }
-
-                                    if (total_fb.equals("0")){
-                                        Toast.makeText(login.this, "Á¨¨‰∏ÄÊ¨°", Toast.LENGTH_SHORT).show();
-
-                                        //ÂÖàÊñ∞Â¢ûË≥áÊñôËá≥Ë≥áÊñôÂ∫´
-
-                                        String query3 = "INSERT INTO account(account_id,username)VALUES('"+fbemail+"','"+fbname+"')";
-                                        try {
-                                            connect2 = CONN(un2, passwords2, db2, ip2);
-                                            stmt3 = connect2.prepareStatement(query3);
-                                            rs3 = stmt3.executeQuery();
-
-                                        } catch (SQLException e) {
-                                            e.printStackTrace();
-                                        }
-
-                                        SharedPreferences settings = getSharedPreferences("User", MODE_PRIVATE);
-                                        // Writing data to SharedPreferences
-                                        SharedPreferences.Editor editor = settings.edit();
-                                        editor.putString("id", fbemail);
-                                        editor.putString("imgid", fbid);
-                                        editor.putString("Name", fbname);
-                                        editor.putString("way", "facebook");
-                                        editor.commit();
-                                        Intent intent = new Intent();
-                                        intent.setClass(login.this,account.class);
-                                        startActivity(intent);
-                                    }else{
-                                        Toast.makeText(login.this, "‰∏çÊòØÁ¨¨‰∏ÄÊ¨°‰ΩøÁî®facebookÁôªÂÖ•", Toast.LENGTH_SHORT).show();
-                                        SharedPreferences settings = getSharedPreferences("User", MODE_PRIVATE);
-                                        // Writing data to SharedPreferences
-                                        SharedPreferences.Editor editor = settings.edit();
-                                        editor.putString("id", fbemail);
-                                        editor.putString("way", "facebook");
-                                        editor.putString("name", fbname);
-                                        editor.putString("imgid", fbid);
-                                        editor.commit();
-                                        Intent intent = new Intent();
-                                        intent.setClass(login.this,MainActivity.class);
-                                        startActivity(intent);
-                                    }
+                                    stmt3 = connect2.prepareStatement(query3);
+                                    rs3 = stmt3.executeQuery();
 
                                 } catch (SQLException e) {
                                     e.printStackTrace();
                                 }
-                                 //Ê™¢Êü•Á¨¨‰∏ÄÊ¨°ÁôªÂÖ•
 
-                            }});
-                //ÂåÖÂÖ•‰Ω†ÊÉ≥Ë¶ÅÂæóÂà∞ÁöÑË≥áÊñôÔºåÈÄÅÂá∫ request
+                                String query_bank = "INSERT INTO bank(bank_user)VALUES('"+fbemail+"')";
+                                try {
+                                    connect_bank = CONN(un2, passwords2, db2, ip2);
+                                    stmt_bank = connect_bank.prepareStatement(query_bank);
+                                    rs_bank = stmt_bank.executeQuery();
+
+                                } catch (SQLException e) {
+                                    e.printStackTrace();
+                                }
+                                Intent intent = new Intent();
+                                intent.setClass(login.this,account.class);
+                                startActivity(intent);
+                            }else{
+                                //Toast.makeText(login.this, "§£¨O≤ƒ§@¶∏®œ•Œfacebookµn§J", Toast.LENGTH_SHORT).show();
+                                Intent intent = new Intent();
+                                intent.setClass(login.this,MainActivity.class);
+                                startActivity(intent);
+                            }
+
+                        } catch (SQLException e) {
+                            e.printStackTrace();
+                        }
+                        //¿À¨d≤ƒ§@¶∏µn§J
+
+                    }});
+                //•]§JßA∑Q≠n±o®Ï™∫∏ÍÆ∆°A∞e•X request
                 Bundle parameters = new Bundle();
                 parameters.putString("fields","id,name,link,email,gender");
                 request.setParameters(parameters);
                 request.executeAsync();
                 //Toast.makeText(login.this, fbemail, Toast.LENGTH_SHORT).show();
-        }
+            }
 
             @Override
             public void onCancel() {
@@ -277,7 +275,7 @@ public class login extends AppCompatActivity {
         });
 
 
-        //‰∏ÄËà¨ÁôªÂÖ•Ê™¢Êü•
+        //§@ØÎµn§J¿À¨d
         Button login = (Button) findViewById(R.id.login);
         login.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -287,7 +285,7 @@ public class login extends AppCompatActivity {
                 EditText psw_1 = (EditText)findViewById(R.id.psw);
                 String psw_2 = psw_1.getText().toString();
                 Toast.makeText(login.this, "123", Toast.LENGTH_SHORT).show();
-                //ÈÄ£Á∑ö
+                //≥sΩu
                 ip = "140.131.114.241";
                 un = "chirp2018";
                 passwords = "chirp+123";
@@ -309,22 +307,21 @@ public class login extends AppCompatActivity {
                     }
 
                     if(sum == 1){
-                        Toast.makeText(login.this, "ÁôªÂÖ•ÊàêÂäü", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(login.this, "µn§J¶®•\", Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent();
                         intent.setClass(login.this,MainActivity.class);
-
                         startActivity(intent);
 
                         SharedPreferences settings = getSharedPreferences("User", MODE_PRIVATE);
                         // Writing data to SharedPreferences
                         SharedPreferences.Editor editor = settings.edit();
                         editor.putString("id", accountid);
-                        editor.putString("way", "Âπ≥Âè∞ÁôªÂÖ•");
+                        editor.putString("way", "•≠•xµn§J");
                         editor.commit();
 
 
                     }else{
-                        Toast.makeText(login.this, "Â∏≥ËôüÂØÜÁ¢ºÊúâË™§ÔºåË´ãÈáçÊñ∞Ëº∏ÂÖ•", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(login.this, "±b∏π±KΩX¶≥ª~°AΩ–≠´∑søÈ§J", Toast.LENGTH_SHORT).show();
 
                     }
 
@@ -336,7 +333,7 @@ public class login extends AppCompatActivity {
             }
         });
 
-        //ÂàáÊèõÂà∞Ë®ªÂÜä
+        //§¡¥´®Ïµ˘•U
         Button sign = (Button)findViewById(R.id.sign);
         sign.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -359,33 +356,42 @@ public class login extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == RC_SIGN_IN){
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
-            //Toast.makeText(login.this, "aaa", Toast.LENGTH_SHORT).show();
+
             if (result.isSuccess()){
                 GoogleSignInAccount account = result.getSignInAccount();
                 firebaseAuthWithGoogle(account);
+                Intent intent = new Intent();
+                intent.setClass(login.this,MainActivity.class);
+                startActivity(intent);
                 googlemail = account.getEmail();
                 googlename = account.getFamilyName() + account.getGivenName();
-                Toast.makeText(login.this, account.getEmail(), Toast.LENGTH_SHORT).show();
-                //Ê™¢Êü•Á¨¨‰∏ÄÊ¨°ÁôªÂÖ•
+                //¿À¨d≤ƒ§@¶∏µn§J
                 ip3 = "140.131.114.241";
                 un3 = "chirp2018";
                 passwords3 = "chirp+123";
                 db3 = "107-chirp";
-                String query4 = "SELECT count(*) as total FROM account Where account_id = '"+googlemail+"' ";
+                String query4 = "SELECT count(*) as total FROM account Where account_id = '"+googlemail+"'";
+
+                Toast.makeText(login.this, googlemail, Toast.LENGTH_SHORT).show();
                 try {
                     connect3 = CONN(un3, passwords3, db3, ip3);
                     stmt4 = connect3.prepareStatement(query4);
                     rs4 = stmt4.executeQuery();
-                    ArrayList<String> data_google = new ArrayList<String>();
+                    //ArrayList<String> data_google = new ArrayList<String>();
 
                     while (rs4.next()) {
                         total_google = rs4.getString("total");
-                        data_google.add(total_google);
+                        //data_google.add(total_google);
                     }
-
+                    SharedPreferences settings = getSharedPreferences("User", MODE_PRIVATE);
+                    // Writing data to SharedPreferences
+                    SharedPreferences.Editor editor = settings.edit();
+                    editor.putString("id",googlemail);
+                    editor.putString("Name", googlename);
+                    editor.putString("way", "Google");
+                    editor.commit();
                     if (total_google.equals("0")){
-                        Toast.makeText(login.this, "Á¨¨‰∏ÄÊ¨°", Toast.LENGTH_SHORT).show();
-                        String query5 = "INSERT INTO account(account_id,username)VALUES('"+googlemail+"','"+googlename+"')";
+                        String query5 = "INSERT INTO account(account_id,username,location,sex)VALUES('"+googlemail+"','"+googlename+"','123','123')";
                         try {
                             connect3 = CONN(un3, passwords3, db3, ip3);
                             stmt5 = connect3.prepareStatement(query5);
@@ -394,25 +400,20 @@ public class login extends AppCompatActivity {
                         } catch (SQLException e) {
                             e.printStackTrace();
                         }
-                        SharedPreferences settings = getSharedPreferences("User", MODE_PRIVATE);
-                        // Writing data to SharedPreferences
-                        SharedPreferences.Editor editor = settings.edit();
-                        editor.putString("id",googlemail);
-                        editor.putString("Name", googlename);
-                        editor.putString("way", "Google");
-                        editor.commit();
+
+                        String query_bank_g = "INSERT INTO bank(bank_user)VALUES('"+googlemail+"')";
+                        try {
+                            connect_bank_g = CONN(un3, passwords3, db3, ip3);
+                            stmt_bank_g = connect_bank_g.prepareStatement(query_bank_g);
+                            rs_bank_g = stmt_bank_g.executeQuery();
+
+                        } catch (SQLException e) {
+                            e.printStackTrace();
+                        }
                         Intent intent2 = new Intent();
                         intent2.setClass(login.this,account.class);
                         startActivity(intent2);
                     }else{
-                        Toast.makeText(login.this, "‰∏çÊòØÁ¨¨‰∏ÄÊ¨°‰ΩøÁî®GoogleÁôªÂÖ•", Toast.LENGTH_SHORT).show();
-                        SharedPreferences settings = getSharedPreferences("User", MODE_PRIVATE);
-                        // Writing data to SharedPreferences
-                        SharedPreferences.Editor editor = settings.edit();
-                        editor.putString("id",googlemail);
-                        editor.putString("Name", googlename);
-                        editor.putString("way", "Google");
-                        editor.commit();
                         Intent intent2 = new Intent();
                         intent2.setClass(login.this,MainActivity.class);
                         startActivity(intent2);
@@ -421,15 +422,15 @@ public class login extends AppCompatActivity {
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
-                //Ê™¢Êü•Á¨¨‰∏ÄÊ¨°ÁôªÂÖ•
-                Toast.makeText(login.this, "ÁôªÂÖ•ÊàêÂäü", Toast.LENGTH_SHORT).show();
+                //¿À¨d≤ƒ§@¶∏µn§J
+                Toast.makeText(login.this, "µn§J¶®•\", Toast.LENGTH_SHORT).show();
             }
         }else{
             callbackManager.onActivityResult(requestCode, resultCode, data);
         }
     }
 
-  /*@Override
+    /* @Override
    public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
@@ -456,11 +457,9 @@ public class login extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithCredential:success");
-
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInWithCredential:failure", task.getException());
-
                         }
                         // ...
                     }

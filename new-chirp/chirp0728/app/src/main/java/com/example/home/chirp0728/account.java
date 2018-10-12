@@ -51,7 +51,7 @@ public class account extends AppCompatActivity {
     ImageButton img;
 
 
-    //dbé€£ç·š
+    //db³s½u
     @SuppressLint("NewApi")
     private Connection CONN(String _user, String _pass, String _DB, String _server) {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()
@@ -82,7 +82,7 @@ public class account extends AppCompatActivity {
         setContentView(R.layout.activity_account);
 
         final ActionBar actionBar = getSupportActionBar();
-        actionBar.setTitle("ä¿®æ”¹åŸºæœ¬è³‡æ–™");
+        actionBar.setTitle("­×§ï°ò¥»¸ê®Æ");
 
         img = (ImageButton)findViewById(R.id.imageButton);
         final EditText nicknamexml = (EditText)findViewById(R.id.nicknamexml);
@@ -92,44 +92,60 @@ public class account extends AppCompatActivity {
         //final Button update = (Button)findViewById(R.id.update);
         final Button next = (Button)findViewById(R.id.btnnext);
 
-        //å¹³å°ç™»å…¥ä¿®æ”¹å€‹äººè³‡æ–™
-        //å–å¾—SharedPreferencesçš„è³‡æ–™(å¸³è™Ÿ.ç™»å…¥æ–¹å¼)
+        //¥­¥xµn¤J­×§ï­Ó¤H¸ê®Æ
+        //¨ú±oSharedPreferencesªº¸ê®Æ(±b¸¹.µn¤J¤è¦¡)
         SharedPreferences settings = getSharedPreferences("User", MODE_PRIVATE);
         namevalue = settings.getString("id", "");
         String way = settings.getString("way", "");
         String name = settings.getString("name", "");
         String userID = settings.getString("imgid", "");
         TextView username = (TextView)findViewById(R.id.username);
-        username.setText(name);
+
         TextView way_2 = (TextView)findViewById(R.id.way);
         way_2.setText(way);
 
-        //é€£ç·š
+        //³s½u
         ip = "140.131.114.241";
         un = "chirp2018";
         passwords = "chirp+123";
         db = "107-chirp";
         String query = "SELECT *  FROM account Where account_id = '"+namevalue+"'";
+        Toast.makeText(account.this, namevalue, Toast.LENGTH_SHORT).show();
         try {
             connect = CONN(un, passwords, db, ip);
             stmt = connect.prepareStatement(query);
             rs = stmt.executeQuery();
-            ArrayList<String> sex_data = new ArrayList<String>();
-            ArrayList<String> location_data = new ArrayList<String>();
-            ArrayList<String> phonenumber_data = new ArrayList<String>();
-            ArrayList<String> nickname_data = new ArrayList<String>();
-            ArrayList<String> img_data = new ArrayList<String>();
             while (rs.next()) {
                 sex = rs.getString("sex");
                 location = rs.getString("location");
                 phonenumber = rs.getString("phonenumber");
                 nickname = rs.getString("nickname");
                 image = rs.getString("img");
-                sex_data.add(sex);
-                location_data.add(location);
-                phonenumber_data.add(phonenumber);
-                nickname_data.add(nickname);
-                img_data.add(image);
+                username.setText(rs.getString("username"));
+
+                if(location.equals("¥_³¡")){
+                    spnadxml.setSelection(1);
+                } else if(location.equals("¤¤³¡")){
+                    spnadxml.setSelection(2);
+                }else if(location.equals("«n³¡")){
+                    spnadxml.setSelection(3);
+                }
+                else if(location.equals("ªF³¡")){
+                    spnadxml.setSelection(4);
+                }
+                else if(location.equals("Â÷®q")){
+                    spnadxml.setSelection(5);
+                }else if(location.equals("123")){
+                    spnadxml.setSelection(0);
+                }
+
+                if (sex.equals("¨k¥Í")){
+                    radsexxml.setSelection(1);
+                }else if (sex.equals("¤k¥Í")){
+                    radsexxml.setSelection(2);
+                }else if(location.equals("123")){
+                    radsexxml.setSelection(0);
+                }
             }
 
             if (nickname == ""){
@@ -145,17 +161,7 @@ public class account extends AppCompatActivity {
             }
 
 
-            //å±…ä½åœ°
-            /*ArrayAdapter myAdap = (ArrayAdapter) spnadxml.getAdapter();//cast to an ArrayAdapter
-            int spinnerPosition = myAdap.getPosition(location);
-            spnadxml.setSelection(spinnerPosition,true);*/
-
-            //æ€§åˆ¥
-            /*ArrayAdapter myAdap2 = (ArrayAdapter) radsexxml.getAdapter();//cast to an ArrayAdapter
-            int spinnerPosition2 = myAdap.getPosition(sex);
-            radsexxml.setSelection(spinnerPosition,true);*/
-
-            //é ­åƒ
+            //ÀY¹³
             if (image != null){
                 encodedImage = image;
                 String base64String = image;
@@ -164,11 +170,10 @@ public class account extends AppCompatActivity {
                 img.setImageBitmap(decodedByte);
 
             }else if (way.equals("facebook")){
-                Toast.makeText(account.this, "ç¬¬ä¸€æ¬¡ç™»å…¥æŠ“å–fbå¤§é ­ç…§", Toast.LENGTH_SHORT).show();
                 try {
                     URL imageURL = new URL("https://graph.facebook.com/" + userID + "/picture?type=large");
                     Bitmap bitmap = BitmapFactory.decodeStream(imageURL.openConnection().getInputStream());
-                    img.setImageBitmap(bitmap);//æ”¾å…¥imagebutton
+                    img.setImageBitmap(bitmap);//©ñ¤Jimagebutton
                     ByteArrayOutputStream stream = new ByteArrayOutputStream();
                     bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
                     byteArray = stream.toByteArray();
@@ -186,7 +191,7 @@ public class account extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        //ç•¶é¸å–å€åŸŸ
+        //·í¿ï¨ú°Ï°ì
         spnadxml.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -199,7 +204,7 @@ public class account extends AppCompatActivity {
             }
         });
 
-        //ç•¶é¸å–æ€§åˆ¥
+        //·í¿ï¨ú©Ê§O
         radsexxml.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -212,7 +217,7 @@ public class account extends AppCompatActivity {
             }
         });
 
-        //ä¿®æ”¹å¤§é ­ç…§
+        //­×§ï¤jÀY·Ó
         img.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -221,19 +226,19 @@ public class account extends AppCompatActivity {
         });
 
 
-        //æŒ‰ä¸‹ä¸‹ä¸€æ­¥
+        //«ö¤U¤U¤@¨B
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //å–å€¼
+                //¨ú­È
                 nickname_2 = nicknamexml.getText().toString();
                 phonenumber_2 = phonexml.getText().toString();
 
                 if (nickname_2.matches("") || phonenumber_2.matches("") || sex.matches("")|| location.matches("") ){
-                    Toast.makeText(account.this, "æ¬„ä½å¡«å¯«æœªå®Œæˆï¼Œè«‹ç¢ºå¯¦å¡«å¯«", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(account.this, "Äæ¦ì¶ñ¼g¥¼§¹¦¨¡A½Ğ½T¹ê¶ñ¼g", Toast.LENGTH_SHORT).show();
                 }else{
 
-                    //è·³è‡³å¸³æˆ¶ç®¡ç†
+                    //¸õ¦Ü±b¤áºŞ²z
                     Intent intent = new Intent();
                     intent.setClass(account.this,nextBank.class);
                     final Bundle bundle = new Bundle();
@@ -249,7 +254,7 @@ public class account extends AppCompatActivity {
             }
         });
 
-        //æŒ‰ä¸‹ä¿®æ”¹
+        //«ö¤U­×§ï
         /*update.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -258,7 +263,7 @@ public class account extends AppCompatActivity {
 
                 if (nickname_2.matches("") || phonenumber_2.matches("") || sex.matches("")|| location.matches("") ){
 
-                    Toast.makeText(account.this, "æ¬„ä½å¡«å¯«æœªå®Œæˆï¼Œè«‹ç¢ºå¯¦å¡«å¯«", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(account.this, "Äæ¦ì¶ñ¼g¥¼§¹¦¨¡A½Ğ½T¹ê¶ñ¼g", Toast.LENGTH_SHORT).show();
                 }else{
                     ip2 = "140.131.114.241";
                     un2 = "chirp2018";
@@ -273,7 +278,7 @@ public class account extends AppCompatActivity {
                     } catch (SQLException e) {
                         e.printStackTrace();
                     }
-                    Toast.makeText(account.this, "ä¿®æ”¹æˆåŠŸ", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(account.this, "­×§ï¦¨¥\", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent();
                     intent.setClass(account.this,MainActivity.class);
                     startActivity(intent);
@@ -283,10 +288,10 @@ public class account extends AppCompatActivity {
             }
         });*/
 
-        //æŒ‰ä¸‹ä¿®æ”¹
+        //«ö¤U­×§ï
     }
 
-    //ä¿®æ”¹é ­åƒ
+    //­×§ïÀY¹³
     public void ChooseImage() {
         if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED) && !Environment.getExternalStorageState().equals(Environment.MEDIA_CHECKING)) {
             Intent intent = new Intent(Intent.ACTION_PICK);
